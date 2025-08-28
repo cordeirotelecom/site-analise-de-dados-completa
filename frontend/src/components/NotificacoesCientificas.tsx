@@ -20,7 +20,6 @@ import {
   Notifications,
   Science,
   TrendingUp,
-  Warning,
   CheckCircle,
   Psychology,
   Close
