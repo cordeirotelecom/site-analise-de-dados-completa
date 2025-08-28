@@ -2,12 +2,65 @@
 <html lang="pt-BR">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>DataScience Pro - Plataforma de Análise de Dados</title>
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="/manifest.json" />
+    
+    <!-- Icons -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='40' fill='%231976d2'/%3E%3Ctext x='50' y='55' text-anchor='middle' fill='white' font-size='30'%3E🧠%3C/text%3E%3C/svg%3E" />
+    
+    <!-- SEO Meta Tags -->
+    <title>DataScience Pro - Plataforma Científica Avançada para Análise de Dados</title>
+    <meta name="description" content="Plataforma completa de análise de dados com rigor científico, machine learning automatizado e gestão sistêmica para desenvolvimento harmônico sustentável." />
+    <meta name="keywords" content="análise de dados, machine learning, estatística, ciência de dados, SPSS, SAS, Stata, AutoML, visualização, relatórios científicos" />
+    <meta name="author" content="DataScience Pro" />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://site-analise-de-dados-completa.netlify.app/" />
+    <meta property="og:title" content="DataScience Pro - Plataforma Científica Avançada" />
+    <meta property="og:description" content="Substitua SPSS, SAS e Stata com nossa plataforma revolucionária de análise de dados com IA." />
+    <meta property="og:image" content="https://site-analise-de-dados-completa.netlify.app/og-image.jpg" />
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://site-analise-de-dados-completa.netlify.app/" />
+    <meta property="twitter:title" content="DataScience Pro - Plataforma Científica Avançada" />
+    <meta property="twitter:description" content="Análise de dados com rigor científico e gestão sistêmica sustentável." />
+    <meta property="twitter:image" content="https://site-analise-de-dados-completa.netlify.app/og-image.jpg" />
+    
+    <!-- Mobile Optimization -->
+    <meta name="theme-color" content="#1976d2" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="DataScience Pro" />
+    
+    <!-- Performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
   </head>
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+    
+    <!-- Service Worker Registration -->
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+          navigator.serviceWorker.register('/sw.js')
+            .then(function(registration) {
+              console.log('SW registered: ', registration);
+            })
+            .catch(function(registrationError) {
+              console.log('SW registration failed: ', registrationError);
+            });
+        });
+      }
+    </script>
   </body>
 </html>

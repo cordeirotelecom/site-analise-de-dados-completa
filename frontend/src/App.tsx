@@ -29,6 +29,8 @@ import DataAnalysis from './components/DataAnalysis';
 import DashboardView from './components/DashboardView';
 import ReportsView from './components/ReportsView';
 import DashboardCientificoAvancado from './components/DashboardCientificoAvancado';
+import MetricasTempoReal from './components/MetricasTempoReal';
+import NotificacoesCientificas from './components/NotificacoesCientificas';
 
 const theme = createTheme({
   palette: {
@@ -94,6 +96,9 @@ function App() {
         </AppBar>
 
         <Container maxWidth="xl" sx={{ mt: 4, mb: 4 }}>
+          {/* Métricas em Tempo Real */}
+          <MetricasTempoReal />
+          
           {/* Seção de Boas-vindas */}
           <Paper elevation={3} sx={{ p: 4, mb: 4, background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)' }}>
             <Typography variant="h3" component="h1" gutterBottom color="white" textAlign="center">
@@ -181,7 +186,38 @@ function App() {
               <ReportsView />
             </TabPanel>
           </Paper>
+          
+          {/* Rodapé Institucional */}
+          <Box sx={{ 
+            mt: 6, 
+            py: 4, 
+            px: 3,
+            background: 'linear-gradient(135deg, #1a237e 0%, #3949ab 50%, #5c6bc0 100%)',
+            borderRadius: 3,
+            color: 'white',
+            textAlign: 'center'
+          }}>
+            <Typography variant="body2" sx={{ 
+              fontSize: '0.9rem', 
+              lineHeight: 1.6,
+              fontWeight: 500,
+              letterSpacing: '0.5px'
+            }}>
+              🌱 Desenvolvido com técnica de planejamento de gestão sistêmica para desenvolvimento harmônico sustentável
+            </Typography>
+            <Typography variant="caption" sx={{ 
+              mt: 1, 
+              display: 'block',
+              opacity: 0.8,
+              fontSize: '0.75rem'
+            }}>
+              DataScience Pro © {new Date().getFullYear()} - Plataforma Científica Avançada para Análise de Dados
+            </Typography>
+          </Box>
         </Container>
+        
+        {/* Sistema de Notificações Científicas */}
+        <NotificacoesCientificas />
       </div>
     </ThemeProvider>
   );
