@@ -21,12 +21,14 @@ import {
   Dashboard,
   Assessment,
   AutoAwesome,
-  Science
+  Science,
+  Psychology
 } from '@mui/icons-material';
 import UploadArea from './components/UploadArea';
 import DataAnalysis from './components/DataAnalysis';
 import DashboardView from './components/DashboardView';
 import ReportsView from './components/ReportsView';
+import DashboardCientificoAvancado from './components/DashboardCientificoAvancado';
 
 const theme = createTheme({
   palette: {
@@ -155,6 +157,7 @@ function App() {
               <Tab icon={<UploadFile />} label="Upload de Dados" />
               <Tab icon={<Analytics />} label="Análise de Dados" />
               <Tab icon={<Dashboard />} label="Dashboard" />
+              <Tab icon={<Psychology />} label="Dashboard Científico" />
               <Tab icon={<Assessment />} label="Relatórios" />
             </Tabs>
 
@@ -171,6 +174,10 @@ function App() {
             </TabPanel>
 
             <TabPanel value={activeTab} index={3}>
+              <DashboardCientificoAvancado />
+            </TabPanel>
+
+            <TabPanel value={activeTab} index={4}>
               <ReportsView />
             </TabPanel>
           </Paper>
