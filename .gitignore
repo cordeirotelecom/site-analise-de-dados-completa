@@ -1,0 +1,117 @@
+# Dependencies
+node_modules/
+*/node_modules/
+backend/venv/
+backend/__pycache__/
+backend/app/__pycache__/
+backend/app/*/__pycache__/
+*/__pycache__/
+*.pyc
+*.pyo
+
+# Production builds
+dist/
+build/
+*/dist/
+*/build/
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Environment variables
+.env
+.env.local
+.env.production
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+.pytest_cache/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+backend/logs/
+
+# Runtime data
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory used by tools like istanbul
+coverage/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Temporary files
+tmp/
+temp/
+uploads/
+modelos_treinados/
+backend/uploads/
+backend/modelos_treinados/
+
+# Specific to this project
+backend/datasciencepro.db
+
+# Build outputs
+dist/
+build/
+frontend/dist/
+
+# Logs
+logs/
+*.log
+backend/logs/
+
+# Temporary files
+temp/
+tmp/
+uploads/
+modelos_treinados/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Python specific
+*.egg-info/
+.pytest_cache/
+
+# Node specific
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
