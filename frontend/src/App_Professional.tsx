@@ -15,6 +15,7 @@ import {
   CssBaseline,
   Chip,
   Stack,
+  Divider
 } from '@mui/material';
 import {
   UploadFile,
@@ -24,16 +25,12 @@ import {
   School,
   Science,
   Storage,
-  TrendingUp,
-  Public
+  TrendingUp
 } from '@mui/icons-material';
-import UploadAreaPro from './components/UploadAreaPro';
-import DataAnalysisPro from './components/DataAnalysisPro';
-import DashboardViewSimple from './components/DashboardViewSimple';
+import UploadArea from './components/UploadArea';
+import DataAnalysis from './components/DataAnalysis';
+import DashboardView from './components/DashboardView';
 import ReportsView from './components/ReportsView';
-import LearningCenterFunctional from './components/LearningCenter';
-import DadosAbertos from './components/DadosAbertos';
-import WelcomePageEnhanced from './components/WelcomePageEnhanced_New';
 
 // Tema profissional focado em análise de dados
 const theme = createTheme({
@@ -132,7 +129,6 @@ function TabPanel(props: TabPanelProps) {
 function App() {
   const [value, setValue] = useState(0);
   const [uploadedData, setUploadedData] = useState<any>(null);
-  const [showWelcome, setShowWelcome] = useState(true);
 
   const handleChange = (_: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
@@ -142,28 +138,6 @@ function App() {
     setUploadedData(data);
     setValue(1); // Vai automaticamente para a aba de análise
   };
-
-  const handleStartAnalysis = () => {
-    setShowWelcome(false);
-    setValue(0); // Ir para a aba de upload
-  };
-
-  const handleNavigateToTab = (tabIndex: number) => {
-    setShowWelcome(false);
-    setValue(tabIndex);
-  };
-
-  if (showWelcome) {
-    return (
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <WelcomePageEnhanced 
-          onStartAnalysis={handleStartAnalysis}
-          onNavigateToTab={handleNavigateToTab}
-        />
-      </ThemeProvider>
-    );
-  }
 
   return (
     <ThemeProvider theme={theme}>
@@ -202,47 +176,49 @@ function App() {
           </Toolbar>
         </AppBar>
 
-  <Container maxWidth="xl" sx={{ py: { xs: 2, md: 6 }, px: { xs: 1, md: 0 } }}>
+        <Container maxWidth="xl" sx={{ py: 4 }}>
           {/* Header da Plataforma */}
-          <Box sx={{ mb: 5 }}>
-            <Typography variant="h4" gutterBottom sx={{ fontWeight: 800, color: '#1a237e', letterSpacing: 0.5 }}>
+          <Box sx={{ mb: 4 }}>
+            <Typography variant="h4" gutterBottom>
               Plataforma Profissional de Análise de Dados
             </Typography>
-            <Typography variant="body1" color="text.secondary" sx={{ mb: 3, fontSize: 17 }}>
-              Ferramenta completa para análise estatística, machine learning e visualização de dados. Do iniciante ao engenheiro de dados.
+            <Typography variant="body1" color="text.secondary" sx={{ mb: 3 }}>
+              Ferramenta completa para análise estatística, machine learning e visualização de dados.
+              Adequada para iniciantes em análise de dados até engenheiros de dados experientes.
             </Typography>
-            <Grid container spacing={3}>
+            
+            <Grid container spacing={2}>
               <Grid item xs={12} sm={6} md={3}>
-                <Card elevation={2} sx={{ textAlign: 'center', py: 3, borderRadius: 2, boxShadow: '0 2px 8px #1a237e11' }}>
+                <Card variant="outlined" sx={{ textAlign: 'center', py: 2 }}>
                   <Storage sx={{ fontSize: 32, color: 'primary.main', mb: 1 }} />
-                  <Typography variant="h6" gutterBottom sx={{ fontWeight: 700 }}>15+ Formatos</Typography>
+                  <Typography variant="h6" gutterBottom>15+ Formatos</Typography>
                   <Typography variant="body2" color="text.secondary">
                     CSV, Excel, JSON, Parquet, SQL e mais
                   </Typography>
                 </Card>
               </Grid>
               <Grid item xs={12} sm={6} md={3}>
-                <Card elevation={2} sx={{ textAlign: 'center', py: 3, borderRadius: 2, boxShadow: '0 2px 8px #1a237e11' }}>
+                <Card variant="outlined" sx={{ textAlign: 'center', py: 2 }}>
                   <TrendingUp sx={{ fontSize: 32, color: 'primary.main', mb: 1 }} />
-                  <Typography variant="h6" gutterBottom sx={{ fontWeight: 700 }}>50+ Análises</Typography>
+                  <Typography variant="h6" gutterBottom>50+ Análises</Typography>
                   <Typography variant="body2" color="text.secondary">
                     Estatística descritiva, testes de hipóteses, correlações
                   </Typography>
                 </Card>
               </Grid>
               <Grid item xs={12} sm={6} md={3}>
-                <Card elevation={2} sx={{ textAlign: 'center', py: 3, borderRadius: 2, boxShadow: '0 2px 8px #1a237e11' }}>
+                <Card variant="outlined" sx={{ textAlign: 'center', py: 2 }}>
                   <Science sx={{ fontSize: 32, color: 'primary.main', mb: 1 }} />
-                  <Typography variant="h6" gutterBottom sx={{ fontWeight: 700 }}>Machine Learning</Typography>
+                  <Typography variant="h6" gutterBottom>Machine Learning</Typography>
                   <Typography variant="body2" color="text.secondary">
                     Scikit-learn, AutoML, modelos pré-treinados
                   </Typography>
                 </Card>
               </Grid>
               <Grid item xs={12} sm={6} md={3}>
-                <Card elevation={2} sx={{ textAlign: 'center', py: 3, borderRadius: 2, boxShadow: '0 2px 8px #1a237e11' }}>
+                <Card variant="outlined" sx={{ textAlign: 'center', py: 2 }}>
                   <School sx={{ fontSize: 32, color: 'primary.main', mb: 1 }} />
-                  <Typography variant="h6" gutterBottom sx={{ fontWeight: 700 }}>Educacional</Typography>
+                  <Typography variant="h6" gutterBottom>Educacional</Typography>
                   <Typography variant="body2" color="text.secondary">
                     Tutoriais, exemplos práticos, documentação
                   </Typography>
@@ -251,8 +227,10 @@ function App() {
             </Grid>
           </Box>
 
+          <Divider sx={{ mb: 3 }} />
+
           {/* Navegação Principal */}
-          <Paper sx={{ mb: 3, borderRadius: 2, boxShadow: '0 2px 8px #1a237e11' }}>
+          <Paper sx={{ mb: 3 }}>
             <Tabs
               value={value}
               onChange={handleChange}
@@ -290,44 +268,24 @@ function App() {
                 iconPosition="start"
                 sx={{ minHeight: 64 }}
               />
-              <Tab
-                icon={<School />}
-                label="Aprender"
-                iconPosition="start"
-                sx={{ minHeight: 64 }}
-              />
-              <Tab
-                icon={<Public />}
-                label="Dados Abertos SC"
-                iconPosition="start"
-                sx={{ minHeight: 64 }}
-              />
             </Tabs>
           </Paper>
 
           {/* Conteúdo das Abas */}
           <TabPanel value={value} index={0}>
-            <UploadAreaPro onDataUpload={handleDataUpload} />
+            <UploadArea onDataUpload={handleDataUpload} />
           </TabPanel>
           
           <TabPanel value={value} index={1}>
-            <DataAnalysisPro data={uploadedData} />
+            <DataAnalysis data={uploadedData} />
           </TabPanel>
           
           <TabPanel value={value} index={2}>
-            <DashboardViewSimple data={uploadedData} />
+            <DashboardView data={uploadedData} />
           </TabPanel>
           
           <TabPanel value={value} index={3}>
             <ReportsView data={uploadedData} />
-          </TabPanel>
-          
-          <TabPanel value={value} index={4}>
-            <LearningCenterFunctional />
-          </TabPanel>
-          
-          <TabPanel value={value} index={5}>
-            <DadosAbertos />
           </TabPanel>
         </Container>
 
@@ -336,25 +294,22 @@ function App() {
           component="footer"
           sx={{
             mt: 8,
-            py: 3,
-            px: 2,
-            background: 'linear-gradient(90deg, #1a237e 0%, #2563eb 100%)',
-            color: '#fff',
+            py: 4,
+            px: 3,
+            backgroundColor: 'secondary.main',
+            color: 'white',
             textAlign: 'center',
-            borderTopLeftRadius: 16,
-            borderTopRightRadius: 16,
-            boxShadow: '0 -2px 16px #1a237e22',
           }}
         >
           <Container maxWidth="lg">
-            <Typography variant="h6" gutterBottom sx={{ fontWeight: 800, letterSpacing: 1 }}>
+            <Typography variant="h6" gutterBottom>
               DataScience Pro
             </Typography>
-            <Typography variant="body2" color="#e3eafc" sx={{ mb: 1 }}>
+            <Typography variant="body2" color="grey.300" sx={{ mb: 2 }}>
               Plataforma profissional de análise de dados e machine learning
             </Typography>
-            <Typography variant="caption" color="#b0bec5">
-              Desenvolvido com técnica de gestão sistêmica para resultados sustentáveis
+            <Typography variant="caption" color="grey.400">
+              Desenvolvido com técnica de planejamento de gestão sistêmica para desenvolvimento harmônico sustentável
             </Typography>
           </Container>
         </Box>

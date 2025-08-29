@@ -368,7 +368,7 @@ class AnalisadorEstatistico:
         Teste de Kaiser-Meyer-Olkin (KMO) para adequação da amostra
         """
         try:
-            from factor_analyzer.factor_analyzer import calculate_kmo
+            from factor_analyzer import calculate_kmo
             kmo_all, kmo_model = calculate_kmo(df)
             
             # Interpretação do KMO

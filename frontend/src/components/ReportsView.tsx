@@ -24,7 +24,11 @@ import {
   Assessment
 } from '@mui/icons-material';
 
-const ReportsView: React.FC = () => {
+interface ReportsViewProps {
+  data?: any;
+}
+
+const ReportsView: React.FC<ReportsViewProps> = ({ data: _ }) => {
   const features = [
     {
       icon: <AutoAwesome color="primary" />,
