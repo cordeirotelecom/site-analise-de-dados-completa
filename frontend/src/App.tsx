@@ -31,7 +31,7 @@ import UploadAreaPro from './components/UploadAreaPro';
 import DataAnalysisPro from './components/DataAnalysisPro';
 import DashboardViewSimple from './components/DashboardViewSimple';
 import ReportsView from './components/ReportsView';
-import LearningCenterFunctional from './components/LearningCenter';
+import LearningCenterFunctional from './components/LearningCenterFunctional';
 import DadosAbertos from './components/DadosAbertos';
 import WelcomePageEnhanced from './components/WelcomePageEnhanced_New';
 
@@ -214,7 +214,7 @@ function App() {
             <Grid container spacing={3}>
               <Grid item xs={12} sm={6} md={3}>
                 <Card elevation={2} sx={{ textAlign: 'center', py: 3, borderRadius: 2, boxShadow: '0 2px 8px #1a237e11' }}>
-                  <Storage sx={{ fontSize: 32, color: 'primary.main', mb: 1 }} />
+                  <Storage sx={{ fontSize: 24, color: 'primary.main', mb: 1 }} />
                   <Typography variant="h6" gutterBottom sx={{ fontWeight: 700 }}>15+ Formatos</Typography>
                   <Typography variant="body2" color="text.secondary">
                     CSV, Excel, JSON, Parquet, SQL e mais
@@ -223,7 +223,7 @@ function App() {
               </Grid>
               <Grid item xs={12} sm={6} md={3}>
                 <Card elevation={2} sx={{ textAlign: 'center', py: 3, borderRadius: 2, boxShadow: '0 2px 8px #1a237e11' }}>
-                  <TrendingUp sx={{ fontSize: 32, color: 'primary.main', mb: 1 }} />
+                  <TrendingUp sx={{ fontSize: 24, color: 'primary.main', mb: 1 }} />
                   <Typography variant="h6" gutterBottom sx={{ fontWeight: 700 }}>50+ Análises</Typography>
                   <Typography variant="body2" color="text.secondary">
                     Estatística descritiva, testes de hipóteses, correlações
@@ -232,7 +232,7 @@ function App() {
               </Grid>
               <Grid item xs={12} sm={6} md={3}>
                 <Card elevation={2} sx={{ textAlign: 'center', py: 3, borderRadius: 2, boxShadow: '0 2px 8px #1a237e11' }}>
-                  <Science sx={{ fontSize: 32, color: 'primary.main', mb: 1 }} />
+                  <Science sx={{ fontSize: 24, color: 'primary.main', mb: 1 }} />
                   <Typography variant="h6" gutterBottom sx={{ fontWeight: 700 }}>Machine Learning</Typography>
                   <Typography variant="body2" color="text.secondary">
                     Scikit-learn, AutoML, modelos pré-treinados
@@ -241,7 +241,7 @@ function App() {
               </Grid>
               <Grid item xs={12} sm={6} md={3}>
                 <Card elevation={2} sx={{ textAlign: 'center', py: 3, borderRadius: 2, boxShadow: '0 2px 8px #1a237e11' }}>
-                  <School sx={{ fontSize: 32, color: 'primary.main', mb: 1 }} />
+                  <School sx={{ fontSize: 24, color: 'primary.main', mb: 1 }} />
                   <Typography variant="h6" gutterBottom sx={{ fontWeight: 700 }}>Educacional</Typography>
                   <Typography variant="body2" color="text.secondary">
                     Tutoriais, exemplos práticos, documentação
