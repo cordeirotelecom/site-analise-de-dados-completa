@@ -205,102 +205,185 @@ function App() {
   <Container maxWidth="xl" sx={{ py: { xs: 2, md: 6 }, px: { xs: 1, md: 0 } }}>
           {/* Header da Plataforma */}
           <Box sx={{ mb: 5 }}>
-            <Typography variant="h4" gutterBottom sx={{ fontWeight: 800, color: '#1a237e', letterSpacing: 0.5 }}>
+            <Typography variant="h4" gutterBottom sx={{ 
+              fontWeight: 800, 
+              color: '#1a237e', 
+              letterSpacing: 0.5,
+              background: 'linear-gradient(45deg, #1a237e, #2563eb)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text'
+            }}>
               Plataforma Profissional de Análise de Dados
             </Typography>
-            <Typography variant="body1" color="text.secondary" sx={{ mb: 3, fontSize: 17 }}>
-              Ferramenta completa para análise estatística, machine learning e visualização de dados. Do iniciante ao engenheiro de dados.
+            <Typography variant="h6" color="text.secondary" sx={{ mb: 1, fontWeight: 600, color: '#4a5568' }}>
+              Solução Empresarial Completa para Data Science e Business Intelligence
             </Typography>
+            <Typography variant="body1" color="text.secondary" sx={{ 
+              mb: 4, 
+              fontSize: 17, 
+              lineHeight: 1.7,
+              maxWidth: '900px',
+              color: '#6b7280'
+            }}>
+              Transforme dados corporativos em insights estratégicos com nossa plataforma de análise avançada. 
+              Integre múltiplas fontes de dados, execute análises estatísticas complexas, crie visualizações interativas 
+              e gere relatórios executivos automatizados. Do cientista de dados ao executivo C-level.
+            </Typography>
+
+            {/* Professional Features Grid */}
             <Grid container spacing={3}>
               <Grid item xs={12} sm={6} md={3}>
-                <Card elevation={2} sx={{ textAlign: 'center', py: 3, borderRadius: 2, boxShadow: '0 2px 8px #1a237e11' }}>
+                <Card elevation={2} sx={{ textAlign: 'center', py: 3, borderRadius: 2, boxShadow: '0 2px 8px #1a237e11', height: '100%' }}>
                   <Storage sx={{ fontSize: 24, color: 'primary.main', mb: 1 }} />
                   <Typography variant="h6" gutterBottom sx={{ fontWeight: 700 }}>15+ Formatos</Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    CSV, Excel, JSON, Parquet, SQL e mais
+                  <Typography variant="body2" color="text.secondary" sx={{ fontSize: '0.85rem', px: 1 }}>
+                    CSV, Excel, JSON, Parquet, SQL, XML, APIs REST, dados de streaming em tempo real
                   </Typography>
                 </Card>
               </Grid>
               <Grid item xs={12} sm={6} md={3}>
-                <Card elevation={2} sx={{ textAlign: 'center', py: 3, borderRadius: 2, boxShadow: '0 2px 8px #1a237e11' }}>
+                <Card elevation={2} sx={{ textAlign: 'center', py: 3, borderRadius: 2, boxShadow: '0 2px 8px #1a237e11', height: '100%' }}>
                   <TrendingUp sx={{ fontSize: 24, color: 'primary.main', mb: 1 }} />
-                  <Typography variant="h6" gutterBottom sx={{ fontWeight: 700 }}>50+ Análises</Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    Estatística descritiva, testes de hipóteses, correlações
+                  <Typography variant="h6" gutterBottom sx={{ fontWeight: 700 }}>60+ Análises</Typography>
+                  <Typography variant="body2" color="text.secondary" sx={{ fontSize: '0.85rem', px: 1 }}>
+                    Estatística avançada, testes de hipóteses, modelos preditivos, análise de séries temporais
                   </Typography>
                 </Card>
               </Grid>
               <Grid item xs={12} sm={6} md={3}>
-                <Card elevation={2} sx={{ textAlign: 'center', py: 3, borderRadius: 2, boxShadow: '0 2px 8px #1a237e11' }}>
+                <Card elevation={2} sx={{ textAlign: 'center', py: 3, borderRadius: 2, boxShadow: '0 2px 8px #1a237e11', height: '100%' }}>
                   <Science sx={{ fontSize: 24, color: 'primary.main', mb: 1 }} />
-                  <Typography variant="h6" gutterBottom sx={{ fontWeight: 700 }}>Machine Learning</Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    Scikit-learn, AutoML, modelos pré-treinados
+                  <Typography variant="h6" gutterBottom sx={{ fontWeight: 700 }}>AutoML</Typography>
+                  <Typography variant="body2" color="text.secondary" sx={{ fontSize: '0.85rem', px: 1 }}>
+                    Machine learning automatizado, otimização de hiperparâmetros, deployment de modelos
                   </Typography>
                 </Card>
               </Grid>
               <Grid item xs={12} sm={6} md={3}>
-                <Card elevation={2} sx={{ textAlign: 'center', py: 3, borderRadius: 2, boxShadow: '0 2px 8px #1a237e11' }}>
+                <Card elevation={2} sx={{ textAlign: 'center', py: 3, borderRadius: 2, boxShadow: '0 2px 8px #1a237e11', height: '100%' }}>
                   <School sx={{ fontSize: 24, color: 'primary.main', mb: 1 }} />
-                  <Typography variant="h6" gutterBottom sx={{ fontWeight: 700 }}>Educacional</Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    Tutoriais, exemplos práticos, documentação
+                  <Typography variant="h6" gutterBottom sx={{ fontWeight: 700 }}>Academia</Typography>
+                  <Typography variant="body2" color="text.secondary" sx={{ fontSize: '0.85rem', px: 1 }}>
+                    Cursos certificados, tutoriais interativos, mentoria especializada, projetos reais
                   </Typography>
                 </Card>
+              </Grid>
+            </Grid>
+
+            {/* Enterprise Features */}
+            <Grid container spacing={2} sx={{ mt: 3, mb: 3 }}>
+              <Grid item xs={12} sm={6} md={4}>
+                <Paper elevation={1} sx={{ p: 2, textAlign: 'center', borderRadius: 2, background: '#f8fafc' }}>
+                  <Typography variant="subtitle2" sx={{ fontWeight: 700, color: '#1a237e', mb: 0.5 }}>
+                    🏢 Nível Empresarial
+                  </Typography>
+                  <Typography variant="caption" color="text.secondary">
+                    Segurança SOC 2, LGPD compliance, auditoria completa
+                  </Typography>
+                </Paper>
+              </Grid>
+              <Grid item xs={12} sm={6} md={4}>
+                <Paper elevation={1} sx={{ p: 2, textAlign: 'center', borderRadius: 2, background: '#f8fafc' }}>
+                  <Typography variant="subtitle2" sx={{ fontWeight: 700, color: '#1a237e', mb: 0.5 }}>
+                    ⚡ Performance
+                  </Typography>
+                  <Typography variant="caption" color="text.secondary">
+                    Processamento distribuído, cache inteligente, 99.9% uptime
+                  </Typography>
+                </Paper>
+              </Grid>
+              <Grid item xs={12} sm={6} md={4}>
+                <Paper elevation={1} sx={{ p: 2, textAlign: 'center', borderRadius: 2, background: '#f8fafc' }}>
+                  <Typography variant="subtitle2" sx={{ fontWeight: 700, color: '#1a237e', mb: 0.5 }}>
+                    🤝 Suporte 24/7
+                  </Typography>
+                  <Typography variant="caption" color="text.secondary">
+                    Equipe especializada, SLA garantido, treinamento dedicado
+                  </Typography>
+                </Paper>
               </Grid>
             </Grid>
           </Box>
 
           {/* Navegação Principal */}
-          <Paper sx={{ mb: 3, borderRadius: 2, boxShadow: '0 2px 8px #1a237e11' }}>
+          <Paper sx={{ 
+            mb: 3, 
+            borderRadius: 3,
+            background: 'linear-gradient(145deg, #ffffff 0%, #f8fafc 100%)',
+            border: '1px solid #e2e8f0',
+            overflow: 'hidden',
+            boxShadow: '0 4px 20px rgba(26, 35, 126, 0.1)'
+          }}>
             <Tabs
               value={value}
               onChange={handleChange}
               variant="scrollable"
               scrollButtons="auto"
               sx={{
-                borderBottom: 1,
-                borderColor: 'divider',
+                background: 'linear-gradient(90deg, #1a237e 0%, #2563eb 100%)',
                 '& .MuiTabs-flexContainer': {
-                  gap: 1,
+                  gap: 0,
                 },
+                '& .MuiTab-root': {
+                  color: 'rgba(255,255,255,0.85)',
+                  fontWeight: 600,
+                  fontSize: '0.9rem',
+                  textTransform: 'none',
+                  transition: 'all 0.3s ease',
+                  borderRadius: 0,
+                  '&:hover': {
+                    color: '#ffffff',
+                    backgroundColor: 'rgba(255,255,255,0.1)'
+                  },
+                  '&.Mui-selected': {
+                    color: '#ffffff',
+                    backgroundColor: 'rgba(255,255,255,0.15)',
+                    fontWeight: 700
+                  }
+                },
+                '& .MuiTabs-indicator': {
+                  backgroundColor: '#ffd700',
+                  height: 4,
+                  borderRadius: '4px 4px 0 0'
+                }
               }}
             >
               <Tab
                 icon={<UploadFile />}
-                label="Upload de Dados"
+                label="Upload Inteligente"
                 iconPosition="start"
-                sx={{ minHeight: 64 }}
+                sx={{ minHeight: 72, px: 3 }}
               />
               <Tab
                 icon={<Analytics />}
-                label="Análise Estatística"
+                label="Análise Avançada"
                 iconPosition="start"
-                sx={{ minHeight: 64 }}
+                sx={{ minHeight: 72, px: 3 }}
               />
               <Tab
                 icon={<Dashboard />}
-                label="Visualizações"
+                label="Dashboards"
                 iconPosition="start"
-                sx={{ minHeight: 64 }}
+                sx={{ minHeight: 72, px: 3 }}
               />
               <Tab
                 icon={<Assessment />}
-                label="Relatórios"
+                label="Relatórios Executivos"
                 iconPosition="start"
-                sx={{ minHeight: 64 }}
+                sx={{ minHeight: 72, px: 3 }}
               />
               <Tab
                 icon={<School />}
-                label="Aprender"
+                label="Academia Data Science"
                 iconPosition="start"
-                sx={{ minHeight: 64 }}
+                sx={{ minHeight: 72, px: 3 }}
               />
               <Tab
                 icon={<Public />}
                 label="Dados Abertos SC"
                 iconPosition="start"
-                sx={{ minHeight: 64 }}
+                sx={{ minHeight: 72, px: 3 }}
               />
             </Tabs>
           </Paper>
