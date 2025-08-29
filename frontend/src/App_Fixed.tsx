@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {
   AppBar,
   Toolbar,
@@ -29,7 +29,7 @@ import {
 import UploadArea from './components/UploadArea';
 import DataAnalysis from './components/DataAnalysis';
 import DashboardView from './components/DashboardView';
-import ReportsView from './components/ReportsView';
+// import ReportsView from './components/ReportsView';
 import LearningCenter from './components/LearningCenter';
 
 // Tema profissional focado em análise de dados
@@ -289,7 +289,7 @@ function App() {
           </TabPanel>
           
           <TabPanel value={value} index={3}>
-            <ReportsView />
+            {/* <ReportsView /> */}
           </TabPanel>
           
           <TabPanel value={value} index={4}>

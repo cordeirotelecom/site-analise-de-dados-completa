@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {
   AppBar,
   Toolbar,
@@ -25,15 +25,18 @@ import {
   Science,
   Storage,
   TrendingUp,
-  Public
+  Psychology,
+  AutoFixHigh,
 } from '@mui/icons-material';
 import UploadAreaPro from './components/UploadAreaPro';
 import DataAnalysisPro from './components/DataAnalysisPro';
 import DashboardViewSimple from './components/DashboardViewSimple';
-import ReportsView from './components/ReportsView';
-import LearningCenterFunctional from './components/LearningCenterFunctional';
-import DadosAbertos from './components/DadosAbertos';
+// import ReportsView from './components/ReportsView';
+import LearningCenterTecnico from './components/LearningCenterTecnico';
+import DadosAbertosNovo from './components/DadosAbertosNovo';
 import WelcomePageEnhanced from './components/WelcomePageEnhanced_New';
+import AnaliseAvancada from './components/AnaliseAvancada';
+import AutomacaoVariaveis from './components/AutomacaoVariaveis';
 
 // Tema profissional focado em análise de dados
 const theme = createTheme({
@@ -351,37 +354,49 @@ function App() {
             >
               <Tab
                 icon={<UploadFile />}
-                label="Upload Inteligente"
+                label="ETL e Processamento"
                 iconPosition="start"
                 sx={{ minHeight: 72, px: 3 }}
               />
               <Tab
                 icon={<Analytics />}
-                label="Análise Avançada"
+                label="Métodos Estatísticos"
                 iconPosition="start"
                 sx={{ minHeight: 72, px: 3 }}
               />
               <Tab
                 icon={<Dashboard />}
-                label="Dashboards"
+                label="Visualizações Técnicas"
                 iconPosition="start"
                 sx={{ minHeight: 72, px: 3 }}
               />
               <Tab
                 icon={<Assessment />}
-                label="Relatórios Executivos"
+                label="Relatórios Científicos"
                 iconPosition="start"
                 sx={{ minHeight: 72, px: 3 }}
               />
               <Tab
                 icon={<School />}
-                label="Academia Data Science"
+                label="Métodos Explicados"
                 iconPosition="start"
                 sx={{ minHeight: 72, px: 3 }}
               />
               <Tab
-                icon={<Public />}
-                label="Dados Abertos SC"
+                icon={<Storage />}
+                label="Datasets + APIs Reais"
+                iconPosition="start"
+                sx={{ minHeight: 72, px: 3 }}
+              />
+              <Tab
+                icon={<Psychology />}
+                label="Análise Científica Avançada"
+                iconPosition="start"
+                sx={{ minHeight: 72, px: 3 }}
+              />
+              <Tab
+                icon={<AutoFixHigh />}
+                label="Automação de Variáveis"
                 iconPosition="start"
                 sx={{ minHeight: 72, px: 3 }}
               />
@@ -402,15 +417,26 @@ function App() {
           </TabPanel>
           
           <TabPanel value={value} index={3}>
-            <ReportsView data={uploadedData} />
+            {/* <ReportsView data={uploadedData} /> */}
+            <Typography variant="h6" sx={{ textAlign: 'center', color: '#666', mt: 3 }}>
+              📋 Relatórios Científicos - Em desenvolvimento
+            </Typography>
           </TabPanel>
           
           <TabPanel value={value} index={4}>
-            <LearningCenterFunctional />
+            <LearningCenterTecnico />
           </TabPanel>
           
           <TabPanel value={value} index={5}>
-            <DadosAbertos />
+            <DadosAbertosNovo />
+          </TabPanel>
+          
+          <TabPanel value={value} index={6}>
+            <AnaliseAvancada />
+          </TabPanel>
+          
+          <TabPanel value={value} index={7}>
+            <AutomacaoVariaveis />
           </TabPanel>
         </Container>
 

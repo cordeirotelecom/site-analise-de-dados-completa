@@ -15,7 +15,6 @@ import {
   CssBaseline,
   Chip,
   Stack,
-  Divider
 } from '@mui/material';
 import {
   UploadFile,
@@ -30,7 +29,8 @@ import {
 import UploadArea from './components/UploadArea';
 import DataAnalysis from './components/DataAnalysis';
 import DashboardView from './components/DashboardView';
-// import ReportsView from './components/ReportsView';
+import ReportsView from './components/ReportsView';
+import LearningCenter from './components/LearningCenter';
 
 // Tema profissional focado em análise de dados
 const theme = createTheme({
@@ -227,8 +227,6 @@ function App() {
             </Grid>
           </Box>
 
-          <Divider sx={{ mb: 3 }} />
-
           {/* Navegação Principal */}
           <Paper sx={{ mb: 3 }}>
             <Tabs
@@ -268,6 +266,12 @@ function App() {
                 iconPosition="start"
                 sx={{ minHeight: 64 }}
               />
+              <Tab
+                icon={<School />}
+                label="Aprender"
+                iconPosition="start"
+                sx={{ minHeight: 64 }}
+              />
             </Tabs>
           </Paper>
 
@@ -285,10 +289,11 @@ function App() {
           </TabPanel>
           
           <TabPanel value={value} index={3}>
-            {/* <ReportsView data={uploadedData} /> */}
-            <Typography variant="h6" sx={{ textAlign: 'center', color: '#666', mt: 3 }}>
-              📋 Relatórios Científicos - Em desenvolvimento
-            </Typography>
+            <ReportsView />
+          </TabPanel>
+          
+          <TabPanel value={value} index={4}>
+            <LearningCenter />
           </TabPanel>
         </Container>
 
