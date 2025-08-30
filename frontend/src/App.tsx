@@ -33,7 +33,7 @@ import DataAnalysisPro from './components/DataAnalysisPro';
 import DashboardViewSimple from './components/DashboardViewSimple';
 // import ReportsView from './components/ReportsView';
 import LearningCenterTecnico from './components/LearningCenterTecnico';
-import DadosAbertosNovo from './components/DadosAbertosNovo';
+import DadosAbertosAvancado from './components/DadosAbertosAvancado';
 import WelcomePageEnhanced from './components/WelcomePageEnhanced_New';
 import AnaliseAvancada from './components/AnaliseAvancada';
 import AutomacaoVariaveis from './components/AutomacaoVariaveis';
@@ -428,7 +428,7 @@ function App() {
           </TabPanel>
           
           <TabPanel value={value} index={5}>
-            <DadosAbertosNovo />
+            <DadosAbertosAvancado />
           </TabPanel>
           
           <TabPanel value={value} index={6}>
