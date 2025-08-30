@@ -27,6 +27,9 @@ import {
   TrendingUp,
   Psychology,
   AutoFixHigh,
+  Api,
+  Schedule,
+  Public,
 } from '@mui/icons-material';
 import UploadAreaPro from './components/UploadAreaPro';
 import DataAnalysisPro from './components/DataAnalysisPro';
@@ -37,6 +40,9 @@ import DadosAbertosAvancado from './components/DadosAbertosAvancado';
 import WelcomePageEnhanced from './components/WelcomePageEnhanced_New';
 import AnaliseAvancada from './components/AnaliseAvancada';
 import AutomacaoVariaveis from './components/AutomacaoVariaveis';
+import MonitoramentoAPIs from './components/MonitoramentoAPIs';
+import ColetorTempoReal from './components/ColetorTempoReal';
+import ExploradorAPIsGoverno from './components/ExploradorAPIsGoverno';
 
 // Tema profissional focado em análise de dados
 const theme = createTheme({
@@ -400,6 +406,24 @@ function App() {
                 iconPosition="start"
                 sx={{ minHeight: 72, px: 3 }}
               />
+              <Tab
+                icon={<Api />}
+                label="Monitoramento APIs"
+                iconPosition="start"
+                sx={{ minHeight: 72, px: 3 }}
+              />
+              <Tab
+                icon={<Schedule />}
+                label="Coleta Tempo Real"
+                iconPosition="start"
+                sx={{ minHeight: 72, px: 3 }}
+              />
+              <Tab
+                icon={<Public />}
+                label="APIs Governo BR"
+                iconPosition="start"
+                sx={{ minHeight: 72, px: 3 }}
+              />
             </Tabs>
           </Paper>
 
@@ -437,6 +461,18 @@ function App() {
           
           <TabPanel value={value} index={7}>
             <AutomacaoVariaveis />
+          </TabPanel>
+          
+          <TabPanel value={value} index={8}>
+            <MonitoramentoAPIs />
+          </TabPanel>
+          
+          <TabPanel value={value} index={9}>
+            <ColetorTempoReal />
+          </TabPanel>
+          
+          <TabPanel value={value} index={10}>
+            <ExploradorAPIsGoverno />
           </TabPanel>
         </Container>
 
