@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, lazy, Suspense } from 'react';
 import {
   AppBar,
   Toolbar,
@@ -16,6 +16,7 @@ import {
   Chip,
   Stack,
   Button,
+  CircularProgress,
 } from '@mui/material';
 import {
   UploadFile,
@@ -40,28 +41,37 @@ import {
   CloudUpload,
   SmartToy,
 } from '@mui/icons-material';
-import UploadAreaPro from './components/UploadAreaPro';
-import DataAnalysisPro from './components/DataAnalysisPro';
-import DashboardViewSimple from './components/DashboardViewSimple';
-import RelatoriosCientificos from './components/RelatoriosCientificos';
-import CentroAprendizadoCompleto from './components/CentroAprendizadoCompleto';
-import DatasetsESitesReais from './components/DatasetsESitesReais';
-import PaginaInicial from './components/PaginaInicial';
-import AnaliseAvancada from './components/AnaliseAvancada';
-import MetodologiaCientificaAvancada from './components/MetodologiaCientificaAvancada';
-import AutomacaoVariaveis from './components/AutomacaoVariaveis';
-import MonitoramentoAPIs from './components/MonitoramentoAPIs';
-import ColetorTempoReal from './components/ColetorTempoReal';
-import ExploradorAPIsGoverno from './components/ExploradorAPIsGoverno';
-import CatalogoDadosAbertosCompleto from './components/CatalogoDadosAbertosCompleto';
-import DadosAbertosStaCatarina from './components/DadosAbertosStaCatarina';
-import AutenticacaoCompleta from './components/AutenticacaoCompleta';
-import MonitoramentoSimples from './components/MonitoramentoSimples';
-import BackupSimples from './components/BackupSimples';
-import NotificacoesSimples from './components/NotificacoesSimples';
-import BackupAvancado from './components/BackupAvancado';
-import AnalisePreditivaIA from './components/AnalisePreditivaIA';
-import ColaboracaoTempoReal from './components/ColaboracaoTempoReal';
+
+// Lazy loading dos componentes para otimização
+const UploadAreaPro = lazy(() => import('./components/UploadAreaPro'));
+const DataAnalysisPro = lazy(() => import('./components/DataAnalysisPro'));
+const DashboardViewSimple = lazy(() => import('./components/DashboardViewSimple'));
+const RelatoriosCientificos = lazy(() => import('./components/RelatoriosCientificos'));
+const CentroAprendizadoCompleto = lazy(() => import('./components/CentroAprendizadoCompleto'));
+const DatasetsESitesReais = lazy(() => import('./components/DatasetsESitesReais'));
+const PaginaInicial = lazy(() => import('./components/PaginaInicial'));
+const AnaliseAvancada = lazy(() => import('./components/AnaliseAvancada'));
+const MetodologiaCientificaAvancada = lazy(() => import('./components/MetodologiaCientificaAvancada'));
+const AutomacaoVariaveis = lazy(() => import('./components/AutomacaoVariaveis'));
+const MonitoramentoAPIs = lazy(() => import('./components/MonitoramentoAPIs'));
+const ColetorTempoReal = lazy(() => import('./components/ColetorTempoReal'));
+const ExploradorAPIsGoverno = lazy(() => import('./components/ExploradorAPIsGoverno'));
+const CatalogoDadosAbertosCompleto = lazy(() => import('./components/CatalogoDadosAbertosCompleto'));
+const DadosAbertosStaCatarina = lazy(() => import('./components/DadosAbertosStaCatarina'));
+const AutenticacaoCompleta = lazy(() => import('./components/AutenticacaoCompleta'));
+const MonitoramentoSimples = lazy(() => import('./components/MonitoramentoSimples'));
+const BackupSimples = lazy(() => import('./components/BackupSimples'));
+const NotificacoesSimples = lazy(() => import('./components/NotificacoesSimples'));
+const BackupAvancado = lazy(() => import('./components/BackupAvancado'));
+const AnalisePreditivaIA = lazy(() => import('./components/AnalisePreditivaIA'));
+const ColaboracaoTempoReal = lazy(() => import('./components/ColaboracaoTempoReal'));
+
+// Loading component
+const LoadingComponent = () => (
+  <Box display="flex" justifyContent="center" alignItems="center" minHeight="400px">
+    <CircularProgress size={60} />
+  </Box>
+);
 
 // Tema profissional focado em análise de dados
 const theme = createTheme({
@@ -348,7 +358,7 @@ function App() {
             </Grid>
           </Box>
 
-          {/* Navegação Principal */}
+          {/* Navegação Principal Organizada */}
           <Paper sx={{ 
             mb: 3, 
             borderRadius: 3,
@@ -357,23 +367,33 @@ function App() {
             overflow: 'hidden',
             boxShadow: '0 4px 20px rgba(26, 35, 126, 0.1)'
           }}>
+            <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+              <Typography variant="h6" sx={{ p: 2, fontWeight: 600, color: 'primary.main' }}>
+                🚀 Ferramentas Profissionais de Data Science
+              </Typography>
+            </Box>
+            
+            {/* Tabs Principais - Linha 1 */}
             <Tabs
               value={value}
               onChange={handleChange}
               variant="scrollable"
               scrollButtons="auto"
+              allowScrollButtonsMobile
               sx={{
                 background: 'linear-gradient(90deg, #1a237e 0%, #2563eb 100%)',
+                minHeight: 56,
                 '& .MuiTabs-flexContainer': {
                   gap: 0,
                 },
                 '& .MuiTab-root': {
                   color: 'rgba(255,255,255,0.85)',
                   fontWeight: 600,
-                  fontSize: '0.9rem',
+                  fontSize: '0.85rem',
                   textTransform: 'none',
                   transition: 'all 0.3s ease',
-                  borderRadius: 0,
+                  minHeight: 56,
+                  px: 2,
                   '&:hover': {
                     color: '#ffffff',
                     backgroundColor: 'rgba(255,255,255,0.1)'
@@ -386,101 +406,26 @@ function App() {
                 },
                 '& .MuiTabs-indicator': {
                   backgroundColor: '#ffd700',
-                  height: 4,
-                  borderRadius: '4px 4px 0 0'
+                  height: 3,
+                  borderRadius: '3px 3px 0 0'
                 }
               }}
             >
-              <Tab
-                icon={<UploadFile />}
-                label="📤 Upload de Dados"
-                iconPosition="start"
-                sx={{ minHeight: 72, px: 3 }}
-              />
-              <Tab
-                icon={<Analytics />}
-                label="🔬 Análise Estatística"
-                iconPosition="start"
-                sx={{ minHeight: 72, px: 3 }}
-              />
-              <Tab
-                icon={<Dashboard />}
-                label="📊 Visualizações"
-                iconPosition="start"
-                sx={{ minHeight: 72, px: 3 }}
-              />
-              <Tab
-                icon={<Assessment />}
-                label="📋 Relatórios Científicos"
-                iconPosition="start"
-                sx={{ minHeight: 72, px: 3 }}
-              />
-              <Tab
-                icon={<School />}
-                label="🎓 Centro de Aprendizado"
-                iconPosition="start"
-                sx={{ minHeight: 72, px: 3 }}
-              />
-              <Tab
-                icon={<Science />}
-                label="⚗️ Metodologia Científica"
-                iconPosition="start"
-                sx={{ minHeight: 72, px: 3 }}
-              />
-              <Tab
-                icon={<Storage />}
-                label="🗃️ Datasets e APIs"
-                iconPosition="start"
-                sx={{ minHeight: 72, px: 3 }}
-              />
-              <Tab
-                icon={<Psychology />}
-                label="🧠 Análise Avançada"
-                iconPosition="start"
-                sx={{ minHeight: 72, px: 3 }}
-              />
-              <Tab
-                icon={<AutoFixHigh />}
-                label="🤖 Automação"
-                iconPosition="start"
-                sx={{ minHeight: 72, px: 3 }}
-              />
-              <Tab
-                icon={<Api />}
-                label="🔌 APIs Monitoramento"
-                iconPosition="start"
-                sx={{ minHeight: 72, px: 3 }}
-              />
-              <Tab
-                icon={<Schedule />}
-                label="⏱️ Coleta Tempo Real"
-                iconPosition="start"
-                sx={{ minHeight: 72, px: 3 }}
-              />
-              <Tab
-                icon={<Public />}
-                label="🏛️ APIs Governo BR"
-                iconPosition="start"
-                sx={{ minHeight: 72, px: 3 }}
-              />
-              <Tab
-                icon={<SmartToy />}
-                label="🧬 IA Preditiva"
-                iconPosition="start"
-                sx={{ minHeight: 72, px: 3 }}
-              />
-              <Tab
-                icon={<Security />}
-                label="🔐 Segurança"
-                iconPosition="start"
-                sx={{ minHeight: 72, px: 3 }}
-              />
-              <Tab
-                icon={<LocationOn />}
-                label="🗺️ Dados SC"
-                iconPosition="start"
-                sx={{ minHeight: 72, px: 3 }}
-              />
+              <Tab label="📤 Upload" />
+              <Tab label="� Análise" />
+              <Tab label="📊 Gráficos" />
+              <Tab label="📋 Relatórios" />
+              <Tab label="🎓 Aprendizado" />
+              <Tab label="⚗️ Metodologia" />
+              <Tab label="🗃️ Datasets" />
+              <Tab label="🧠 IA Avançada" />
+              <Tab label="🤖 Automação" />
+              <Tab label="🔌 APIs" />
+              <Tab label="⏱️ Tempo Real" />
+              <Tab label="🏛️ Gov APIs" />
+              <Tab label="🧬 IA Preditiva" />
+              <Tab label="🔐 Segurança" />
+              <Tab label="🗺️ Dados SC" />
             </Tabs>
           </Paper>
 
@@ -498,7 +443,7 @@ function App() {
           </TabPanel>
           
           <TabPanel value={value} index={3}>
-            <RelatoriosCientificos />
+            <RelatoriosCientificos onBackToHome={handleBackToHome} />
           </TabPanel>
           
           <TabPanel value={value} index={4}>
