@@ -236,7 +236,7 @@ const MonitoramentoPerformance: React.FC = () => {
     }, intervaloRefresh * 1000);
 
     return () => clearInterval(interval);
-  }, [autoRefresh, intervaloRefresh]);
+  }, [autoRefresh, intervaloRefresh]); // Dependências fixas
 
   const getStatusColor = (status: string) => {
     switch (status) {

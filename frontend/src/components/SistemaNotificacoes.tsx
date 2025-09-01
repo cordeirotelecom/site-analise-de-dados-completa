@@ -297,7 +297,7 @@ Sistema DataScience Pro`,
     if (!notificacoesAtivas) return;
 
     const interval = setInterval(() => {
-      if (Math.random() > 0.7) { // 30% chance a cada 10 segundos
+      if (Math.random() > 0.8) { // 20% chance a cada 15 segundos
         const novaNotificacao: Notificacao = {
           id: Date.now().toString(),
           titulo: 'Nova Notificação',
@@ -321,10 +321,10 @@ Sistema DataScience Pro`,
           });
         }
       }
-    }, 10000);
+    }, 15000); // Mudado para 15 segundos
 
     return () => clearInterval(interval);
-  }, [notificacoesAtivas]);
+  }, [notificacoesAtivas]); // Dependência fixa
 
   const marcarComoLida = (id: string) => {
     setNotificacoes(prev => 

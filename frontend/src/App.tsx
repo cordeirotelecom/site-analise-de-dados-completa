@@ -15,6 +15,7 @@ import {
   CssBaseline,
   Chip,
   Stack,
+  Button,
 } from '@mui/material';
 import {
   UploadFile,
@@ -35,25 +36,32 @@ import {
   Backup,
   Notifications,
   MonitorHeart,
+  Group,
+  CloudUpload,
+  SmartToy,
 } from '@mui/icons-material';
 import UploadAreaPro from './components/UploadAreaPro';
 import DataAnalysisPro from './components/DataAnalysisPro';
 import DashboardViewSimple from './components/DashboardViewSimple';
-// import ReportsView from './components/ReportsView';
-import LearningCenterTecnico from './components/LearningCenterTecnico';
-import DadosAbertosAvancado from './components/DadosAbertosAvancado';
-import WelcomePageEnhanced from './components/WelcomePageEnhanced_New';
+import RelatoriosCientificos from './components/RelatoriosCientificos';
+import CentroAprendizadoCompleto from './components/CentroAprendizadoCompleto';
+import DatasetsESitesReais from './components/DatasetsESitesReais';
+import PaginaInicial from './components/PaginaInicial';
 import AnaliseAvancada from './components/AnaliseAvancada';
+import MetodologiaCientificaAvancada from './components/MetodologiaCientificaAvancada';
 import AutomacaoVariaveis from './components/AutomacaoVariaveis';
 import MonitoramentoAPIs from './components/MonitoramentoAPIs';
 import ColetorTempoReal from './components/ColetorTempoReal';
 import ExploradorAPIsGoverno from './components/ExploradorAPIsGoverno';
 import CatalogoDadosAbertosCompleto from './components/CatalogoDadosAbertosCompleto';
 import DadosAbertosStaCatarina from './components/DadosAbertosStaCatarina';
-import AutenticacaoAvancada from './components/AutenticacaoAvancada';
-import MonitoramentoPerformance from './components/MonitoramentoPerformance';
-import SistemaBackup from './components/SistemaBackup';
-import SistemaNotificacoes from './components/SistemaNotificacoes';
+import AutenticacaoCompleta from './components/AutenticacaoCompleta';
+import MonitoramentoSimples from './components/MonitoramentoSimples';
+import BackupSimples from './components/BackupSimples';
+import NotificacoesSimples from './components/NotificacoesSimples';
+import BackupAvancado from './components/BackupAvancado';
+import AnalisePreditivaIA from './components/AnalisePreditivaIA';
+import ColaboracaoTempoReal from './components/ColaboracaoTempoReal';
 
 // Tema profissional focado em análise de dados
 const theme = createTheme({
@@ -173,12 +181,16 @@ function App() {
     setValue(tabIndex);
   };
 
+  const handleBackToHome = () => {
+    setShowWelcome(true);
+    setValue(0);
+  };
+
   if (showWelcome) {
     return (
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <WelcomePageEnhanced 
-          onStartAnalysis={handleStartAnalysis}
+        <PaginaInicial 
           onNavigateToTab={handleNavigateToTab}
         />
       </ThemeProvider>
@@ -201,11 +213,13 @@ function App() {
                 background: 'linear-gradient(45deg, #2563eb 30%, #1d4ed8 90%)',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
+                cursor: 'pointer'
               }}
+              onClick={() => setShowWelcome(true)}
             >
               DataScience Pro
             </Typography>
-            <Stack direction="row" spacing={1}>
+            <Stack direction="row" spacing={1} sx={{ mr: 2 }}>
               <Chip 
                 label="Análise Avançada" 
                 size="small" 
@@ -219,6 +233,14 @@ function App() {
                 sx={{ color: 'text.secondary', borderColor: 'divider' }}
               />
             </Stack>
+            <Button
+              variant="outlined"
+              size="small"
+              onClick={() => setShowWelcome(true)}
+              sx={{ color: 'white', borderColor: 'white' }}
+            >
+              🏠 Home
+            </Button>
           </Toolbar>
         </AppBar>
 
@@ -371,103 +393,91 @@ function App() {
             >
               <Tab
                 icon={<UploadFile />}
-                label="ETL e Processamento"
+                label="📤 Upload de Dados"
                 iconPosition="start"
                 sx={{ minHeight: 72, px: 3 }}
               />
               <Tab
                 icon={<Analytics />}
-                label="Métodos Estatísticos"
+                label="🔬 Análise Estatística"
                 iconPosition="start"
                 sx={{ minHeight: 72, px: 3 }}
               />
               <Tab
                 icon={<Dashboard />}
-                label="Visualizações Técnicas"
+                label="📊 Visualizações"
                 iconPosition="start"
                 sx={{ minHeight: 72, px: 3 }}
               />
               <Tab
                 icon={<Assessment />}
-                label="Relatórios Científicos"
+                label="📋 Relatórios Científicos"
                 iconPosition="start"
                 sx={{ minHeight: 72, px: 3 }}
               />
               <Tab
                 icon={<School />}
-                label="Métodos Explicados"
+                label="🎓 Centro de Aprendizado"
+                iconPosition="start"
+                sx={{ minHeight: 72, px: 3 }}
+              />
+              <Tab
+                icon={<Science />}
+                label="⚗️ Metodologia Científica"
                 iconPosition="start"
                 sx={{ minHeight: 72, px: 3 }}
               />
               <Tab
                 icon={<Storage />}
-                label="Datasets + APIs Reais"
+                label="🗃️ Datasets e APIs"
                 iconPosition="start"
                 sx={{ minHeight: 72, px: 3 }}
               />
               <Tab
                 icon={<Psychology />}
-                label="Análise Científica Avançada"
+                label="🧠 Análise Avançada"
                 iconPosition="start"
                 sx={{ minHeight: 72, px: 3 }}
               />
               <Tab
                 icon={<AutoFixHigh />}
-                label="Automação de Variáveis"
+                label="🤖 Automação"
                 iconPosition="start"
                 sx={{ minHeight: 72, px: 3 }}
               />
               <Tab
                 icon={<Api />}
-                label="Monitoramento APIs"
+                label="🔌 APIs Monitoramento"
                 iconPosition="start"
                 sx={{ minHeight: 72, px: 3 }}
               />
               <Tab
                 icon={<Schedule />}
-                label="Coleta Tempo Real"
+                label="⏱️ Coleta Tempo Real"
                 iconPosition="start"
                 sx={{ minHeight: 72, px: 3 }}
               />
               <Tab
                 icon={<Public />}
-                label="APIs Governo BR"
+                label="🏛️ APIs Governo BR"
                 iconPosition="start"
                 sx={{ minHeight: 72, px: 3 }}
               />
               <Tab
-                icon={<Storage />}
-                label="Catálogo Dados Abertos"
-                iconPosition="start"
-                sx={{ minHeight: 72, px: 3 }}
-              />
-              <Tab
-                icon={<LocationOn />}
-                label="Dados Santa Catarina"
+                icon={<SmartToy />}
+                label="🧬 IA Preditiva"
                 iconPosition="start"
                 sx={{ minHeight: 72, px: 3 }}
               />
               <Tab
                 icon={<Security />}
-                label="Autenticação"
+                label="🔐 Segurança"
                 iconPosition="start"
                 sx={{ minHeight: 72, px: 3 }}
               />
               <Tab
-                icon={<MonitorHeart />}
-                label="Monitoramento"
-                iconPosition="start"
-                sx={{ minHeight: 72, px: 3 }}
-              />
-              <Tab
-                icon={<Backup />}
-                label="Backup & Restore"
-                iconPosition="start"
-                sx={{ minHeight: 72, px: 3 }}
-              />
-              <Tab
-                icon={<Notifications />}
-                label="Notificações"
+                icon={<LocationOn />}
+                label="🗺️ Dados SC"
                 iconPosition="start"
                 sx={{ minHeight: 72, px: 3 }}
               />
@@ -488,62 +498,75 @@ function App() {
           </TabPanel>
           
           <TabPanel value={value} index={3}>
-            {/* <ReportsView data={uploadedData} /> */}
-            <Typography variant="h6" sx={{ textAlign: 'center', color: '#666', mt: 3 }}>
-              📋 Relatórios Científicos - Em desenvolvimento
-            </Typography>
+            <RelatoriosCientificos />
           </TabPanel>
           
           <TabPanel value={value} index={4}>
-            <LearningCenterTecnico />
+            <CentroAprendizadoCompleto onBackToHome={handleBackToHome} />
           </TabPanel>
           
           <TabPanel value={value} index={5}>
-            <DadosAbertosAvancado />
+            <MetodologiaCientificaAvancada onBackToHome={handleBackToHome} />
           </TabPanel>
-          
+
           <TabPanel value={value} index={6}>
-            <AnaliseAvancada />
+            <DatasetsESitesReais />
           </TabPanel>
           
           <TabPanel value={value} index={7}>
-            <AutomacaoVariaveis />
+            <AnaliseAvancada />
           </TabPanel>
           
           <TabPanel value={value} index={8}>
-            <MonitoramentoAPIs />
+            <AutomacaoVariaveis />
           </TabPanel>
           
           <TabPanel value={value} index={9}>
-            <ColetorTempoReal />
+            <MonitoramentoAPIs />
           </TabPanel>
           
           <TabPanel value={value} index={10}>
-            <ExploradorAPIsGoverno />
+            <ColetorTempoReal />
           </TabPanel>
           
           <TabPanel value={value} index={11}>
-            <CatalogoDadosAbertosCompleto />
+            <ExploradorAPIsGoverno />
           </TabPanel>
           
           <TabPanel value={value} index={12}>
-            <DadosAbertosStaCatarina />
+            <CatalogoDadosAbertosCompleto />
           </TabPanel>
           
           <TabPanel value={value} index={13}>
-            <AutenticacaoAvancada />
+            <DadosAbertosStaCatarina />
           </TabPanel>
           
           <TabPanel value={value} index={14}>
-            <MonitoramentoPerformance />
+            <AutenticacaoCompleta />
           </TabPanel>
           
           <TabPanel value={value} index={15}>
-            <SistemaBackup />
+            <MonitoramentoSimples />
           </TabPanel>
           
           <TabPanel value={value} index={16}>
-            <SistemaNotificacoes />
+            <BackupSimples />
+          </TabPanel>
+          
+          <TabPanel value={value} index={17}>
+            <NotificacoesSimples />
+          </TabPanel>
+          
+          <TabPanel value={value} index={18}>
+            <BackupAvancado />
+          </TabPanel>
+          
+          <TabPanel value={value} index={19}>
+            <AnalisePreditivaIA />
+          </TabPanel>
+          
+          <TabPanel value={value} index={20}>
+            <ColaboracaoTempoReal />
           </TabPanel>
         </Container>
 
@@ -569,8 +592,11 @@ function App() {
             <Typography variant="body2" color="#e3eafc" sx={{ mb: 1 }}>
               Plataforma profissional de análise de dados e machine learning
             </Typography>
-            <Typography variant="caption" color="#b0bec5">
+            <Typography variant="caption" color="#b0bec5" sx={{ mb: 1, display: 'block' }}>
               Desenvolvido com técnica de gestão sistêmica para resultados sustentáveis
+            </Typography>
+            <Typography variant="caption" color="#b0bec5" sx={{ fontSize: '0.7rem', opacity: 0.8 }}>
+              Elaborado pelo Prof. Vagner Cordeiro
             </Typography>
           </Container>
         </Box>
