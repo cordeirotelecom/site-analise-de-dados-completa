@@ -16,8 +16,9 @@ export default defineConfig({
       output: {
         manualChunks: {
           'vendor': ['react', 'react-dom'],
-          'mui': ['@mui/material', '@mui/icons-material'],
-          'charts': ['plotly.js', 'react-plotly.js']
+          'mui': ['@mui/material', '@mui/icons-material', '@mui/lab'],
+          'charts': ['plotly.js', 'react-plotly.js', 'recharts'],
+          'utils': ['axios', 'date-fns']
         }
       }
     }

@@ -1,7 +1,7 @@
 {
-  "name": "DataScience Pro - Plataforma Científica Avançada",
+  "name": "DataScience Pro - Portal de Dados Abertos e Análise Avançada",
   "short_name": "DataScience Pro",
-  "description": "Plataforma completa de análise de dados com rigor científico e gestão sistêmica para desenvolvimento harmônico sustentável",
+  "description": "Portal completo com 30+ APIs de dados abertos do Brasil (Santa Catarina, São José, Florianópolis) + análise estatística avançada e machine learning automatizado",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#1976d2",
