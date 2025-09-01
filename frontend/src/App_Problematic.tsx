@@ -13,6 +13,7 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
+  CircularProgress,
   useMediaQuery,
 } from '@mui/material';
 import {
@@ -28,7 +29,10 @@ import {
 } from '@mui/icons-material';
 
 import PaginaInicial from './components/PaginaInicial';
+// Imports principais que sabemos que funcionam
 import UploadAreaPro from './components/UploadAreaPro';
+
+// Testando componentes um por vez
 import AnaliseAvancada from './components/AnaliseAvancada';
 import DashboardViewSimple from './components/DashboardViewSimple';
 import RelatoriosCientificos from './components/RelatoriosCientificos';
@@ -78,6 +82,12 @@ const theme = createTheme({
   },
 });
 
+const LoadingComponent = () => (
+  <Box display="flex" justifyContent="center" alignItems="center" minHeight="400px">
+    <CircularProgress size={60} />
+  </Box>
+);
+
 function App() {
   const [showWelcome, setShowWelcome] = useState(true);
   const [currentTab, setCurrentTab] = useState(0);
@@ -86,19 +96,27 @@ function App() {
   
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
+  // Debug logs detalhados
+  console.log('🔍 App State:', { showWelcome, currentTab, mobileOpen });
+
   const handleNavigateToTab = (tabIndex: number) => {
+    console.log('🚀 Navegando para aba:', tabIndex);
+    console.log('📍 Estado antes:', { showWelcome, currentTab });
     setShowWelcome(false);
     setCurrentTab(tabIndex);
     setMobileOpen(false);
+    console.log('📍 Estado após:', { showWelcome: false, currentTab: tabIndex });
   };
 
   const handleBackToHome = () => {
+    console.log('🏠 Voltando para home');
     setShowWelcome(true);
     setCurrentTab(0);
     setMobileOpen(false);
   };
 
   const handleDataUpload = (data: any) => {
+    console.log('📁 Dados carregados:', data);
     setUploadedData(data);
     setShowWelcome(false);
     setCurrentTab(1);
@@ -114,7 +132,9 @@ function App() {
     { icon: <Public />, text: 'Dados Públicos', index: 6 },
   ];
 
+  // Página inicial
   if (showWelcome) {
+    console.log('🏠 Renderizando PaginaInicial');
     return (
       <ThemeProvider theme={theme}>
         <CssBaseline />
@@ -123,6 +143,8 @@ function App() {
     );
   }
 
+  // Interface principal
+  console.log('🎯 Renderizando interface principal - currentTab:', currentTab);
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
@@ -201,13 +223,42 @@ function App() {
             p: 3,
           }}
         >
-          {currentTab === 0 && <UploadAreaPro onDataUpload={handleDataUpload} />}
-          {currentTab === 1 && <AnaliseAvancada />}
-          {currentTab === 2 && <DashboardViewSimple data={uploadedData} />}
-          {currentTab === 3 && <RelatoriosCientificos />}
-          {currentTab === 4 && <MetodologiaCientificaAvancada />}
-          {currentTab === 5 && <CentroAprendizadoCompleto />}
-          {currentTab === 6 && <DatasetsESitesReais />}
+          {(() => {
+            console.log('🎯 Renderizando componente para aba:', currentTab);
+            
+            switch (currentTab) {
+              case 0:
+                console.log('📤 Carregando UploadAreaPro');
+                return <UploadAreaPro onDataUpload={handleDataUpload} />;
+              case 1:
+                console.log('📊 Carregando AnaliseAvancada');
+                return <AnaliseAvancada />;
+              case 2:
+                console.log('📈 Carregando DashboardViewSimple');
+                return <DashboardViewSimple data={uploadedData} />;
+              case 3:
+                console.log('📝 Carregando RelatoriosCientificos');
+                return <RelatoriosCientificos />;
+              case 4:
+                console.log('🔬 Carregando MetodologiaCientificaAvancada');
+                return <MetodologiaCientificaAvancada />;
+              case 5:
+                console.log('🎓 Carregando CentroAprendizadoCompleto');
+                return <CentroAprendizadoCompleto />;
+              case 6:
+                console.log('🌐 Carregando DatasetsESitesReais');
+                return <DatasetsESitesReais />;
+              default:
+                console.log('❌ Aba não encontrada:', currentTab);
+                return (
+                  <Box sx={{ p: 3, textAlign: 'center' }}>
+                    <Typography variant="h5" color="error">
+                      Página não encontrada (Aba {currentTab})
+                    </Typography>
+                  </Box>
+                );
+            }
+          })()}
         </Box>
       </Box>
     </ThemeProvider>
