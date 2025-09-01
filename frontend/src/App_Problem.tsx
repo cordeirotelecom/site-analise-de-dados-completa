@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, Suspense } from 'react';
 import {
   Box,
   ThemeProvider,
@@ -85,6 +85,33 @@ const LoadingComponent = () => (
   </Box>
 );
 
+interface TabPanelProps {
+  children?: React.ReactNode;
+  index: number;
+  value: number;
+}
+
+function TabPanel(props: TabPanelProps) {
+  const { children, value, index, ...other } = props;
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`tabpanel-${index}`}
+      aria-labelledby={`tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box sx={{ p: 3 }}>
+          <Suspense fallback={<LoadingComponent />}>
+            {children}
+          </Suspense>
+        </Box>
+      )}
+    </div>
+  );
+}
+
 function App() {
   const [showWelcome, setShowWelcome] = useState(true);
   const [currentTab, setCurrentTab] = useState(0);
@@ -93,25 +120,28 @@ function App() {
   
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
+  // Debug logs
+  console.log('App renderizando - showWelcome:', showWelcome, 'currentTab:', currentTab);
+
   const handleNavigateToTab = (tabIndex: number) => {
-    console.log('🚀 Navegando para aba:', tabIndex);
+    console.log('Navegando para aba:', tabIndex);
     setShowWelcome(false);
     setCurrentTab(tabIndex);
-    setMobileOpen(false);
+    setMobileOpen(false); // Fechar menu mobile se aberto
   };
 
   const handleBackToHome = () => {
-    console.log('🏠 Voltando para home');
+    console.log('Voltando para home');
     setShowWelcome(true);
     setCurrentTab(0);
     setMobileOpen(false);
   };
 
   const handleDataUpload = (data: any) => {
-    console.log('📁 Dados carregados:', data);
+    console.log('Dados carregados:', data);
     setUploadedData(data);
-    setShowWelcome(false);
-    setCurrentTab(1);
+    setShowWelcome(false); // Importante: sair da página inicial
+    setCurrentTab(1); // Ir para análise
   };
 
   const menuItems = [
@@ -124,7 +154,6 @@ function App() {
     { icon: <Public />, text: 'Dados Públicos', index: 6 },
   ];
 
-  // Página inicial
   if (showWelcome) {
     return (
       <ThemeProvider theme={theme}>
@@ -134,7 +163,6 @@ function App() {
     );
   }
 
-  // Interface principal
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
@@ -186,7 +214,7 @@ function App() {
                 <ListItem
                   key={item.index}
                   button
-                  onClick={() => handleNavigateToTab(item.index)}
+                  onClick={() => setCurrentTab(item.index)}
                   selected={currentTab === item.index}
                   sx={{ mb: 0.5, borderRadius: 1 }}
                 >
@@ -210,16 +238,35 @@ function App() {
             ml: { md: '280px' },
             mt: '64px',
             minHeight: 'calc(100vh - 64px)',
-            p: 3,
           }}
         >
-          {currentTab === 0 && <UploadAreaPro onDataUpload={handleDataUpload} />}
-          {currentTab === 1 && <AnaliseAvancada />}
-          {currentTab === 2 && <DashboardViewSimple data={uploadedData} />}
-          {currentTab === 3 && <RelatoriosCientificos />}
-          {currentTab === 4 && <MetodologiaCientificaAvancada />}
-          {currentTab === 5 && <CentroAprendizadoCompleto />}
-          {currentTab === 6 && <DatasetsESitesReais />}
+          <TabPanel value={currentTab} index={0}>
+            <UploadAreaPro onDataUpload={handleDataUpload} />
+          </TabPanel>
+          
+          <TabPanel value={currentTab} index={1}>
+            <AnaliseAvancada />
+          </TabPanel>
+          
+          <TabPanel value={currentTab} index={2}>
+            <DashboardViewSimple data={uploadedData} />
+          </TabPanel>
+          
+          <TabPanel value={currentTab} index={3}>
+            <RelatoriosCientificos />
+          </TabPanel>
+          
+          <TabPanel value={currentTab} index={4}>
+            <MetodologiaCientificaAvancada />
+          </TabPanel>
+          
+          <TabPanel value={currentTab} index={5}>
+            <CentroAprendizadoCompleto />
+          </TabPanel>
+          
+          <TabPanel value={currentTab} index={6}>
+            <DatasetsESitesReais />
+          </TabPanel>
         </Box>
       </Box>
     </ThemeProvider>
