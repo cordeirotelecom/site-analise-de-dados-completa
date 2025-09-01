@@ -31,6 +31,10 @@ import {
   Schedule,
   Public,
   LocationOn,
+  Security,
+  Backup,
+  Notifications,
+  MonitorHeart,
 } from '@mui/icons-material';
 import UploadAreaPro from './components/UploadAreaPro';
 import DataAnalysisPro from './components/DataAnalysisPro';
@@ -46,6 +50,10 @@ import ColetorTempoReal from './components/ColetorTempoReal';
 import ExploradorAPIsGoverno from './components/ExploradorAPIsGoverno';
 import CatalogoDadosAbertosCompleto from './components/CatalogoDadosAbertosCompleto';
 import DadosAbertosStaCatarina from './components/DadosAbertosStaCatarina';
+import AutenticacaoAvancada from './components/AutenticacaoAvancada';
+import MonitoramentoPerformance from './components/MonitoramentoPerformance';
+import SistemaBackup from './components/SistemaBackup';
+import SistemaNotificacoes from './components/SistemaNotificacoes';
 
 // Tema profissional focado em análise de dados
 const theme = createTheme({
@@ -439,6 +447,30 @@ function App() {
                 iconPosition="start"
                 sx={{ minHeight: 72, px: 3 }}
               />
+              <Tab
+                icon={<Security />}
+                label="Autenticação"
+                iconPosition="start"
+                sx={{ minHeight: 72, px: 3 }}
+              />
+              <Tab
+                icon={<MonitorHeart />}
+                label="Monitoramento"
+                iconPosition="start"
+                sx={{ minHeight: 72, px: 3 }}
+              />
+              <Tab
+                icon={<Backup />}
+                label="Backup & Restore"
+                iconPosition="start"
+                sx={{ minHeight: 72, px: 3 }}
+              />
+              <Tab
+                icon={<Notifications />}
+                label="Notificações"
+                iconPosition="start"
+                sx={{ minHeight: 72, px: 3 }}
+              />
             </Tabs>
           </Paper>
 
@@ -496,6 +528,22 @@ function App() {
           
           <TabPanel value={value} index={12}>
             <DadosAbertosStaCatarina />
+          </TabPanel>
+          
+          <TabPanel value={value} index={13}>
+            <AutenticacaoAvancada />
+          </TabPanel>
+          
+          <TabPanel value={value} index={14}>
+            <MonitoramentoPerformance />
+          </TabPanel>
+          
+          <TabPanel value={value} index={15}>
+            <SistemaBackup />
+          </TabPanel>
+          
+          <TabPanel value={value} index={16}>
+            <SistemaNotificacoes />
           </TabPanel>
         </Container>
 
