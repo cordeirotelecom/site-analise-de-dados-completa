@@ -381,18 +381,21 @@ class APISantaCatarinaService {
     let dados: any[] = [];
 
     switch (tipo) {
-      case 'saude':
+      case 'saude': {
         const saude = await this.obterEstabelecimentosSaude();
         dados = saude.dados;
         break;
-      case 'educacao':
+      }
+      case 'educacao': {
         const educacao = await this.obterEscolas();
         dados = educacao.dados;
         break;
-      case 'transporte':
+      }
+      case 'transporte': {
         const transporte = await this.obterLinhasTransporte();
         dados = transporte.dados;
         break;
+      }
     }
 
     if (formato === 'json') {

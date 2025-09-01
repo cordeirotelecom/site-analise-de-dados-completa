@@ -258,7 +258,7 @@ const DadosAbertosAvancado = () => {
     let mimeType = '';
 
     switch (formato) {
-      case 'csv':
+      case 'csv': {
         const headers = Object.keys(dadosCarregados[0]).join(',');
         const rows = dadosCarregados.map(row => 
           Object.values(row).map(val => 
@@ -269,11 +269,13 @@ const DadosAbertosAvancado = () => {
         nomeArquivo = 'dados_exportados.csv';
         mimeType = 'text/csv';
         break;
-      case 'json':
+      }
+      case 'json': {
         conteudo = JSON.stringify(dadosCarregados, null, 2);
         nomeArquivo = 'dados_exportados.json';
         mimeType = 'application/json';
         break;
+      }
       default:
         mostrarMensagem('Formato não suportado ainda', 'warning');
         return;
