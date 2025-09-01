@@ -30,6 +30,7 @@ import {
   Api,
   Schedule,
   Public,
+  LocationOn,
 } from '@mui/icons-material';
 import UploadAreaPro from './components/UploadAreaPro';
 import DataAnalysisPro from './components/DataAnalysisPro';
@@ -43,6 +44,8 @@ import AutomacaoVariaveis from './components/AutomacaoVariaveis';
 import MonitoramentoAPIs from './components/MonitoramentoAPIs';
 import ColetorTempoReal from './components/ColetorTempoReal';
 import ExploradorAPIsGoverno from './components/ExploradorAPIsGoverno';
+import CatalogoDadosAbertosCompleto from './components/CatalogoDadosAbertosCompleto';
+import DadosAbertosStaCatarina from './components/DadosAbertosStaCatarina';
 
 // Tema profissional focado em análise de dados
 const theme = createTheme({
@@ -424,6 +427,18 @@ function App() {
                 iconPosition="start"
                 sx={{ minHeight: 72, px: 3 }}
               />
+              <Tab
+                icon={<Storage />}
+                label="Catálogo Dados Abertos"
+                iconPosition="start"
+                sx={{ minHeight: 72, px: 3 }}
+              />
+              <Tab
+                icon={<LocationOn />}
+                label="Dados Santa Catarina"
+                iconPosition="start"
+                sx={{ minHeight: 72, px: 3 }}
+              />
             </Tabs>
           </Paper>
 
@@ -473,6 +488,14 @@ function App() {
           
           <TabPanel value={value} index={10}>
             <ExploradorAPIsGoverno />
+          </TabPanel>
+          
+          <TabPanel value={value} index={11}>
+            <CatalogoDadosAbertosCompleto />
+          </TabPanel>
+          
+          <TabPanel value={value} index={12}>
+            <DadosAbertosStaCatarina />
           </TabPanel>
         </Container>
 
