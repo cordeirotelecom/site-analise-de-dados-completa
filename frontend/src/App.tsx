@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, Suspense, lazy } from 'react';
 import {
   Box,
   ThemeProvider,
@@ -14,6 +14,7 @@ import {
   ListItemIcon,
   ListItemText,
   useMediaQuery,
+  CircularProgress,
 } from '@mui/material';
 import {
   Home,
@@ -30,17 +31,19 @@ import {
   Settings,
 } from '@mui/icons-material';
 
-import PaginaInicial from './components/PaginaInicial';
-import UploadArea from './components/UploadArea';
-import AnaliseAvancada from './components/AnaliseAvancada';
-import DashboardView from './components/DashboardView';
-import RelatoriosCientificos from './components/RelatoriosCientificos';
-import MetodologiaCientificaAvancada from './components/MetodologiaCientificaAvancada';
-import CentroAprendizadoCompleto from './components/CentroAprendizadoCompleto';
-import DatasetsESitesReais from './components/DatasetsESitesReais';
-import SistemaNotificacoes from './components/SistemaNotificacoes';
-import MonitoramentoTempoReal from './components/MonitoramentoTempoReal';
-import ConfiguracoesAvancadas from './components/ConfiguracoesAvancadas';
+// Lazy loading dos componentes para melhor performance
+const PaginaInicial = lazy(() => import('./components/PaginaInicial'));
+const UploadArea = lazy(() => import('./components/UploadArea'));
+const AnaliseAvancada = lazy(() => import('./components/AnaliseAvancada'));
+const DashboardView = lazy(() => import('./components/DashboardView'));
+const RelatoriosCientificos = lazy(() => import('./components/RelatoriosCientificos'));
+const MetodologiaCientificaAvancada = lazy(() => import('./components/MetodologiaCientificaAvancada'));
+const CentroAprendizadoCompleto = lazy(() => import('./components/CentroAprendizadoCompleto'));
+const DatasetsESitesReais = lazy(() => import('./components/DatasetsESitesReais'));
+const SistemaNotificacoes = lazy(() => import('./components/SistemaNotificacoes'));
+const MonitoramentoTempoReal = lazy(() => import('./components/MonitoramentoTempoReal'));
+const ConfiguracoesAvancadas = lazy(() => import('./components/ConfiguracoesAvancadas'));
+import ErrorBoundary from './components/ErrorBoundary';
 
 const theme = createTheme({
   palette: {
@@ -125,17 +128,28 @@ function App() {
 
   if (showWelcome) {
     return (
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <PaginaInicial onNavigateToTab={handleNavigateToTab} />
-      </ThemeProvider>
+      <ErrorBoundary>
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          <Suspense 
+            fallback={
+              <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
+                <CircularProgress size={60} />
+              </Box>
+            }
+          >
+            <PaginaInicial onNavigateToTab={handleNavigateToTab} />
+          </Suspense>
+        </ThemeProvider>
+      </ErrorBoundary>
     );
   }
 
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <Box sx={{ display: 'flex', minHeight: '100vh' }}>
+    <ErrorBoundary>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <Box sx={{ display: 'flex', minHeight: '100vh' }}>
         <AppBar position="fixed" sx={{ zIndex: theme.zIndex.drawer + 1 }}>
           <Toolbar>
             <IconButton
@@ -210,19 +224,28 @@ function App() {
             p: 3,
           }}
         >
-          {currentTab === 0 && <UploadArea onDataUpload={handleDataUpload} />}
-          {currentTab === 1 && <AnaliseAvancada />}
-          {currentTab === 2 && <DashboardView data={uploadedData} />}
-          {currentTab === 3 && <RelatoriosCientificos />}
-          {currentTab === 4 && <MetodologiaCientificaAvancada />}
-          {currentTab === 5 && <CentroAprendizadoCompleto />}
-          {currentTab === 6 && <DatasetsESitesReais />}
-          {currentTab === 7 && <SistemaNotificacoes />}
-          {currentTab === 8 && <MonitoramentoTempoReal />}
-          {currentTab === 9 && <ConfiguracoesAvancadas />}
+          <Suspense 
+            fallback={
+              <Box display="flex" justifyContent="center" alignItems="center" height="50vh">
+                <CircularProgress size={60} />
+              </Box>
+            }
+          >
+            {currentTab === 0 && <UploadArea onDataUpload={handleDataUpload} />}
+            {currentTab === 1 && <AnaliseAvancada />}
+            {currentTab === 2 && <DashboardView data={uploadedData} />}
+            {currentTab === 3 && <RelatoriosCientificos />}
+            {currentTab === 4 && <MetodologiaCientificaAvancada />}
+            {currentTab === 5 && <CentroAprendizadoCompleto />}
+            {currentTab === 6 && <DatasetsESitesReais />}
+            {currentTab === 7 && <SistemaNotificacoes />}
+            {currentTab === 8 && <MonitoramentoTempoReal />}
+            {currentTab === 9 && <ConfiguracoesAvancadas />}
+          </Suspense>
         </Box>
       </Box>
     </ThemeProvider>
+    </ErrorBoundary>
   );
 }
 
