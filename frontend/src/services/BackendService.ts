@@ -25,19 +25,39 @@ api.interceptors.request.use(
   }
 );
 
-// Interceptor para tratamento de respostas
+// Interceptor para tratamento de respostas e monitoramento
 api.interceptors.response.use(
   (response) => {
+    // Log de performance para monitoramento
+    const responseTime = Date.now() - (response.config as any).startTime;
+    if (responseTime > 1000) {
+      console.warn(`Resposta lenta detectada: ${responseTime}ms para ${response.config.url}`);
+    }
     return response;
   },
   (error) => {
     if (error.response?.status === 401) {
       localStorage.removeItem('authToken');
-      window.location.href = '/login';
+      // Não redirecionar automaticamente em caso de erro 401
+      console.warn('Token de autenticação inválido');
     }
+    
+    // Log de erros para monitoramento
+    console.error('Erro na API:', {
+      url: error.config?.url,
+      status: error.response?.status,
+      message: error.message
+    });
+    
     return Promise.reject(error);
   }
 );
+
+// Adicionar timestamp para medir tempo de resposta
+api.interceptors.request.use((config) => {
+  (config as any).startTime = Date.now();
+  return config;
+});
 
 export interface ApiResponse<T> {
   success: boolean;

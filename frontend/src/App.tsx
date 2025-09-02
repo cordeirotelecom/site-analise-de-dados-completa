@@ -27,6 +27,7 @@ import {
   Menu as MenuIcon,
   Notifications,
   MonitorHeart,
+  Settings,
 } from '@mui/icons-material';
 
 import PaginaInicial from './components/PaginaInicial';
@@ -39,6 +40,7 @@ import CentroAprendizadoCompleto from './components/CentroAprendizadoCompleto';
 import DatasetsESitesReais from './components/DatasetsESitesReais';
 import SistemaNotificacoes from './components/SistemaNotificacoes';
 import MonitoramentoTempoReal from './components/MonitoramentoTempoReal';
+import ConfiguracoesAvancadas from './components/ConfiguracoesAvancadas';
 
 const theme = createTheme({
   palette: {
@@ -118,6 +120,7 @@ function App() {
     { icon: <Public />, text: 'Dados Públicos', index: 6 },
     { icon: <Notifications />, text: 'Notificações', index: 7 },
     { icon: <MonitorHeart />, text: 'Monitoramento', index: 8 },
+    { icon: <Settings />, text: 'Configurações', index: 9 },
   ];
 
   if (showWelcome) {
@@ -216,6 +219,7 @@ function App() {
           {currentTab === 6 && <DatasetsESitesReais />}
           {currentTab === 7 && <SistemaNotificacoes />}
           {currentTab === 8 && <MonitoramentoTempoReal />}
+          {currentTab === 9 && <ConfiguracoesAvancadas />}
         </Box>
       </Box>
     </ThemeProvider>
