@@ -149,32 +149,32 @@ function App() {
     <ErrorBoundary>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <Box sx={{ display: 'flex', minHeight: '100vh' }}>
-        <AppBar position="fixed" sx={{ zIndex: theme.zIndex.drawer + 1 }}>
-          <Toolbar>
-            <IconButton
-              color="inherit"
-              aria-label="menu"
-              edge="start"
-              onClick={() => setMobileOpen(!mobileOpen)}
-              sx={{ mr: 2, display: { md: 'none' } }}
-            >
-              <MenuIcon />
-            </IconButton>
-            
-            <IconButton
-              color="inherit"
-              onClick={handleBackToHome}
-              sx={{ mr: 2 }}
-            >
-              <Home />
-            </IconButton>
-            
-            <Typography variant="h6" component="div" sx={{ flexGrow: 1, fontWeight: 600 }}>
-              DataScience Pro
-            </Typography>
-          </Toolbar>
-        </AppBar>
+        <Box className="main-layout" sx={{ display: 'flex', minHeight: '100vh', overflow: 'hidden' }}>
+          <AppBar position="fixed" sx={{ zIndex: theme.zIndex.drawer + 1 }}>
+            <Toolbar>
+              <IconButton
+                color="inherit"
+                aria-label="menu"
+                edge="start"
+                onClick={() => setMobileOpen(!mobileOpen)}
+                sx={{ mr: 2, display: { md: 'none' } }}
+              >
+                <MenuIcon />
+              </IconButton>
+              
+              <IconButton
+                color="inherit"
+                onClick={handleBackToHome}
+                sx={{ mr: 2 }}
+              >
+                <Home />
+              </IconButton>
+              
+              <Typography variant="h6" component="div" sx={{ flexGrow: 1, fontWeight: 600 }}>
+                DataScience Pro
+              </Typography>
+            </Toolbar>
+          </AppBar>
 
         <Drawer
           variant={isMobile ? 'temporary' : 'permanent'}
@@ -214,14 +214,17 @@ function App() {
         </Drawer>
 
         <Box
+          className="main-content"
           component="main"
           sx={{
             flexGrow: 1,
-            width: { md: `calc(100% - 280px)` },
-            ml: { md: '280px' },
+            width: { xs: '100%', md: `calc(100% - 280px)` },
+            ml: { xs: 0, md: '280px' },
             mt: '64px',
             minHeight: 'calc(100vh - 64px)',
             p: 3,
+            overflow: 'auto',
+            boxSizing: 'border-box',
           }}
         >
           <Suspense 
