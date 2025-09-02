@@ -20,7 +20,9 @@ import {
   Alert,
   Stack,
   CircularProgress,
-  Divider
+  Divider,
+  Tabs,
+  Tab
 } from '@mui/material';
 import {
   Speed,
@@ -39,6 +41,7 @@ import {
   Analytics,
   CloudSync
 } from '@mui/icons-material';
+import MetricasPerformanceAvancadas from './MetricasPerformanceAvancadas';
 
 interface MetricaTempoReal {
   nome: string;
@@ -67,6 +70,7 @@ const MonitoramentoTempoReal: React.FC = () => {
   const [monitorandoAtivo, setMonitorandoAtivo] = useState(true);
   const [carregando, setCarregando] = useState(true);
   const [ultimaAtualizacao, setUltimaAtualizacao] = useState<Date>(new Date());
+  const [tabAtual, setTabAtual] = useState(0);
 
   // Inicializar dados
   useEffect(() => {
@@ -337,13 +341,25 @@ const MonitoramentoTempoReal: React.FC = () => {
         </Alert>
       )}
 
-      {/* Métricas em Cards */}
-      <Grid container spacing={3} sx={{ mb: 3 }}>
-        {metricas.map((metrica, index) => (
-          <Grid item xs={12} sm={6} md={4} key={index}>
-            <Card>
-              <CardContent>
-                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>
+      {/* Abas de Monitoramento */}
+      <Box sx={{ borderBottom: 1, borderColor: 'divider', mb: 3 }}>
+        <Tabs value={tabAtual} onChange={(_, newValue) => setTabAtual(newValue)}>
+          <Tab label="Sistema" icon={<Speed />} />
+          <Tab label="Performance" icon={<Analytics />} />
+          <Tab label="APIs" icon={<CloudSync />} />
+        </Tabs>
+      </Box>
+
+      {/* Conteúdo das Abas */}
+      {tabAtual === 0 && (
+        <>
+          {/* Métricas em Cards */}
+          <Grid container spacing={3} sx={{ mb: 3 }}>
+            {metricas.map((metrica, index) => (
+              <Grid item xs={12} sm={6} md={4} key={index}>
+                <Card>
+                  <CardContent>
+                    <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                     {metrica.icon}
                     <Typography variant="subtitle1" fontWeight="bold">
@@ -454,6 +470,25 @@ const MonitoramentoTempoReal: React.FC = () => {
           </TableContainer>
         </CardContent>
       </Card>
+      </>
+      )}
+
+      {/* Aba Performance */}
+      {tabAtual === 1 && (
+        <MetricasPerformanceAvancadas />
+      )}
+
+      {/* Aba APIs - pode ser implementada futuramente */}
+      {tabAtual === 2 && (
+        <Card>
+          <CardContent>
+            <Typography variant="h6">Monitoramento de APIs</Typography>
+            <Typography variant="body2" color="text.secondary">
+              Funcionalidade em desenvolvimento...
+            </Typography>
+          </CardContent>
+        </Card>
+      )}
     </Box>
   );
 };
