@@ -1,0 +1,212 @@
+/* Fix para problemas de CSS com MuiBox-root */
+
+/* Corrigir problemas de overflow e layout */
+.MuiBox-root.css-1q8tyme {
+  overflow: visible !important;
+  min-height: auto !important;
+}
+
+/* Garantir que containers principais tenham estrutura correta */
+.MuiBox-root[role="main"] {
+  overflow-x: hidden;
+  overflow-y: auto;
+  position: relative;
+}
+
+/* Corrigir problemas de z-index */
+.MuiAppBar-root {
+  z-index: 1300 !important;
+}
+
+.MuiDrawer-root {
+  z-index: 1200 !important;
+}
+
+/* Melhorar responsividade */
+.MuiContainer-root {
+  width: 100%;
+  max-width: 100%;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+/* Corrigir problemas de altura em componentes */
+.MuiPaper-root {
+  overflow: visible;
+}
+
+/* Garantir que grids funcionem corretamente */
+.MuiGrid-container {
+  width: 100%;
+  margin: 0;
+}
+
+.MuiGrid-item {
+  padding-left: 8px;
+  padding-top: 8px;
+}
+
+/* Corrigir problemas específicos com cards */
+.MuiCard-root {
+  overflow: visible;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  border-radius: 8px;
+}
+
+/* Melhorar layout de tabelas */
+.MuiTableContainer-root {
+  overflow-x: auto;
+  overflow-y: visible;
+}
+
+/* Corrigir problemas com dialogs */
+.MuiDialog-root {
+  z-index: 1350 !important;
+}
+
+/* Garantir que tooltips apareçam corretamente */
+.MuiTooltip-popper {
+  z-index: 1400 !important;
+}
+
+/* Corrigir problemas de scroll em componentes específicos */
+.MuiList-root {
+  overflow-y: auto;
+  max-height: calc(100vh - 200px);
+}
+
+/* Melhorar layout de accordion */
+.MuiAccordion-root {
+  box-shadow: none;
+  border: 1px solid rgba(0,0,0,0.12);
+}
+
+.MuiAccordion-root:before {
+  display: none;
+}
+
+/* Corrigir problemas com timeline */
+.MuiTimeline-root {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+/* Garantir que progress bars funcionem */
+.MuiLinearProgress-root {
+  width: 100%;
+  height: 6px;
+  border-radius: 3px;
+}
+
+/* Melhorar layout de chips */
+.MuiChip-root {
+  margin: 2px;
+}
+
+/* Corrigir problemas com select */
+.MuiSelect-root {
+  min-width: 120px;
+}
+
+/* Garantir que botões tenham espaçamento correto */
+.MuiButton-root {
+  margin: 4px;
+}
+
+/* Corrigir problemas com fab */
+.MuiFab-root {
+  position: fixed;
+  bottom: 16px;
+  right: 16px;
+  z-index: 1050;
+}
+
+/* Melhorar layout de alerts */
+.MuiAlert-root {
+  margin-bottom: 16px;
+  border-radius: 8px;
+}
+
+/* Garantir que breadcrumbs funcionem */
+.MuiBreadcrumbs-root {
+  margin-bottom: 16px;
+}
+
+/* Corrigir problemas com steppers */
+.MuiStepper-root {
+  padding: 24px;
+}
+
+/* Melhorar layout de tabs */
+.MuiTabs-root {
+  border-bottom: 1px solid rgba(0,0,0,0.12);
+  margin-bottom: 16px;
+}
+
+/* Garantir que switches funcionem */
+.MuiSwitch-root {
+  margin: 8px;
+}
+
+/* Corrigir problemas com radio/checkbox groups */
+.MuiFormGroup-root {
+  margin: 8px 0;
+}
+
+/* Melhorar layout de formulários */
+.MuiTextField-root {
+  margin: 8px 0;
+  width: 100%;
+}
+
+/* Garantir que dividers funcionem */
+.MuiDivider-root {
+  margin: 16px 0;
+}
+
+/* Corrigir problemas específicos com layout flex */
+.MuiBox-root {
+  box-sizing: border-box;
+}
+
+/* Melhorar responsividade geral */
+@media (max-width: 768px) {
+  .MuiContainer-root {
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+  
+  .MuiCard-root {
+    margin-bottom: 8px;
+  }
+  
+  .MuiGrid-item {
+    padding-left: 4px;
+    padding-top: 4px;
+  }
+}
+
+/* Corrigir problemas de performance */
+.MuiBox-root * {
+  box-sizing: border-box;
+}
+
+/* Garantir que animações funcionem suavemente */
+.MuiFade-root,
+.MuiSlide-root,
+.MuiGrow-root {
+  will-change: transform, opacity;
+}
+
+/* Melhorar acessibilidade */
+.MuiButton-root:focus,
+.MuiIconButton-root:focus {
+  outline: 2px solid #1976d2;
+  outline-offset: 2px;
+}
+
+/* Corrigir problemas com backdrop */
+.MuiBackdrop-root {
+  z-index: 1200;
+  background-color: rgba(0,0,0,0.5);
+}
