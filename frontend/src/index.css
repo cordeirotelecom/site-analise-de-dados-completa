@@ -32,15 +32,16 @@ code {
   overflow: visible !important;
 }
 
-/* Layout flex corrigido */
+/* Layout flex corrigido - usando elementos HTML nativos */
 .main-layout {
   display: flex !important;
   min-height: 100vh !important;
   width: 100% !important;
   overflow: hidden !important;
+  box-sizing: border-box !important;
 }
 
-/* Correção para conteúdo principal */
+/* Correção para conteúdo principal - elemento HTML nativo */
 .main-content {
   flex-grow: 1 !important;
   padding: 24px !important;
@@ -57,6 +58,19 @@ code {
     margin-left: 280px !important;
     width: calc(100% - 280px) !important;
   }
+}
+
+/* Remover conflitos de Box aninhados */
+.main-layout .MuiBox-root {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Estilização específica para elementos nativos */
+.main-layout main {
+  background-color: #f5f5f5;
+  border: none;
+  outline: none;
 }
 
 /* Animações personalizadas */

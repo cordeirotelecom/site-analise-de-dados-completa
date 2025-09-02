@@ -133,9 +133,9 @@ function App() {
           <CssBaseline />
           <Suspense 
             fallback={
-              <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
+              <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
                 <CircularProgress size={60} />
-              </Box>
+              </div>
             }
           >
             <PaginaInicial onNavigateToTab={handleNavigateToTab} />
@@ -149,7 +149,7 @@ function App() {
     <ErrorBoundary>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <Box className="main-layout" sx={{ display: 'flex', minHeight: '100vh', overflow: 'hidden' }}>
+        <div className="main-layout" style={{ display: 'flex', minHeight: '100vh', overflow: 'hidden' }}>
           <AppBar position="fixed" sx={{ zIndex: theme.zIndex.drawer + 1 }}>
             <Toolbar>
               <IconButton
@@ -176,22 +176,23 @@ function App() {
             </Toolbar>
           </AppBar>
 
-        <Drawer
-          variant={isMobile ? 'temporary' : 'permanent'}
-          open={isMobile ? mobileOpen : true}
-          onClose={() => setMobileOpen(false)}
-          sx={{
-            width: 280,
-            flexShrink: 0,
-            '& .MuiDrawer-paper': {
+          <Drawer
+            variant={isMobile ? 'temporary' : 'permanent'}
+            open={isMobile ? mobileOpen : true}
+            onClose={() => setMobileOpen(false)}
+            sx={{
               width: 280,
-              boxSizing: 'border-box',
-              top: 64,
-              height: 'calc(100% - 64px)',
-            },
-          }}
-        >
-          <Box sx={{ overflow: 'auto', p: 1 }}>
+              flexShrink: 0,
+              '& .MuiDrawer-paper': {
+                width: 280,
+                boxSizing: 'border-box',
+                top: 64,
+                height: 'calc(100% - 64px)',
+                overflow: 'auto',
+                padding: 1,
+              },
+            }}
+          >
             <List>
               {menuItems.map((item) => (
                 <ListItem
@@ -210,44 +211,40 @@ function App() {
                 </ListItem>
               ))}
             </List>
-          </Box>
-        </Drawer>
-
-        <Box
-          className="main-content"
-          component="main"
-          sx={{
-            flexGrow: 1,
-            width: { xs: '100%', md: `calc(100% - 280px)` },
-            ml: { xs: 0, md: '280px' },
-            mt: '64px',
-            minHeight: 'calc(100vh - 64px)',
-            p: 3,
-            overflow: 'auto',
-            boxSizing: 'border-box',
-          }}
-        >
-          <Suspense 
-            fallback={
-              <Box display="flex" justifyContent="center" alignItems="center" height="50vh">
-                <CircularProgress size={60} />
-              </Box>
-            }
+          </Drawer>          <main
+            className="main-content"
+            style={{
+              flexGrow: 1,
+              width: isMobile ? '100%' : 'calc(100% - 280px)',
+              marginLeft: isMobile ? 0 : '280px',
+              marginTop: '64px',
+              minHeight: 'calc(100vh - 64px)',
+              padding: '24px',
+              overflow: 'auto',
+              boxSizing: 'border-box',
+            }}
           >
-            {currentTab === 0 && <UploadArea onDataUpload={handleDataUpload} />}
-            {currentTab === 1 && <AnaliseAvancada />}
-            {currentTab === 2 && <DashboardView data={uploadedData} />}
-            {currentTab === 3 && <RelatoriosCientificos />}
-            {currentTab === 4 && <MetodologiaCientificaAvancada />}
-            {currentTab === 5 && <CentroAprendizadoCompleto />}
-            {currentTab === 6 && <DatasetsESitesReais />}
-            {currentTab === 7 && <SistemaNotificacoes />}
-            {currentTab === 8 && <MonitoramentoTempoReal />}
-            {currentTab === 9 && <ConfiguracoesAvancadas />}
-          </Suspense>
-        </Box>
-      </Box>
-    </ThemeProvider>
+            <Suspense 
+              fallback={
+                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '50vh' }}>
+                  <CircularProgress size={60} />
+                </div>
+              }
+            >
+              {currentTab === 0 && <UploadArea onDataUpload={handleDataUpload} />}
+              {currentTab === 1 && <AnaliseAvancada />}
+              {currentTab === 2 && <DashboardView data={uploadedData} />}
+              {currentTab === 3 && <RelatoriosCientificos />}
+              {currentTab === 4 && <MetodologiaCientificaAvancada />}
+              {currentTab === 5 && <CentroAprendizadoCompleto />}
+              {currentTab === 6 && <DatasetsESitesReais />}
+              {currentTab === 7 && <SistemaNotificacoes />}
+              {currentTab === 8 && <MonitoramentoTempoReal />}
+              {currentTab === 9 && <ConfiguracoesAvancadas />}
+            </Suspense>
+          </main>
+        </div>
+      </ThemeProvider>
     </ErrorBoundary>
   );
 }
