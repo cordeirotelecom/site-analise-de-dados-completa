@@ -6,7 +6,6 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: #f5f5f5;
-  overflow-x: hidden;
 }
 
 code {
@@ -16,63 +15,6 @@ code {
 
 .App {
   text-align: center;
-}
-
-/* Correção para problemas de layout MUI Box */
-.MuiBox-root {
-  box-sizing: border-box !important;
-}
-
-/* Correção específica para a classe problemática */
-.css-ogmp5q, .css-1ie4lj9 {
-  margin: 0 !important;
-  padding: 0 !important;
-  width: 100% !important;
-  height: auto !important;
-  overflow: visible !important;
-  display: flex !important;
-  flex-direction: column !important;
-}
-
-/* Layout flex corrigido - usando elementos HTML nativos */
-.main-layout {
-  display: flex !important;
-  min-height: 100vh !important;
-  width: 100% !important;
-  overflow: hidden !important;
-  box-sizing: border-box !important;
-}
-
-/* Correção para conteúdo principal - elemento HTML nativo */
-.main-content {
-  flex-grow: 1 !important;
-  padding: 24px !important;
-  margin-top: 64px !important;
-  margin-left: 0 !important;
-  width: 100% !important;
-  box-sizing: border-box !important;
-  overflow-y: auto !important;
-  height: calc(100vh - 64px) !important;
-}
-
-@media (min-width: 900px) {
-  .main-content {
-    margin-left: 280px !important;
-    width: calc(100% - 280px) !important;
-  }
-}
-
-/* Remover conflitos de Box aninhados */
-.main-layout .MuiBox-root {
-  margin: 0 !important;
-  padding: 0 !important;
-}
-
-/* Estilização específica para elementos nativos */
-.main-layout main {
-  background-color: #f5f5f5;
-  border: none;
-  outline: none;
 }
 
 /* Animações personalizadas */
@@ -89,19 +31,6 @@ code {
 
 .fade-in {
   animation: fadeIn 0.6s ease-out;
-}
-
-/* Correção global para problemas de layout */
-* {
-  box-sizing: border-box;
-}
-
-html, body, #root {
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  height: 100%;
-  overflow-x: hidden;
 }
 
 /* Estilos para upload area */
