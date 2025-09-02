@@ -133,9 +133,9 @@ function App() {
           <CssBaseline />
           <Suspense 
             fallback={
-              <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+              <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
                 <CircularProgress size={60} />
-              </div>
+              </Box>
             }
           >
             <PaginaInicial onNavigateToTab={handleNavigateToTab} />
@@ -149,7 +149,7 @@ function App() {
     <ErrorBoundary>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <div className="main-layout" style={{ display: 'flex', minHeight: '100vh', overflow: 'hidden' }}>
+        <Box sx={{ display: 'flex', minHeight: '100vh' }}>
           <AppBar position="fixed" sx={{ zIndex: theme.zIndex.drawer + 1 }}>
             <Toolbar>
               <IconButton
@@ -188,47 +188,44 @@ function App() {
                 boxSizing: 'border-box',
                 top: 64,
                 height: 'calc(100% - 64px)',
-                overflow: 'auto',
-                padding: 1,
               },
             }}
           >
-            <List>
-              {menuItems.map((item) => (
-                <ListItem
-                  key={item.index}
-                  button
-                  onClick={() => handleNavigateToTab(item.index)}
-                  selected={currentTab === item.index}
-                  sx={{ mb: 0.5, borderRadius: 1 }}
-                >
-                  <ListItemIcon>
-                    {React.cloneElement(item.icon, {
-                      color: currentTab === item.index ? 'primary' : 'inherit'
-                    })}
-                  </ListItemIcon>
-                  <ListItemText primary={item.text} />
-                </ListItem>
-              ))}
-            </List>
-          </Drawer>          <main
-            className="main-content"
-            style={{
+            <Box sx={{ overflow: 'auto', p: 1 }}>
+              <List>
+                {menuItems.map((item) => (
+                  <ListItem
+                    key={item.index}
+                    button
+                    onClick={() => handleNavigateToTab(item.index)}
+                    selected={currentTab === item.index}
+                    sx={{ mb: 0.5, borderRadius: 1 }}
+                  >
+                    <ListItemIcon>
+                      {React.cloneElement(item.icon, {
+                        color: currentTab === item.index ? 'primary' : 'inherit'
+                      })}
+                    </ListItemIcon>
+                    <ListItemText primary={item.text} />
+                  </ListItem>
+                ))}
+              </List>
+            </Box>
+          </Drawer>          <Box
+            component="main"
+            sx={{
               flexGrow: 1,
-              width: isMobile ? '100%' : 'calc(100% - 280px)',
-              marginLeft: isMobile ? 0 : '280px',
-              marginTop: '64px',
-              minHeight: 'calc(100vh - 64px)',
-              padding: '24px',
-              overflow: 'auto',
-              boxSizing: 'border-box',
+              p: 3,
+              width: { sm: `calc(100% - 280px)` },
+              ml: { sm: '280px' },
+              mt: '64px',
             }}
           >
             <Suspense 
               fallback={
-                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '50vh' }}>
+                <Box display="flex" justifyContent="center" alignItems="center" height="50vh">
                   <CircularProgress size={60} />
-                </div>
+                </Box>
               }
             >
               {currentTab === 0 && <UploadArea onDataUpload={handleDataUpload} />}
@@ -242,8 +239,8 @@ function App() {
               {currentTab === 8 && <MonitoramentoTempoReal />}
               {currentTab === 9 && <ConfiguracoesAvancadas />}
             </Suspense>
-          </main>
-        </div>
+          </Box>
+        </Box>
       </ThemeProvider>
     </ErrorBoundary>
   );
