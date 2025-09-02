@@ -28,7 +28,9 @@ import {
   DialogContent,
   DialogActions,
   Chip,
-  Stack
+  Stack,
+  Tabs,
+  Tab
 } from '@mui/material';
 import {
   Settings,
@@ -45,8 +47,13 @@ import {
   NetworkCheck,
   Delete,
   Edit,
-  Add
+  Add,
+  Search,
+  Speed,
+  Cached
 } from '@mui/icons-material';
+import GerenciadorCacheAvancado from './GerenciadorCacheAvancado';
+import AnalisadorSEOPerformance from './AnalisadorSEOPerformance';
 
 interface ConfiguracoesGerais {
   tema: 'light' | 'dark' | 'auto';
@@ -75,6 +82,7 @@ interface ConfiguracoesSeguranca {
 }
 
 const ConfiguracoesAvancadas: React.FC = () => {
+  const [tabAtual, setTabAtual] = useState(0);
   const [configGerais, setConfigGerais] = useState<ConfiguracoesGerais>({
     tema: 'light',
     idioma: 'pt-BR',
@@ -204,12 +212,25 @@ const ConfiguracoesAvancadas: React.FC = () => {
         </Alert>
       )}
 
-      {/* Ações Principais */}
-      <Card sx={{ mb: 3 }}>
-        <CardContent>
-          <Typography variant="h6" gutterBottom>
-            Ações Rápidas
-          </Typography>
+      {/* Abas de Configuração */}
+      <Box sx={{ borderBottom: 1, borderColor: 'divider', mb: 3 }}>
+        <Tabs value={tabAtual} onChange={(_, newValue) => setTabAtual(newValue)}>
+          <Tab label="Gerais" icon={<Settings />} />
+          <Tab label="Cache" icon={<Storage />} />
+          <Tab label="SEO & Performance" icon={<Search />} />
+          <Tab label="Segurança" icon={<Security />} />
+        </Tabs>
+      </Box>
+
+      {/* Conteúdo das Abas */}
+      {tabAtual === 0 && (
+        <>
+          {/* Ações Principais */}
+          <Card sx={{ mb: 3 }}>
+            <CardContent>
+              <Typography variant="h6" gutterBottom>
+                Ações Rápidas
+              </Typography>
           
           <Stack direction="row" spacing={2} flexWrap="wrap">
             <Button
@@ -572,6 +593,30 @@ const ConfiguracoesAvancadas: React.FC = () => {
           <Button onClick={() => setDialogImport(false)}>Cancelar</Button>
         </DialogActions>
       </Dialog>
+      </>
+      )}
+
+      {/* Aba Cache */}
+      {tabAtual === 1 && (
+        <GerenciadorCacheAvancado />
+      )}
+
+      {/* Aba SEO & Performance */}
+      {tabAtual === 2 && (
+        <AnalisadorSEOPerformance />
+      )}
+
+      {/* Aba Segurança */}
+      {tabAtual === 3 && (
+        <Card>
+          <CardContent>
+            <Typography variant="h6">Configurações de Segurança</Typography>
+            <Typography variant="body2" color="text.secondary">
+              Funcionalidades de segurança avançadas em desenvolvimento...
+            </Typography>
+          </CardContent>
+        </Card>
+      )}
     </Box>
   );
 };
