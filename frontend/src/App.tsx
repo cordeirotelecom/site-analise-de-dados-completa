@@ -25,16 +25,20 @@ import {
   AutoAwesome,
   Public,
   Menu as MenuIcon,
+  Notifications,
+  MonitorHeart,
 } from '@mui/icons-material';
 
 import PaginaInicial from './components/PaginaInicial';
-import UploadAreaPro from './components/UploadAreaPro';
+import UploadArea from './components/UploadArea';
 import AnaliseAvancada from './components/AnaliseAvancada';
-import DashboardViewSimple from './components/DashboardViewSimple';
+import DashboardView from './components/DashboardView';
 import RelatoriosCientificos from './components/RelatoriosCientificos';
 import MetodologiaCientificaAvancada from './components/MetodologiaCientificaAvancada';
 import CentroAprendizadoCompleto from './components/CentroAprendizadoCompleto';
 import DatasetsESitesReais from './components/DatasetsESitesReais';
+import SistemaNotificacoes from './components/SistemaNotificacoes';
+import MonitoramentoTempoReal from './components/MonitoramentoTempoReal';
 
 const theme = createTheme({
   palette: {
@@ -112,6 +116,8 @@ function App() {
     { icon: <Science />, text: 'Metodologia Científica', index: 4 },
     { icon: <AutoAwesome />, text: 'Centro de Aprendizado', index: 5 },
     { icon: <Public />, text: 'Dados Públicos', index: 6 },
+    { icon: <Notifications />, text: 'Notificações', index: 7 },
+    { icon: <MonitorHeart />, text: 'Monitoramento', index: 8 },
   ];
 
   if (showWelcome) {
@@ -201,13 +207,15 @@ function App() {
             p: 3,
           }}
         >
-          {currentTab === 0 && <UploadAreaPro onDataUpload={handleDataUpload} />}
+          {currentTab === 0 && <UploadArea onDataUpload={handleDataUpload} />}
           {currentTab === 1 && <AnaliseAvancada />}
-          {currentTab === 2 && <DashboardViewSimple data={uploadedData} />}
+          {currentTab === 2 && <DashboardView data={uploadedData} />}
           {currentTab === 3 && <RelatoriosCientificos />}
           {currentTab === 4 && <MetodologiaCientificaAvancada />}
           {currentTab === 5 && <CentroAprendizadoCompleto />}
           {currentTab === 6 && <DatasetsESitesReais />}
+          {currentTab === 7 && <SistemaNotificacoes />}
+          {currentTab === 8 && <MonitoramentoTempoReal />}
         </Box>
       </Box>
     </ThemeProvider>

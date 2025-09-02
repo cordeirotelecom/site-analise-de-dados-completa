@@ -4,50 +4,360 @@ import {
   Card,
   CardContent,
   Typography,
+  Alert,
   Button,
-  Grid,
   List,
   ListItem,
-  ListItemText,
   ListItemIcon,
+  ListItemText,
   ListItemSecondaryAction,
-  IconButton,
-  Badge,
-  Chip,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  TextField,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
   Switch,
-  FormControlLabel,
-  Tabs,
-  Tab,
-  Alert,
-  Snackbar,
-  Avatar,
+  Chip,
   Divider,
+  LinearProgress,
+  Grid,
+  IconButton,
   Tooltip,
-  Menu,
-  Fab
+  Paper,
+  Stack
 } from '@mui/material';
 import {
   Notifications,
-  NotificationsActive,
-  Email,
-  Sms,
   Warning,
-  Info,
   CheckCircle,
   Error,
-  Delete,
-  MarkEmailRead,
+  Info,
   Settings,
-  Add,
+  Refresh,
+  Delete,
+  NotificationsActive,
+  Schedule,
+  TrendingUp,
+  Storage,
+  CloudSync,
+  Security
+} from '@mui/icons-material';
+
+interface Notification {
+  id: string;
+  type: 'success' | 'warning' | 'error' | 'info';
+  title: string;
+  message: string;
+  timestamp: Date;
+  read: boolean;
+  action?: {
+    label: string;
+    handler: () => void;
+  };
+}
+
+interface SystemStatus {
+  component: string;
+  status: 'online' | 'warning' | 'error' | 'maintenance';
+  uptime: number;
+  lastCheck: Date;
+  response_time: number;
+}
+
+const SistemaNotificacoes: React.FC = () => {
+  const [notifications, setNotifications] = useState<Notification[]>([]);
+  const [systemStatus, setSystemStatus] = useState<SystemStatus[]>([]);
+  const [enableNotifications, setEnableNotifications] = useState(true);
+  const [loading, setLoading] = useState(false);
+
+  // Simular dados do sistema
+  useEffect(() => {
+    // Notificações iniciais
+    const initialNotifications: Notification[] = [
+      {
+        id: '1',
+        type: 'success',
+        title: 'Upload Concluído',
+        message: 'Arquivo dataset_vendas.csv foi processado com sucesso.',
+        timestamp: new Date(Date.now() - 5 * 60 * 1000),
+        read: false
+      },
+      {
+        id: '2',
+        type: 'info',
+        title: 'Nova API Disponível',
+        message: 'API do IBGE - Indicadores Econômicos foi adicionada ao catálogo.',
+        timestamp: new Date(Date.now() - 15 * 60 * 1000),
+        read: false,
+        action: {
+          label: 'Ver API',
+          handler: () => console.log('Navegar para APIs')
+        }
+      },
+      {
+        id: '3',
+        type: 'warning',
+        title: 'Limite de API Próximo',
+        message: 'Você utilizou 85% do seu limite mensal da API do Banco Central.',
+        timestamp: new Date(Date.now() - 2 * 60 * 60 * 1000),
+        read: true
+      }
+    ];
+
+    // Status do sistema
+    const initialStatus: SystemStatus[] = [
+      {
+        component: 'Backend API',
+        status: 'online',
+        uptime: 99.8,
+        lastCheck: new Date(),
+        response_time: 120
+      },
+      {
+        component: 'Banco de Dados',
+        status: 'online',
+        uptime: 99.9,
+        lastCheck: new Date(),
+        response_time: 45
+      },
+      {
+        component: 'APIs Externas',
+        status: 'warning',
+        uptime: 97.5,
+        lastCheck: new Date(),
+        response_time: 350
+      }
+    ];
+
+    setNotifications(initialNotifications);
+    setSystemStatus(initialStatus);
+  }, []);
+
+  const markAsRead = (id: string) => {
+    setNotifications(prev =>
+      prev.map(notif =>
+        notif.id === id ? { ...notif, read: true } : notif
+      )
+    );
+  };
+
+  const deleteNotification = (id: string) => {
+    setNotifications(prev => prev.filter(notif => notif.id !== id));
+  };
+
+  const refreshSystemStatus = async () => {
+    setLoading(true);
+    await new Promise(resolve => setTimeout(resolve, 2000));
+    
+    setSystemStatus(prev =>
+      prev.map(status => ({
+        ...status,
+        lastCheck: new Date(),
+        response_time: Math.floor(Math.random() * 500) + 50
+      }))
+    );
+    setLoading(false);
+  };
+
+  const getStatusIcon = (type: string) => {
+    switch (type) {
+      case 'success': return <CheckCircle color="success" />;
+      case 'warning': return <Warning color="warning" />;
+      case 'error': return <Error color="error" />;
+      case 'info': return <Info color="info" />;
+      default: return <Notifications />;
+    }
+  };
+
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case 'online': return 'success';
+      case 'warning': return 'warning';
+      case 'error': return 'error';
+      case 'maintenance': return 'info';
+      default: return 'default';
+    }
+  };
+
+  const unreadCount = notifications.filter(n => !n.read).length;
+
+  return (
+    <Box sx={{ p: 3 }}>
+      {/* Header */}
+      <Box sx={{ mb: 3, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+          <NotificationsActive color="primary" sx={{ fontSize: 32 }} />
+          <Typography variant="h4" component="h1" fontWeight="bold">
+            Centro de Notificações
+          </Typography>
+          {unreadCount > 0 && (
+            <Chip 
+              label={`${unreadCount} não lidas`} 
+              color="error" 
+              size="small" 
+            />
+          )}
+        </Box>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+          <Typography variant="body2">Notificações ativas</Typography>
+          <Switch
+            checked={enableNotifications}
+            onChange={(e) => setEnableNotifications(e.target.checked)}
+            color="primary"
+          />
+        </Box>
+      </Box>
+
+      <Grid container spacing={3}>
+        {/* Status do Sistema */}
+        <Grid item xs={12} md={6}>
+          <Card>
+            <CardContent>
+              <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>
+                <Typography variant="h6" fontWeight="bold">
+                  Status do Sistema
+                </Typography>
+                <Tooltip title="Atualizar status">
+                  <IconButton onClick={refreshSystemStatus} disabled={loading}>
+                    <Refresh />
+                  </IconButton>
+                </Tooltip>
+              </Box>
+
+              {loading && <LinearProgress sx={{ mb: 2 }} />}
+
+              <List>
+                {systemStatus.map((status, index) => (
+                  <React.Fragment key={status.component}>
+                    <ListItem>
+                      <ListItemIcon>
+                        <Storage />
+                      </ListItemIcon>
+                      <ListItemText
+                        primary={status.component}
+                        secondary={
+                          <Box>
+                            <Typography variant="caption" display="block">
+                              Uptime: {status.uptime}% | Resp: {status.response_time}ms
+                            </Typography>
+                            <Typography variant="caption" color="textSecondary">
+                              Última verificação: {status.lastCheck.toLocaleTimeString()}
+                            </Typography>
+                          </Box>
+                        }
+                      />
+                      <ListItemSecondaryAction>
+                        <Chip
+                          label={status.status}
+                          color={getStatusColor(status.status) as any}
+                          size="small"
+                          variant="outlined"
+                        />
+                      </ListItemSecondaryAction>
+                    </ListItem>
+                    {index < systemStatus.length - 1 && <Divider />}
+                  </React.Fragment>
+                ))}
+              </List>
+            </CardContent>
+          </Card>
+        </Grid>
+
+        {/* Notificações */}
+        <Grid item xs={12} md={6}>
+          <Card>
+            <CardContent>
+              <Typography variant="h6" fontWeight="bold" sx={{ mb: 2 }}>
+                Notificações Recentes
+              </Typography>
+
+              {notifications.length === 0 ? (
+                <Paper sx={{ p: 3, textAlign: 'center', bgcolor: 'grey.50' }}>
+                  <Notifications color="disabled" sx={{ fontSize: 48, mb: 1 }} />
+                  <Typography variant="body2" color="textSecondary">
+                    Nenhuma notificação
+                  </Typography>
+                </Paper>
+              ) : (
+                <List>
+                  {notifications.map((notification, index) => (
+                    <React.Fragment key={notification.id}>
+                      <ListItem
+                        sx={{
+                          bgcolor: notification.read ? 'transparent' : 'action.hover',
+                          borderRadius: 1,
+                          mb: 1
+                        }}
+                      >
+                        <ListItemIcon>
+                          {getStatusIcon(notification.type)}
+                        </ListItemIcon>
+                        <ListItemText
+                          primary={
+                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                              <Typography 
+                                variant="subtitle2" 
+                                fontWeight={notification.read ? 'normal' : 'bold'}
+                              >
+                                {notification.title}
+                              </Typography>
+                              {!notification.read && (
+                                <Chip label="Nova" color="primary" size="small" />
+                              )}
+                            </Box>
+                          }
+                          secondary={
+                            <Box>
+                              <Typography variant="body2" sx={{ mb: 0.5 }}>
+                                {notification.message}
+                              </Typography>
+                              <Typography variant="caption" color="textSecondary">
+                                {new Date(notification.timestamp).toLocaleString()}
+                              </Typography>
+                              {notification.action && (
+                                <Button
+                                  size="small"
+                                  color="primary"
+                                  onClick={notification.action.handler}
+                                  sx={{ ml: 1 }}
+                                >
+                                  {notification.action.label}
+                                </Button>
+                              )}
+                            </Box>
+                          }
+                        />
+                        <ListItemSecondaryAction>
+                          <Stack direction="row" spacing={1}>
+                            {!notification.read && (
+                              <Tooltip title="Marcar como lida">
+                                <IconButton
+                                  size="small"
+                                  onClick={() => markAsRead(notification.id)}
+                                >
+                                  <CheckCircle fontSize="small" />
+                                </IconButton>
+                              </Tooltip>
+                            )}
+                            <Tooltip title="Excluir">
+                              <IconButton
+                                size="small"
+                                onClick={() => deleteNotification(notification.id)}
+                              >
+                                <Delete fontSize="small" />
+                              </IconButton>
+                            </Tooltip>
+                          </Stack>
+                        </ListItemSecondaryAction>
+                      </ListItem>
+                    </React.Fragment>
+                  ))}
+                </List>
+              )}
+            </CardContent>
+          </Card>
+        </Grid>
+      </Grid>
+    </Box>
+  );
+};
+
+export default SistemaNotificacoes;
   Close,
   Schedule,
   Person,
