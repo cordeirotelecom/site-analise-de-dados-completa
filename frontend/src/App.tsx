@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, Suspense, lazy } from 'react';
 import {
   Box,
   ThemeProvider,
@@ -21,6 +21,8 @@ import {
   CardContent,
   Grid,
   Stack,
+  CircularProgress,
+  Alert,
 } from '@mui/material';
 import {
   Home,
@@ -37,349 +39,339 @@ import {
   Settings,
   Backup,
   Storage,
-  TrendingUp
+  TrendingUp,
+  Description,
+  SmartToy,
 } from '@mui/icons-material';
 
-import PaginaInicial from './components/PaginaInicial';
-import UploadArea from './components/UploadArea';
-import AnaliseAvancada from './components/AnaliseAvancada';
-import DashboardView from './components/DashboardView';
-import RelatoriosCientificos from './components/RelatoriosCientificos';
-import RelatoriosCompletosStaCatarina from './components/RelatoriosCompletosStaCatarina';
-import MetodologiaCientificaAvancada from './components/MetodologiaCientificaAvancada';
-import CentroAprendizadoCompleto from './components/CentroAprendizadoCompleto';
-import DatasetsESitesReais from './components/DatasetsESitesReais';
-import SistemaNotificacoes from './components/SistemaNotificacoes';
-import MonitoramentoTempoReal from './components/MonitoramentoTempoReal';
-import ConfiguracoesAvancadas from './components/ConfiguracoesAvancadas';
-import DadosAbertosCompleto from './components/DadosAbertosCompleto';
-import BackupAvancado from './components/BackupAvancado';
-import AnalisePreditivaIA from './components/AnalisePreditivaIA';
-import BigDataAnalytics from './components/BigDataAnalytics';
-
-const theme = createTheme({
-  palette: {
-    mode: 'light',
-    primary: {
-      main: '#1976d2',
-      light: '#42a5f5',
-      dark: '#1565c0',
-    },
-    secondary: {
-      main: '#dc004e',
-    },
-    background: {
-      default: '#f5f5f5',
-    },
-  },
-  typography: {
-    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
-    h6: {
-      fontWeight: 600,
-    },
-  },
+// Lazy loading components para melhor performance
+const UploadArea = lazy(() => import('./components/UploadArea'));
+const AnaliseAvancada = lazy(() => import('./components/AnaliseAvancada'));
+const DashboardView = lazy(() => import('./components/DashboardView'));
+const RelatoriosCientificos = lazy(() => import('./components/RelatoriosCientificos'));
+const RelatoriosCompletosStaCatarina = lazy(() => import('./components/RelatoriosCompletosStaCatarina'));
+const MetodologiaCientificaAvancada = lazy(() => import('./components/MetodologiaCientificaAvancada'));
+const CentroAprendizadoCompleto = lazy(() => import('./components/CentroAprendizadoCompleto'));
+const DatasetsESitesReais = lazy(() => import('./components/DatasetsESitesReais'));
+const DadosAbertosCompleto = lazy(() => import('./components/DadosAbertosCompleto'));
+const AnalisePreditivaIA = lazy(() => import('./components/AnalisePreditivaIA'));
+const BigDataAnalytics = lazy(() => import('./components/BigDataAnalytics'));
+const SistemaNotificacoes = lazy(() => import('./components/SistemaNotificacoes'));
+const MonitoramentoTempoReal = lazy(() => import('./components/MonitoramentoTempoReal'));
+const BackupAvancado = lazy(() => import('./components/BackupAvancado'));
+const ConfiguracoesAvancadas = lazy(() => import('./components/ConfiguracoesAvancadas'));const theme = createTheme({
+	palette: {
+		mode: 'light',
+		primary: { main: '#1976d2' },
+		secondary: { main: '#dc004e' },
+	},
 });
 
 const App: React.FC = () => {
   const [currentTab, setCurrentTab] = useState(0);
-  const [showWelcome, setShowWelcome] = useState(true);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [uploadedData, setUploadedData] = useState<any>(null);
+  const [showWelcome, setShowWelcome] = useState(true);
+  const isMobile = useMediaQuery('(max-width:600px)');
 
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+  const menuItems = [
+    { index: 0, label: 'Upload de Dados', icon: <CloudUpload /> },
+    { index: 1, label: 'Análise Avançada', icon: <Analytics /> },
+    { index: 2, label: 'Dashboard', icon: <Assessment /> },
+    { index: 3, label: 'Relatórios Científicos', icon: <Description /> },
+    { index: 4, label: 'Santa Catarina', icon: <Public /> },
+    { index: 5, label: 'Metodologia Científica', icon: <Science /> },
+    { index: 6, label: 'Centro de Aprendizado', icon: <MenuBook /> },
+    { index: 7, label: 'Datasets e Sites', icon: <Storage /> },
+    { index: 8, label: 'Dados Abertos Completo', icon: <Storage /> },
+    { index: 9, label: 'IA Preditiva', icon: <TrendingUp /> },
+    { index: 10, label: 'BigData Analytics', icon: <Storage /> },
+    { index: 11, label: 'Notificações', icon: <Notifications /> },
+    { index: 12, label: 'Monitoramento', icon: <MonitorHeart /> },
+    { index: 13, label: 'Backup Avançado', icon: <Backup /> },
+    { index: 14, label: 'Configurações', icon: <Settings /> },
+  ];
 
+  const handleDrawerToggle = () => setMobileOpen(!mobileOpen);
   const handleNavigateToTab = (tabIndex: number) => {
     setCurrentTab(tabIndex);
     setShowWelcome(false);
-    setMobileOpen(false);
+    if (isMobile) setMobileOpen(false);
   };
-
-  const handleBackToHome = () => {
-    setShowWelcome(true);
-    setCurrentTab(0);
-    setMobileOpen(false);
-  };
-
-  const handleDataUpload = (data: any) => {
-    setUploadedData(data);
-    setShowWelcome(false);
-    setCurrentTab(1);
-  };
-
-  const menuItems = [
-    { icon: <CloudUpload />, text: 'Upload de Dados', index: 0 },
-    { icon: <Analytics />, text: 'Análise Avançada', index: 1 },
-    { icon: <Assessment />, text: 'Dashboard', index: 2 },
-    { icon: <MenuBook />, text: 'Relatórios Científicos', index: 3 },
-    { icon: <MenuBook />, text: 'Relatórios PDF Santa Catarina', index: 4 },
-    { icon: <Science />, text: 'Metodologia Científica', index: 5 },
-    { icon: <AutoAwesome />, text: 'Centro de Aprendizado', index: 6 },
-    { icon: <Public />, text: 'Datasets e Sites Reais', index: 7 },
-    { icon: <Storage />, text: 'Dados Abertos Completo', index: 8 },
-    { icon: <TrendingUp />, text: 'IA Preditiva', index: 9 },
-    { icon: <Storage />, text: 'BigData Analytics', index: 10 },
-    { icon: <Notifications />, text: 'Sistema de Notificações', index: 11 },
-    { icon: <MonitorHeart />, text: 'Monitoramento', index: 12 },
-    { icon: <Backup />, text: 'Backup Avançado', index: 13 },
-    { icon: <Settings />, text: 'Configurações', index: 14 },
-  ];
-
-  if (showWelcome) {
-    return (
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <Box sx={{ minHeight: '100vh', p: 3 }}>
-          <Container maxWidth="xl">
-            {/* Hero Section */}
-            <Paper
-              elevation={0}
-              sx={{
-                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                color: 'white',
-                p: 6,
-                mb: 4,
-                borderRadius: 3,
-                textAlign: 'center'
-              }}
-            >
-              <Typography variant="h2" component="h1" gutterBottom fontWeight="bold">
-                🚀 DataScience Pro
-              </Typography>
-              <Typography variant="h5" sx={{ mb: 3, opacity: 0.9 }}>
-                Plataforma Completa de Análise de Dados e Machine Learning
-              </Typography>
-              <Typography variant="body1" sx={{ mb: 4, fontSize: '1.1rem' }}>
-                Transforme seus dados em insights valiosos com nossa suíte completa de ferramentas científicas
-              </Typography>
-              <Stack direction="row" spacing={2} justifyContent="center">
-                <Button
-                  variant="contained"
-                  size="large"
-                  startIcon={<CloudUpload />}
-                  onClick={() => handleNavigateToTab(0)}
-                  sx={{
-                    bgcolor: 'rgba(255,255,255,0.2)',
-                    '&:hover': { bgcolor: 'rgba(255,255,255,0.3)' }
-                  }}
-                >
-                  Começar Análise
-                </Button>
-                <Button
-                  variant="outlined"
-                  size="large"
-                  startIcon={<Assessment />}
-                  onClick={() => handleNavigateToTab(2)}
-                  sx={{
-                    borderColor: 'white',
-                    color: 'white',
-                    '&:hover': { borderColor: 'white', bgcolor: 'rgba(255,255,255,0.1)' }
-                  }}
-                >
-                  Ver Dashboard
-                </Button>
-              </Stack>
-            </Paper>
-
-            {/* Features Grid */}
-            <Grid container spacing={3}>
-              <Grid item xs={12} md={4}>
-                <Card sx={{ height: '100%', cursor: 'pointer' }} onClick={() => handleNavigateToTab(4)}>
-                  <CardContent>
-                    <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-                      <MenuBook sx={{ mr: 2, fontSize: 40, color: 'primary.main' }} />
-                      <Typography variant="h6">Relatórios PDF SC</Typography>
-                    </Box>
-                    <Typography variant="body2" color="text.secondary">
-                      Gere relatórios completos em PDF com dados oficiais de Santa Catarina
-                    </Typography>
-                  </CardContent>
-                </Card>
-              </Grid>
+  const handleDataUpload = (data: any) => setUploadedData(data);	if (showWelcome) {
+		return (
+			<ThemeProvider theme={theme}>
+				<CssBaseline />
+				<Box sx={{ 
+					minHeight: '100vh', 
+					background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+					display: 'flex',
+					alignItems: 'center',
+				}}>
+					<Container maxWidth="lg">
+						<Paper elevation={20} sx={{ 
+							p: 6, 
+							borderRadius: 4, 
+							textAlign: 'center', 
+							background: 'rgba(255,255,255,0.95)',
+						}}>
+							<Typography variant="h2" component="h1" gutterBottom sx={{ 
+								fontWeight: 'bold', 
+								color: '#1976d2', 
+								mb: 3,
+							}}>
+								🧠 DataScience Pro
+							</Typography>
+							<Typography variant="h5" component="h2" gutterBottom sx={{ 
+								color: '#666', 
+								mb: 4,
+							}}>
+								Portal Completo de Análise de Dados e Ciência de Dados
+							</Typography>
               
-              <Grid item xs={12} md={4}>
-                <Card sx={{ height: '100%', cursor: 'pointer' }} onClick={() => handleNavigateToTab(10)}>
-                  <CardContent>
-                    <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-                      <Storage sx={{ mr: 2, fontSize: 40, color: 'secondary.main' }} />
-                      <Typography variant="h6">BigData Analytics</Typography>
-                    </Box>
-                    <Typography variant="body2" color="text.secondary">
-                      Plataforma para processamento de grandes volumes de dados em tempo real
-                    </Typography>
-                  </CardContent>
-                </Card>
-              </Grid>
-              
-              <Grid item xs={12} md={4}>
-                <Card sx={{ height: '100%', cursor: 'pointer' }} onClick={() => handleNavigateToTab(9)}>
-                  <CardContent>
-                    <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-                      <TrendingUp sx={{ mr: 2, fontSize: 40, color: 'success.main' }} />
-                      <Typography variant="h6">IA Preditiva</Typography>
-                    </Box>
-                    <Typography variant="body2" color="text.secondary">
-                      Modelos avançados de machine learning e predição automática
-                    </Typography>
-                  </CardContent>
-                </Card>
-              </Grid>
-            </Grid>
+							<Grid container spacing={3} sx={{ mb: 4 }}>
+								<Grid item xs={12} md={4}>
+									<Card sx={{ 
+										height: '100%', 
+										transition: 'all 0.3s ease', 
+										'&:hover': { 
+											transform: 'translateY(-8px)', 
+										},
+										cursor: 'pointer',
+									}} onClick={() => handleNavigateToTab(1)}>
+										<CardContent sx={{ textAlign: 'center', p: 3 }}>
+											<Analytics sx={{ fontSize: 60, color: '#1976d2', mb: 2 }} />
+											<Typography variant="h6" gutterBottom>
+												Análise Avançada
+											</Typography>
+											<Typography variant="body2" color="text.secondary">
+												Ferramentas completas de análise estatística
+											</Typography>
+										</CardContent>
+									</Card>
+								</Grid>
+								<Grid item xs={12} md={4}>
+									<Card sx={{ 
+										height: '100%', 
+										transition: 'all 0.3s ease', 
+										'&:hover': { 
+											transform: 'translateY(-8px)', 
+										},
+										cursor: 'pointer',
+									}} onClick={() => handleNavigateToTab(4)}>
+										<CardContent sx={{ textAlign: 'center', p: 3 }}>
+											<Public sx={{ fontSize: 60, color: '#1976d2', mb: 2 }} />
+											<Typography variant="h6" gutterBottom>
+												Santa Catarina
+											</Typography>
+											<Typography variant="body2" color="text.secondary">
+												Dados abertos de Santa Catarina
+											</Typography>
+										</CardContent>
+									</Card>
+								</Grid>
+								<Grid item xs={12} md={4}>
+									<Card sx={{ 
+										height: '100%', 
+										transition: 'all 0.3s ease', 
+										'&:hover': { 
+											transform: 'translateY(-8px)', 
+										},
+										cursor: 'pointer',
+									}} onClick={() => handleNavigateToTab(5)}>
+										<CardContent sx={{ textAlign: 'center', p: 3 }}>
+											<Storage sx={{ fontSize: 60, color: '#1976d2', mb: 2 }} />
+											<Typography variant="h6" gutterBottom>
+												BigData Analytics
+											</Typography>
+											<Typography variant="body2" color="text.secondary">
+												Processamento de grandes volumes
+											</Typography>
+										</CardContent>
+									</Card>
+								</Grid>
+							</Grid>
 
-            {/* Quick Stats */}
-            <Paper sx={{ p: 3, mt: 4 }}>
-              <Typography variant="h6" gutterBottom>📊 Estatísticas da Plataforma</Typography>
-              <Grid container spacing={3}>
-                <Grid item xs={12} sm={3}>
-                  <Box textAlign="center">
-                    <Typography variant="h4" color="primary">15</Typography>
-                    <Typography variant="body2">Módulos Disponíveis</Typography>
-                  </Box>
-                </Grid>
-                <Grid item xs={12} sm={3}>
-                  <Box textAlign="center">
-                    <Typography variant="h4" color="secondary">606TB</Typography>
-                    <Typography variant="body2">Dados Processados</Typography>
-                  </Box>
-                </Grid>
-                <Grid item xs={12} sm={3}>
-                  <Box textAlign="center">
-                    <Typography variant="h4" color="success.main">8</Typography>
-                    <Typography variant="body2">Municípios SC</Typography>
-                  </Box>
-                </Grid>
-                <Grid item xs={12} sm={3}>
-                  <Box textAlign="center">
-                    <Typography variant="h4" color="info.main">4</Typography>
-                    <Typography variant="body2">Clusters BigData</Typography>
-                  </Box>
-                </Grid>
-              </Grid>
-            </Paper>
-          </Container>
-        </Box>
-      </ThemeProvider>
-    );
-  }
+							<Button
+								variant="contained"
+								size="large"
+								onClick={() => setShowWelcome(false)}
+								sx={{
+									px: 6,
+									py: 2,
+									fontSize: '1.2rem',
+									borderRadius: 3,
+									background: 'linear-gradient(45deg, #1976d2 30%, #42a5f5 90%)',
+								}}
+							>
+								🚀 Começar Análise
+							</Button>
+						</Paper>
+					</Container>
+				</Box>
+			</ThemeProvider>
+		);
+	}
 
-  const drawerContent = (
-    <Box sx={{ overflow: 'auto', p: 1 }}>
-      <List>
-        {menuItems.map((item) => (
-          <ListItem
-            key={item.index}
-            button
-            onClick={() => handleNavigateToTab(item.index)}
-            selected={currentTab === item.index}
-            sx={{ mb: 0.5, borderRadius: 1 }}
-          >
-            <ListItemIcon>
-              {React.cloneElement(item.icon, {
-                color: currentTab === item.index ? 'primary' : 'inherit'
-              })}
-            </ListItemIcon>
-            <ListItemText primary={item.text} />
-          </ListItem>
-        ))}
-      </List>
-    </Box>
-  );
+	const drawerContent = (
+		<Box sx={{ overflow: 'auto', p: 1 }}>
+			<List>
+				{menuItems.map((item) => (
+					<ListItem
+						key={item.index}
+						button
+						onClick={() => handleNavigateToTab(item.index)}
+						selected={currentTab === item.index}
+						sx={{ mb: 0.5, borderRadius: 2 }}
+					>
+						<ListItemIcon>
+							{item.icon}
+						</ListItemIcon>
+						<ListItemText primary={item.label} />
+					</ListItem>
+				))}
+			</List>
+		</Box>
+	);
 
-  return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <Box sx={{ display: 'flex', minHeight: '100vh' }}>
-        <AppBar
-          position="fixed"
-          sx={{
-            width: { sm: `calc(100% - 240px)` },
-            ml: { sm: `240px` },
-          }}
-        >
-          <Toolbar>
-            <IconButton
-              color="inherit"
-              aria-label="open drawer"
-              edge="start"
-              onClick={() => setMobileOpen(!mobileOpen)}
-              sx={{ mr: 2, display: { sm: 'none' } }}
-            >
-              <MenuIcon />
-            </IconButton>
-            
-            <IconButton
-              color="inherit"
-              onClick={handleBackToHome}
-              sx={{ mr: 2 }}
-            >
-              <Home />
-            </IconButton>
-            
-            <Typography variant="h6" noWrap component="div">
-              DataScience Pro - Portal Completo
-            </Typography>
-          </Toolbar>
-        </AppBar>
+  const renderComponent = () => {
+    try {
+      switch (currentTab) {
+        case 0: return <UploadArea onDataUpload={handleDataUpload} />;
+        case 1: return <AnaliseAvancada />;
+        case 2: return <DashboardView data={uploadedData} />;
+        case 3: return <RelatoriosCientificos />;
+        case 4: return <RelatoriosCompletosStaCatarina />;
+        case 5: return <MetodologiaCientificaAvancada />;
+        case 6: return <CentroAprendizadoCompleto />;
+        case 7: return <DatasetsESitesReais />;
+        case 8: return <DadosAbertosCompleto />;
+        case 9: return <AnalisePreditivaIA />;
+        case 10: return <BigDataAnalytics />;
+        case 11: return <SistemaNotificacoes />;
+        case 12: return <MonitoramentoTempoReal />;
+        case 13: return <BackupAvancado />;
+        case 14: return <ConfiguracoesAvancadas />;
+        default: return (
+          <Alert severity="error" sx={{ m: 2 }}>
+            Componente não encontrado para a aba {currentTab}
+          </Alert>
+        );
+      }
+    } catch (error) {
+      return (
+        <Alert severity="error" sx={{ m: 2 }}>
+          Erro ao carregar o componente: {error instanceof Error ? error.message : 'Erro desconhecido'}
+        </Alert>
+      );
+    }
+  };	return (
+		<ThemeProvider theme={theme}>
+			<CssBaseline />
+			<Box sx={{ display: 'flex', minHeight: '100vh' }}>
+				<AppBar 
+					position="fixed" 
+					sx={{ 
+						zIndex: (theme) => theme.zIndex.drawer + 1,
+						width: { sm: `calc(100% - 240px)` },
+						ml: { sm: `240px` },
+					}}
+				>
+					<Toolbar>
+						<IconButton
+							color="inherit"
+							edge="start"
+							onClick={handleDrawerToggle}
+							sx={{ mr: 2, display: { sm: 'none' } }}
+						>
+							<MenuIcon />
+						</IconButton>
+						<Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }}>
+							🧠 DataScience Pro - {menuItems[currentTab]?.label || 'Carregando...'}
+						</Typography>
+						<Button
+							color="inherit"
+							onClick={() => setShowWelcome(true)}
+							sx={{ border: '1px solid rgba(255,255,255,0.3)', borderRadius: 2 }}
+						>
+							<Home sx={{ mr: 1 }} />
+							Início
+						</Button>
+					</Toolbar>
+				</AppBar>
 
-        <Box
-          component="nav"
-          sx={{ width: { sm: 240 }, flexShrink: { sm: 0 } }}
-        >
-          <Drawer
-            variant="temporary"
-            open={mobileOpen}
-            onClose={() => setMobileOpen(false)}
-            ModalProps={{
-              keepMounted: true,
-            }}
-            sx={{
-              display: { xs: 'block', sm: 'none' },
-              '& .MuiDrawer-paper': { boxSizing: 'border-box', width: 240 },
-            }}
-          >
-            {drawerContent}
-          </Drawer>
-          
-          <Drawer
-            variant="permanent"
-            sx={{
-              display: { xs: 'none', sm: 'block' },
-              '& .MuiDrawer-paper': { boxSizing: 'border-box', width: 240 },
-            }}
-            open
-          >
-            {drawerContent}
-          </Drawer>
-        </Box>
+				<Box
+					component="nav"
+					sx={{ width: { sm: 240 }, flexShrink: { sm: 0 } }}
+				>
+					<Drawer
+						variant="temporary"
+						open={mobileOpen}
+						onClose={handleDrawerToggle}
+						ModalProps={{ keepMounted: true }}
+						sx={{
+							display: { xs: 'block', sm: 'none' },
+							'& .MuiDrawer-paper': { 
+								boxSizing: 'border-box', 
+								width: 240,
+								zIndex: (theme) => theme.zIndex.appBar - 1,
+							},
+						}}
+					>
+						<Toolbar />
+						{drawerContent}
+					</Drawer>
 
-        <Box
-          component="main"
-          sx={{
-            flexGrow: 1,
-            p: 3,
-            width: { sm: `calc(100% - 240px)` },
-            mt: '64px', // Altura da AppBar
-            overflow: 'auto'
-          }}
-        >
-          {currentTab === 0 && <UploadArea onDataUpload={handleDataUpload} />}
-          {currentTab === 1 && <AnaliseAvancada />}
-          {currentTab === 2 && <DashboardView data={uploadedData} />}
-          {currentTab === 3 && <RelatoriosCientificos />}
-          {currentTab === 4 && <RelatoriosCompletosStaCatarina />}
-          {currentTab === 5 && <MetodologiaCientificaAvancada />}
-          {currentTab === 6 && <CentroAprendizadoCompleto />}
-          {currentTab === 7 && <DatasetsESitesReais />}
-          {currentTab === 8 && <DadosAbertosCompleto />}
-          {currentTab === 9 && <AnalisePreditivaIA />}
-          {currentTab === 10 && <BigDataAnalytics />}
-          {currentTab === 11 && <SistemaNotificacoes />}
-          {currentTab === 12 && <MonitoramentoTempoReal />}
-          {currentTab === 13 && <BackupAvancado />}
-          {currentTab === 14 && <ConfiguracoesAvancadas />}
-        </Box>
-      </Box>
-    </ThemeProvider>
-  );
+					<Drawer
+						variant="permanent"
+						sx={{
+							display: { xs: 'none', sm: 'block' },
+							'& .MuiDrawer-paper': { 
+								boxSizing: 'border-box', 
+								width: 240,
+								position: 'relative',
+								height: '100vh',
+								borderRight: '1px solid rgba(0, 0, 0, 0.12)',
+							},
+						}}
+						open
+					>
+						<Toolbar />
+						{drawerContent}
+					</Drawer>
+				</Box>
+
+				<Box
+					component="main"
+					sx={{
+						flexGrow: 1,
+						p: 3,
+						width: { sm: `calc(100% - 240px)` },
+						marginTop: '64px',
+						overflow: 'auto',
+						minHeight: 'calc(100vh - 64px)',
+					}}
+				>
+					<Suspense fallback={
+						<Box sx={{ 
+							display: 'flex', 
+							justifyContent: 'center', 
+							alignItems: 'center', 
+							minHeight: '400px',
+							flexDirection: 'column',
+						}}>
+							<CircularProgress size={60} color="primary" />
+							<Typography variant="h6" sx={{ mt: 2, color: 'text.secondary' }}>
+								Carregando {menuItems[currentTab]?.label}...
+							</Typography>
+						</Box>
+					}>
+						{renderComponent()}
+					</Suspense>
+				</Box>
+			</Box>
+		</ThemeProvider>
+	);
 };
 
 export default App;

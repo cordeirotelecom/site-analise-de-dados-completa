@@ -26,6 +26,12 @@ import {
   AccordionSummary,
   AccordionDetails,
   Stack,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  IconButton,
+  Tooltip,
 } from '@mui/material';
 import {
   CloudUpload,
@@ -36,6 +42,9 @@ import {
   DataObject,
   Speed,
   Info,
+  Download,
+  Refresh,
+  Visibility,
 } from '@mui/icons-material';
 
 interface UploadAreaProps {
@@ -48,8 +57,12 @@ const UploadArea: React.FC<UploadAreaProps> = ({ onDataUpload }) => {
   const [uploadProgress, setUploadProgress] = useState(0);
   const [dataPreview, setDataPreview] = useState<any>(null);
   const [dataInfo, setDataInfo] = useState<any>(null);
-  const [error, setError] = useState<string>('');
+  const [showPreviewDialog, setShowPreviewDialog] = useState(false);
+  const [processingStep, setProcessingStep] = useState(0);
+  const [analysisResults, setAnalysisResults] = useState<any>(null);
+  const [errors, setErrors] = useState<string[]>([]);
   const [currentStep, setCurrentStep] = useState(0);
+  const [error, setError] = useState<string>('');
 
   const supportedFormats = [
     { 

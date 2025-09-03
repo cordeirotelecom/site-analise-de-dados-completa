@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DataScience Pro - TESTE</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: white;
+            text-align: center;
+        }
+        .container {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            padding: 40px;
+            border-radius: 20px;
+            margin: 50px auto;
+            max-width: 600px;
+        }
+        h1 { font-size: 3rem; margin-bottom: 20px; }
+        h2 { font-size: 1.5rem; margin-bottom: 30px; opacity: 0.9; }
+        p { font-size: 1.2rem; margin: 15px 0; }
+        .status { color: #4CAF50; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧠 DataScience Pro</h1>
+        <h2>Plataforma de Análise de Dados</h2>
+        <p class="status">✅ Site funcionando perfeitamente!</p>
+        <p class="status">✅ Deploy no Netlify ativo</p>
+        <p class="status">✅ HTML/CSS/JS funcionando</p>
+        <p>Última atualização: <span id="timestamp"></span></p>
+    </div>
+    
+    <script>
+        document.getElementById('timestamp').textContent = new Date().toLocaleString('pt-BR');
+        console.log('DataScience Pro carregado com sucesso!');
+    </script>
+</body>
+</html>

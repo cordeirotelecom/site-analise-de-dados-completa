@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="/manifest.json" />
+    
+    <!-- Icons -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='40' fill='%231976d2'/%3E%3Ctext x='50' y='55' text-anchor='middle' fill='white' font-size='30'%3E🧠%3C/text%3E%3C/svg%3E" />
+    
+    <!-- SEO Meta Tags -->
+    <title>DataScience Pro - Portal Completo de Dados Abertos e Análise Avançada</title>
+    <meta name="description" content="Portal completo de dados abertos do Brasil com 30+ APIs funcionais. Acesse dados de São José/SC, Florianópolis, Santa Catarina, Brasil e mundo. Análise estatística avançada, machine learning automatizado e visualizações interativas." />
+    <meta name="keywords" content="dados abertos, portal dados abertos, são josé sc, florianópolis, santa catarina, brasil, APIs governo, IBGE, análise de dados, machine learning, estatística, ciência de dados, visualização" />
+    <meta name="author" content="DataScience Pro" />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://site-analise-de-dados-completa.netlify.app/" />
+    <meta property="og:title" content="Portal de Dados Abertos + Análise Avançada - DataScience Pro" />
+    <meta property="og:description" content="Acesse 30+ portais de dados abertos com APIs funcionais. Dados de Santa Catarina, Brasil e mundo. Análise estatística e machine learning em uma plataforma." />
+    <meta property="og:image" content="https://site-analise-de-dados-completa.netlify.app/og-image.jpg" />
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://site-analise-de-dados-completa.netlify.app/" />
+    <meta property="twitter:title" content="Portal de Dados Abertos + Análise Avançada" />
+    <meta property="twitter:description" content="30+ portais de dados abertos com APIs funcionais de Santa Catarina, Brasil e mundo. Análise estatística avançada integrada." />
+    <meta property="twitter:image" content="https://site-analise-de-dados-completa.netlify.app/og-image.jpg" />
+    
+    <!-- Mobile Optimization -->
+    <meta name="theme-color" content="#1976d2" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="DataScience Pro" />
+    
+    <!-- Performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+  </head>
+  <body>
+    <div id="root">
+      <!-- Loading Spinner -->
+      <div style="
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: linear-gradient(135deg, #1976d2 0%, #1565c0 100%);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        color: white;
+        font-family: 'Inter', sans-serif;
+        z-index: 9999;
+      ">
+        <div style="
+          width: 60px;
+          height: 60px;
+          border: 4px solid rgba(255,255,255,0.3);
+          border-top: 4px solid white;
+          border-radius: 50%;
+          animation: spin 1s linear infinite;
+          margin-bottom: 20px;
+        "></div>
+        <h2 style="margin: 0; font-weight: 600; font-size: 24px;">DataScience Pro</h2>
+        <p style="margin: 10px 0 0 0; opacity: 0.9; font-size: 16px;">Portal de Dados Abertos + Análise Avançada</p>
+        <style>
+          @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+          }
+        </style>
+      </div>
+    </div>
+    <script type="module" src="/src/main.tsx"></script>
+    
+    <!-- Service Worker Registration -->
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+          navigator.serviceWorker.register('/sw.js')
+            .then(function(registration) {
+              console.log('SW registered: ', registration);
+            })
+            .catch(function(registrationError) {
+              console.log('SW registration failed: ', registrationError);
+            });
+        });
+      }
+    </script>
+  </body>
+</html>
