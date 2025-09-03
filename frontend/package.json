@@ -1,4 +1,5 @@
 {
+  "$schema": "https://json.schemastore.org/package.json",
   "name": "datasciencepro-frontend",
   "version": "1.0.0",
   "description": "Frontend para DataScience Pro - Plataforma completa de análise de dados",

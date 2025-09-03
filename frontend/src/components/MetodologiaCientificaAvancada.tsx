@@ -531,6 +531,970 @@ const MetodologiaCientificaAvancada: React.FC<{ onBackToHome?: () => void }> = (
     URL.revokeObjectURL(url);
   };
 
+  // ===== FUNÇÕES DE DOWNLOAD MELHORADAS =====
+  
+  const downloadTemplateWord = () => {
+    const templateDoc = `
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8"/>
+    <title>Template de Relatório Científico - DataScience Pro</title>
+    <style>
+        body { font-family: 'Times New Roman', serif; line-height: 1.6; margin: 1in; }
+        h1 { color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px; }
+        h2 { color: #34495e; margin-top: 30px; }
+        h3 { color: #7f8c8d; }
+        .header { text-align: center; margin-bottom: 40px; }
+        .section { margin-bottom: 25px; }
+        .checklist { background: #f8f9fa; padding: 15px; border-left: 4px solid #28a745; }
+        .formula { background: #e8f5e8; padding: 10px; font-family: 'Courier New', monospace; }
+        table { border-collapse: collapse; width: 100%; margin: 15px 0; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        .footer { margin-top: 50px; border-top: 1px solid #ddd; padding-top: 20px; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>RELATÓRIO DE ANÁLISE CIENTÍFICA</h1>
+        <h2>Template Profissional - DataScience Pro</h2>
+        <p><strong>Data:</strong> ${new Date().toLocaleDateString('pt-BR')}</p>
+    </div>
+
+    <div class="section">
+        <h2>1. RESUMO EXECUTIVO</h2>
+        <p><strong>Objetivo:</strong> [Descreva brevemente o objetivo principal da análise]</p>
+        <p><strong>Métodos:</strong> [Principais métodos estatísticos utilizados]</p>
+        <p><strong>Principais Achados:</strong> [3-4 descobertas mais importantes]</p>
+        <p><strong>Conclusão:</strong> [Conclusão principal em 1-2 frases]</p>
+        <p><strong>Recomendações:</strong> [Principais recomendações práticas]</p>
+    </div>
+
+    <div class="section">
+        <h2>2. INTRODUÇÃO E CONTEXTO</h2>
+        <h3>2.1 Problema de Pesquisa</h3>
+        <p>[Descreva o problema que motivou esta análise]</p>
+        
+        <h3>2.2 Objetivos</h3>
+        <p><strong>Objetivo Geral:</strong> [Objetivo principal]</p>
+        <p><strong>Objetivos Específicos:</strong></p>
+        <ul>
+            <li>[Objetivo específico 1]</li>
+            <li>[Objetivo específico 2]</li>
+            <li>[Objetivo específico 3]</li>
+        </ul>
+
+        <h3>2.3 Hipóteses</h3>
+        <p><strong>H₀ (Hipótese Nula):</strong> [Hipótese nula]</p>
+        <p><strong>H₁ (Hipótese Alternativa):</strong> [Hipótese alternativa]</p>
+    </div>
+
+    <div class="section">
+        <h2>3. METODOLOGIA</h2>
+        <h3>3.1 Dados</h3>
+        <table>
+            <tr><th>Característica</th><th>Descrição</th></tr>
+            <tr><td>Fonte dos Dados</td><td>[Origem dos dados]</td></tr>
+            <tr><td>Período de Coleta</td><td>[Data início - Data fim]</td></tr>
+            <tr><td>Tamanho da Amostra</td><td>[N = X observações]</td></tr>
+            <tr><td>Variáveis Principais</td><td>[Liste as variáveis-chave]</td></tr>
+            <tr><td>Tipo de Estudo</td><td>[Transversal/Longitudinal/Experimental]</td></tr>
+        </table>
+
+        <h3>3.2 Métodos Estatísticos</h3>
+        <ul>
+            <li><strong>[Método 1]:</strong> [Justificativa para escolha]</li>
+            <li><strong>[Método 2]:</strong> [Justificativa para escolha]</li>
+            <li><strong>[Método 3]:</strong> [Justificativa para escolha]</li>
+        </ul>
+
+        <div class="checklist">
+            <h3>3.3 Pressupostos Verificados</h3>
+            <p>☐ Normalidade dos resíduos (Teste: ______)</p>
+            <p>☐ Homocedasticidade (Teste: ______)</p>
+            <p>☐ Independência das observações</p>
+            <p>☐ Ausência de multicolinearidade (VIF < 5)</p>
+            <p>☐ Linearidade (quando aplicável)</p>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>4. ANÁLISE EXPLORATÓRIA</h2>
+        <h3>4.1 Estatísticas Descritivas</h3>
+        <table>
+            <tr><th>Variável</th><th>Média</th><th>Mediana</th><th>Desvio Padrão</th><th>Min</th><th>Max</th></tr>
+            <tr><td>[Variável 1]</td><td>[Valor]</td><td>[Valor]</td><td>[Valor]</td><td>[Valor]</td><td>[Valor]</td></tr>
+            <tr><td>[Variável 2]</td><td>[Valor]</td><td>[Valor]</td><td>[Valor]</td><td>[Valor]</td><td>[Valor]</td></tr>
+        </table>
+
+        <h3>4.2 Visualizações Principais</h3>
+        <p>[Descreva os gráficos principais: histogramas, boxplots, scatter plots]</p>
+
+        <h3>4.3 Correlações</h3>
+        <p>[Lista de correlações significativas encontradas]</p>
+    </div>
+
+    <div class="section">
+        <h2>5. RESULTADOS</h2>
+        <h3>5.1 Análise Principal</h3>
+        <div class="formula">
+            <p><strong>Teste Estatístico:</strong> [Nome do teste]</p>
+            <p><strong>Estatística:</strong> [Valor] (df = [graus de liberdade])</p>
+            <p><strong>P-valor:</strong> [Valor] (α = 0.05)</p>
+            <p><strong>Intervalo de Confiança:</strong> 95% IC [limite inferior, limite superior]</p>
+            <p><strong>Tamanho do Efeito:</strong> [Valor e interpretação]</p>
+        </div>
+
+        <h3>5.2 Análises Complementares</h3>
+        <p>[Resultados de análises adicionais]</p>
+
+        <h3>5.3 Validação</h3>
+        <p><strong>Validação Cruzada:</strong> [Resultados]</p>
+        <p><strong>Testes de Robustez:</strong> [Resultados]</p>
+    </div>
+
+    <div class="section">
+        <h2>6. DISCUSSÃO</h2>
+        <h3>6.1 Interpretação dos Resultados</h3>
+        <p>[Explique o que os resultados significam em termos práticos e teóricos]</p>
+
+        <h3>6.2 Limitações</h3>
+        <ul>
+            <li>[Limitação metodológica 1]</li>
+            <li>[Limitação dos dados 2]</li>
+            <li>[Limitação de generalização 3]</li>
+        </ul>
+
+        <h3>6.3 Comparação com Literatura</h3>
+        <p>[Compare seus achados com estudos anteriores]</p>
+    </div>
+
+    <div class="section">
+        <h2>7. CONCLUSÕES</h2>
+        <h3>7.1 Principais Descobertas</h3>
+        <ol>
+            <li>[Descoberta 1 com evidência estatística]</li>
+            <li>[Descoberta 2 com evidência estatística]</li>
+            <li>[Descoberta 3 com evidência estatística]</li>
+        </ol>
+
+        <h3>7.2 Implicações Práticas</h3>
+        <p>[Como os resultados podem ser aplicados na prática]</p>
+
+        <h3>7.3 Recomendações</h3>
+        <ul>
+            <li>[Recomendação prática 1]</li>
+            <li>[Recomendação prática 2]</li>
+            <li>[Recomendação para pesquisas futuras]</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>8. REFERÊNCIAS</h2>
+        <p>[1] Referência acadêmica 1</p>
+        <p>[2] Referência acadêmica 2</p>
+        <p>[3] Referência de metodologia estatística</p>
+    </div>
+
+    <div class="footer">
+        <h2>ANEXOS</h2>
+        <p><strong>Anexo A:</strong> Código R/Python completo</p>
+        <p><strong>Anexo B:</strong> Tabelas detalhadas</p>
+        <p><strong>Anexo C:</strong> Gráficos adicionais</p>
+        <p><strong>Anexo D:</strong> Dados brutos (quando permitido)</p>
+        
+        <hr/>
+        <p><strong>Informações Técnicas:</strong></p>
+        <p>Software: DataScience Pro | Versão: 2.0 | Analista: [Nome] | Data: ${new Date().toLocaleDateString('pt-BR')}</p>
+    </div>
+</body>
+</html>
+`;
+
+    const blob = new Blob([templateDoc], { type: 'text/html' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'Template_Relatorio_Cientifico_Profissional.html';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
+
+  const downloadChecklistPDF = () => {
+    const checklistContent = `
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>Checklist de Qualidade Científica</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; line-height: 1.6; }
+        .header { background: #3498db; color: white; padding: 20px; text-align: center; margin-bottom: 30px; }
+        .section { margin-bottom: 25px; padding: 15px; border: 1px solid #ddd; border-radius: 8px; }
+        .checklist-item { margin: 10px 0; padding: 8px; background: #f8f9fa; border-left: 4px solid #28a745; }
+        .priority-high { border-left-color: #dc3545; }
+        .priority-medium { border-left-color: #ffc107; }
+        .priority-low { border-left-color: #28a745; }
+        .checkbox { margin-right: 10px; }
+        h2 { color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 5px; }
+        h3 { color: #34495e; }
+        .score-box { background: #e8f5e8; padding: 15px; text-align: center; border-radius: 8px; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>📋 CHECKLIST DE QUALIDADE CIENTÍFICA</h1>
+        <h2>DataScience Pro - Versão Profissional</h2>
+        <p>Garantia de Rigor Metodológico em Análise de Dados</p>
+    </div>
+
+    <div class="section">
+        <h2>🎯 ANTES DE COMEÇAR</h2>
+        <div class="checklist-item priority-high">
+            <input type="checkbox" class="checkbox"> <strong>[CRÍTICO]</strong> Objetivos claramente definidos e mensuráveis
+        </div>
+        <div class="checklist-item priority-high">
+            <input type="checkbox" class="checkbox"> <strong>[CRÍTICO]</strong> Hipóteses específicas e testáveis formuladas
+        </div>
+        <div class="checklist-item priority-medium">
+            <input type="checkbox" class="checkbox"> <strong>[IMPORTANTE]</strong> Literatura relevante revisada
+        </div>
+        <div class="checklist-item priority-medium">
+            <input type="checkbox" class="checkbox"> <strong>[IMPORTANTE]</strong> Tamanho de amostra adequado calculado
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>📊 QUALIDADE DOS DADOS</h2>
+        <div class="checklist-item priority-high">
+            <input type="checkbox" class="checkbox"> <strong>[CRÍTICO]</strong> Dados representativos da população-alvo
+        </div>
+        <div class="checklist-item priority-high">
+            <input type="checkbox" class="checkbox"> <strong>[CRÍTICO]</strong> Dados limpos e inconsistências removidas
+        </div>
+        <div class="checklist-item priority-medium">
+            <input type="checkbox" class="checkbox"> <strong>[IMPORTANTE]</strong> Outliers identificados e tratados apropriadamente
+        </div>
+        <div class="checklist-item priority-medium">
+            <input type="checkbox" class="checkbox"> <strong>[IMPORTANTE]</strong> Dados faltantes tratados adequadamente
+        </div>
+        <div class="checklist-item priority-low">
+            <input type="checkbox" class="checkbox"> <strong>[DESEJÁVEL]</strong> Fonte dos dados documentada e confiável
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>🔬 METODOLOGIA ESTATÍSTICA</h2>
+        <div class="checklist-item priority-high">
+            <input type="checkbox" class="checkbox"> <strong>[CRÍTICO]</strong> Métodos apropriados para o tipo de dados
+        </div>
+        <div class="checklist-item priority-high">
+            <input type="checkbox" class="checkbox"> <strong>[CRÍTICO]</strong> Pressupostos dos testes verificados
+        </div>
+        <div class="checklist-item priority-medium">
+            <input type="checkbox" class="checkbox"> <strong>[IMPORTANTE]</strong> Nível de significância definido a priori (α = 0.05)
+        </div>
+        <div class="checklist-item priority-medium">
+            <input type="checkbox" class="checkbox"> <strong>[IMPORTANTE]</strong> Poder estatístico adequado (β ≥ 0.80)
+        </div>
+        <div class="checklist-item priority-low">
+            <input type="checkbox" class="checkbox"> <strong>[DESEJÁVEL]</strong> Análises de sensibilidade realizadas
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>📈 ANÁLISE E RESULTADOS</h2>
+        <div class="checklist-item priority-high">
+            <input type="checkbox" class="checkbox"> <strong>[CRÍTICO]</strong> Análise exploratória completa realizada
+        </div>
+        <div class="checklist-item priority-high">
+            <input type="checkbox" class="checkbox"> <strong>[CRÍTICO]</strong> Tamanhos de efeito reportados (não só p-valores)
+        </div>
+        <div class="checklist-item priority-medium">
+            <input type="checkbox" class="checkbox"> <strong>[IMPORTANTE]</strong> Intervalos de confiança incluídos
+        </div>
+        <div class="checklist-item priority-medium">
+            <input type="checkbox" class="checkbox"> <strong>[IMPORTANTE]</strong> Gráficos informativos e bem legendados
+        </div>
+        <div class="checklist-item priority-low">
+            <input type="checkbox" class="checkbox"> <strong>[DESEJÁVEL]</strong> Validação cruzada realizada
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>📝 INTERPRETAÇÃO E COMUNICAÇÃO</h2>
+        <div class="checklist-item priority-high">
+            <input type="checkbox" class="checkbox"> <strong>[CRÍTICO]</strong> Resultados interpretados corretamente
+        </div>
+        <div class="checklist-item priority-high">
+            <input type="checkbox" class="checkbox"> <strong>[CRÍTICO]</strong> Limitações claramente identificadas
+        </div>
+        <div class="checklist-item priority-medium">
+            <input type="checkbox" class="checkbox"> <strong>[IMPORTANTE]</strong> Conclusões suportadas pelos dados
+        </div>
+        <div class="checklist-item priority-medium">
+            <input type="checkbox" class="checkbox"> <strong>[IMPORTANTE]</strong> Linguagem clara e acessível
+        </div>
+        <div class="checklist-item priority-low">
+            <input type="checkbox" class="checkbox"> <strong>[DESEJÁVEL]</strong> Implicações práticas discutidas
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>🔄 REPRODUTIBILIDADE</h2>
+        <div class="checklist-item priority-high">
+            <input type="checkbox" class="checkbox"> <strong>[CRÍTICO]</strong> Código documentado e comentado
+        </div>
+        <div class="checklist-item priority-medium">
+            <input type="checkbox" class="checkbox"> <strong>[IMPORTANTE]</strong> Versões de software documentadas
+        </div>
+        <div class="checklist-item priority-medium">
+            <input type="checkbox" class="checkbox"> <strong>[IMPORTANTE]</strong> Dados disponíveis (quando permitido)
+        </div>
+        <div class="checklist-item priority-low">
+            <input type="checkbox" class="checkbox"> <strong>[DESEJÁVEL]</strong> Análise replicável por terceiros
+        </div>
+    </div>
+
+    <div class="score-box">
+        <h2>📊 PONTUAÇÃO DE QUALIDADE</h2>
+        <p><strong>CRÍTICOS:</strong> ___/10 (Obrigatórios para publicação)</p>
+        <p><strong>IMPORTANTES:</strong> ___/10 (Fortemente recomendados)</p>
+        <p><strong>DESEJÁVEIS:</strong> ___/6 (Aumentam qualidade)</p>
+        <h3>SCORE TOTAL: ___/26</h3>
+        <p>🏆 23-26: Excelente | 🥈 18-22: Bom | 🥉 15-17: Aceitável | ❌ <15: Precisa melhorar</p>
+    </div>
+
+    <div class="section">
+        <h2>🚨 PERGUNTAS CRÍTICAS DE AUTOCRÍTICA</h2>
+        <ol>
+            <li><strong>Os dados são realmente representativos?</strong> [SIM/NÃO/PARCIAL]</li>
+            <li><strong>O tamanho da amostra é adequado?</strong> [SIM/NÃO/INCERTO]</li>
+            <li><strong>Há vieses na coleta ou análise?</strong> [NÃO/TALVEZ/SIM]</li>
+            <li><strong>Os resultados são praticamente significativos?</strong> [SIM/NÃO/INCERTO]</li>
+            <li><strong>As conclusões são generalizáveis?</strong> [SIM/LIMITADA/NÃO]</li>
+            <li><strong>Um colega chegaria às mesmas conclusões?</strong> [SIM/PROVÁVEL/INCERTO]</li>
+        </ol>
+    </div>
+
+    <div style="margin-top: 30px; border-top: 2px solid #3498db; padding-top: 20px;">
+        <p><strong>📅 Data de Avaliação:</strong> ${new Date().toLocaleDateString('pt-BR')}</p>
+        <p><strong>🔧 Ferramenta:</strong> DataScience Pro v2.0</p>
+        <p><strong>👤 Avaliador:</strong> ________________</p>
+        <p><strong>📊 Projeto:</strong> ________________</p>
+    </div>
+</body>
+</html>
+`;
+
+    const blob = new Blob([checklistContent], { type: 'text/html' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'Checklist_Qualidade_Cientifica.html';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
+
+  const downloadCodigoR = () => {
+    const codigoR = `# ===============================================
+# TEMPLATE DE CÓDIGO R PARA ANÁLISE CIENTÍFICA
+# DataScience Pro - Versão 2.0
+# Data: ${new Date().toLocaleDateString('pt-BR')}
+# ===============================================
+
+# CONFIGURAÇÃO INICIAL
+# =====================
+library(tidyverse)    # Manipulação de dados
+library(ggplot2)      # Visualizações
+library(corrplot)     # Matriz de correlação
+library(psych)        # Estatísticas descritivas
+library(car)          # Testes de pressupostos
+library(broom)        # Tidy outputs
+library(plotly)       # Gráficos interativos
+library(knitr)        # Relatórios
+library(VIM)          # Dados faltantes
+
+# Configurar seed para reprodutibilidade
+set.seed(123)
+
+# CARREGAMENTO E PREPARAÇÃO DOS DADOS
+# ===================================
+
+# Carregar dados
+# dados <- read.csv("seu_arquivo.csv", stringsAsFactors = FALSE)
+# dados <- read_excel("seu_arquivo.xlsx")
+
+# Exemplo com dados simulados
+dados <- data.frame(
+  id = 1:1000,
+  variavel_x = rnorm(1000, mean = 50, sd = 10),
+  variavel_y = rnorm(1000, mean = 100, sd = 15),
+  categoria = sample(c("A", "B", "C"), 1000, replace = TRUE),
+  tratamento = sample(c("Controle", "Experimental"), 1000, replace = TRUE)
+)
+
+# ANÁLISE EXPLORATÓRIA
+# ====================
+
+# 1. Estrutura dos dados
+str(dados)
+summary(dados)
+
+# 2. Verificar dados faltantes
+sapply(dados, function(x) sum(is.na(x)))
+VIM::aggr(dados, col = c('navyblue','red'), numbers = TRUE)
+
+# 3. Estatísticas descritivas
+descritivas <- dados %>%
+  select_if(is.numeric) %>%
+  psych::describe()
+
+print(descritivas)
+
+# 4. Visualizações exploratórias
+# Histogramas
+dados %>%
+  select_if(is.numeric) %>%
+  gather(key = "variavel", value = "valor") %>%
+  ggplot(aes(x = valor)) +
+  geom_histogram(bins = 30, fill = "steelblue", alpha = 0.7) +
+  facet_wrap(~variavel, scales = "free") +
+  theme_minimal() +
+  labs(title = "Distribuição das Variáveis Numéricas")
+
+# Boxplots
+dados %>%
+  select_if(is.numeric) %>%
+  gather(key = "variavel", value = "valor") %>%
+  ggplot(aes(y = valor)) +
+  geom_boxplot(fill = "lightblue", alpha = 0.7) +
+  facet_wrap(~variavel, scales = "free") +
+  theme_minimal() +
+  labs(title = "Boxplots das Variáveis Numéricas")
+
+# 5. Matriz de correlação
+cor_matrix <- cor(dados[sapply(dados, is.numeric)], use = "complete.obs")
+corrplot(cor_matrix, method = "color", type = "upper", 
+         order = "hclust", tl.cex = 0.8, tl.col = "black")
+
+# TESTES DE PRESSUPOSTOS
+# ======================
+
+# 1. Teste de normalidade
+shapiro_test <- dados %>%
+  select_if(is.numeric) %>%
+  map_df(~ broom::tidy(shapiro.test(.)), .id = "variavel")
+
+print("Testes de Normalidade (Shapiro-Wilk):")
+print(shapiro_test)
+
+# 2. Q-Q Plots
+dados %>%
+  select_if(is.numeric) %>%
+  gather(key = "variavel", value = "valor") %>%
+  ggplot(aes(sample = valor)) +
+  stat_qq() +
+  stat_qq_line(color = "red") +
+  facet_wrap(~variavel, scales = "free") +
+  theme_minimal() +
+  labs(title = "Q-Q Plots para Verificação de Normalidade")
+
+# 3. Teste de homocedasticidade (se aplicável)
+# leveneTest(variavel_y ~ categoria, data = dados)
+
+# ANÁLISES ESTATÍSTICAS PRINCIPAIS
+# =================================
+
+# 1. Teste t para duas amostras
+t_test_result <- t.test(variavel_y ~ tratamento, data = dados)
+print("Teste t para duas amostras:")
+print(t_test_result)
+
+# Calcular tamanho do efeito (Cohen's d)
+cohens_d <- (mean(dados$variavel_y[dados$tratamento == "Experimental"]) - 
+             mean(dados$variavel_y[dados$tratamento == "Controle"])) / 
+            sqrt(((length(dados$variavel_y[dados$tratamento == "Experimental"]) - 1) * 
+                  var(dados$variavel_y[dados$tratamento == "Experimental"]) + 
+                  (length(dados$variavel_y[dados$tratamento == "Controle"]) - 1) * 
+                  var(dados$variavel_y[dados$tratamento == "Controle"])) / 
+                 (length(dados$variavel_y) - 2))
+
+print(paste("Cohen's d:", round(cohens_d, 3)))
+
+# 2. ANOVA (se mais de 2 grupos)
+anova_result <- aov(variavel_y ~ categoria, data = dados)
+summary(anova_result)
+
+# Testes post-hoc
+TukeyHSD(anova_result)
+
+# 3. Regressão linear
+modelo_linear <- lm(variavel_y ~ variavel_x + categoria, data = dados)
+summary(modelo_linear)
+
+# Diagnósticos do modelo
+par(mfrow = c(2, 2))
+plot(modelo_linear)
+par(mfrow = c(1, 1))
+
+# 4. Verificar multicolinearidade
+vif_values <- car::vif(modelo_linear)
+print("Fatores de Inflação da Variância (VIF):")
+print(vif_values)
+
+# VISUALIZAÇÕES DOS RESULTADOS
+# =============================
+
+# 1. Gráfico de barras com erro padrão
+dados_summary <- dados %>%
+  group_by(tratamento) %>%
+  summarise(
+    media = mean(variavel_y),
+    se = sd(variavel_y) / sqrt(n()),
+    .groups = 'drop'
+  )
+
+ggplot(dados_summary, aes(x = tratamento, y = media, fill = tratamento)) +
+  geom_col(alpha = 0.7) +
+  geom_errorbar(aes(ymin = media - se, ymax = media + se), 
+                width = 0.2, color = "black") +
+  theme_minimal() +
+  labs(title = "Média da Variável Y por Tratamento",
+       y = "Média da Variável Y",
+       x = "Grupo de Tratamento") +
+  theme(legend.position = "none")
+
+# 2. Scatter plot com linha de regressão
+ggplot(dados, aes(x = variavel_x, y = variavel_y)) +
+  geom_point(alpha = 0.6, color = "steelblue") +
+  geom_smooth(method = "lm", color = "red", se = TRUE) +
+  theme_minimal() +
+  labs(title = "Relação entre Variável X e Y",
+       x = "Variável X",
+       y = "Variável Y") +
+  annotate("text", x = Inf, y = Inf, 
+           label = paste("R² =", round(summary(modelo_linear)$r.squared, 3)),
+           hjust = 1.1, vjust = 1.1)
+
+# VALIDAÇÃO DO MODELO
+# ===================
+
+# Divisão treino/teste
+set.seed(123)
+indices_treino <- sample(nrow(dados), 0.7 * nrow(dados))
+dados_treino <- dados[indices_treino, ]
+dados_teste <- dados[-indices_treino, ]
+
+# Modelo no conjunto de treino
+modelo_treino <- lm(variavel_y ~ variavel_x + categoria, data = dados_treino)
+
+# Predições no conjunto de teste
+predicoes <- predict(modelo_treino, dados_teste)
+
+# Métricas de avaliação
+rmse <- sqrt(mean((dados_teste$variavel_y - predicoes)^2))
+mae <- mean(abs(dados_teste$variavel_y - predicoes))
+r2_teste <- cor(dados_teste$variavel_y, predicoes)^2
+
+print("Métricas de Validação:")
+print(paste("RMSE:", round(rmse, 3)))
+print(paste("MAE:", round(mae, 3)))
+print(paste("R² no teste:", round(r2_teste, 3)))
+
+# RELATÓRIO RESUMIDO
+# ==================
+
+cat("\\n=== RESUMO DA ANÁLISE ===\\n")
+cat("Data da análise:", Sys.Date(), "\\n")
+cat("Tamanho da amostra:", nrow(dados), "\\n")
+cat("Variáveis analisadas:", ncol(dados), "\\n\\n")
+
+cat("PRINCIPAIS RESULTADOS:\\n")
+cat("- Teste t p-valor:", format.pval(t_test_result$p.value), "\\n")
+cat("- Cohen's d:", round(cohens_d, 3), "\\n")
+cat("- R² do modelo:", round(summary(modelo_linear)$r.squared, 3), "\\n")
+cat("- RMSE validação:", round(rmse, 3), "\\n")
+
+# SALVAR RESULTADOS
+# =================
+
+# Salvar gráficos
+ggsave("distribuicoes.png", width = 12, height = 8, dpi = 300)
+ggsave("correlacoes.png", width = 10, height = 8, dpi = 300)
+
+# Salvar tabelas
+write.csv(descritivas, "estatisticas_descritivas.csv", row.names = TRUE)
+write.csv(broom::tidy(modelo_linear), "resultados_regressao.csv", row.names = FALSE)
+
+# Salvar workspace
+save.image("analise_completa.RData")
+
+cat("\\n✅ Análise concluída! Arquivos salvos.\\n")
+`;
+
+    const blob = new Blob([codigoR], { type: 'text/plain; charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'Template_Analise_Cientifica.R';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
+
+  const downloadCodigoPython = () => {
+    const codigoPython = `"""
+===============================================
+TEMPLATE DE CÓDIGO PYTHON PARA ANÁLISE CIENTÍFICA
+DataScience Pro - Versão 2.0
+Data: ${new Date().toLocaleDateString('pt-BR')}
+===============================================
+"""
+
+# IMPORTS NECESSÁRIOS
+# ===================
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+import scipy.stats as stats
+from scipy.stats import shapiro, levene, ttest_ind, f_oneway
+import statsmodels.api as sm
+from statsmodels.stats.multicomp import pairwise_tukeyhsd
+from sklearn.model_selection import train_test_split, cross_val_score
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
+from sklearn.preprocessing import StandardScaler
+import warnings
+warnings.filterwarnings('ignore')
+
+# Configurar seed para reprodutibilidade
+np.random.seed(123)
+
+# CONFIGURAÇÃO DE VISUALIZAÇÕES
+# =============================
+plt.style.use('seaborn-v0_8')
+sns.set_palette("husl")
+
+# CRIAÇÃO/CARREGAMENTO DOS DADOS
+# ==============================
+
+# Carregar dados
+# dados = pd.read_csv('seu_arquivo.csv')
+# dados = pd.read_excel('seu_arquivo.xlsx')
+
+# Exemplo com dados simulados
+n = 1000
+dados = pd.DataFrame({
+    'id': range(1, n+1),
+    'variavel_x': np.random.normal(50, 10, n),
+    'variavel_y': np.random.normal(100, 15, n),
+    'categoria': np.random.choice(['A', 'B', 'C'], n),
+    'tratamento': np.random.choice(['Controle', 'Experimental'], n)
+})
+
+print("📊 ESTRUTURA DOS DADOS")
+print("=" * 50)
+print(f"Shape: {dados.shape}")
+print(f"\\nTipos de dados:")
+print(dados.dtypes)
+print(f"\\nPrimeiras 5 linhas:")
+print(dados.head())
+
+# ANÁLISE EXPLORATÓRIA
+# ====================
+
+print("\\n📈 ANÁLISE EXPLORATÓRIA")
+print("=" * 50)
+
+# 1. Dados faltantes
+print("Dados faltantes por coluna:")
+print(dados.isnull().sum())
+
+# 2. Estatísticas descritivas
+print("\\nEstatísticas descritivas:")
+descritivas = dados.describe()
+print(descritivas)
+
+# 3. Visualizações exploratórias
+fig, axes = plt.subplots(2, 2, figsize=(15, 10))
+fig.suptitle('Análise Exploratória dos Dados', fontsize=16)
+
+# Histogramas
+dados[['variavel_x', 'variavel_y']].hist(bins=30, ax=axes[0])
+axes[0, 0].set_title('Distribuição da Variável X')
+axes[0, 1].set_title('Distribuição da Variável Y')
+
+# Boxplots
+sns.boxplot(data=dados, x='categoria', y='variavel_y', ax=axes[1, 0])
+axes[1, 0].set_title('Variável Y por Categoria')
+
+# Scatter plot
+axes[1, 1].scatter(dados['variavel_x'], dados['variavel_y'], alpha=0.6)
+axes[1, 1].set_xlabel('Variável X')
+axes[1, 1].set_ylabel('Variável Y')
+axes[1, 1].set_title('Relação X vs Y')
+
+plt.tight_layout()
+plt.savefig('analise_exploratoria.png', dpi=300, bbox_inches='tight')
+plt.show()
+
+# 4. Matriz de correlação
+correlacao = dados.select_dtypes(include=[np.number]).corr()
+plt.figure(figsize=(10, 8))
+sns.heatmap(correlacao, annot=True, cmap='coolwarm', center=0,
+            square=True, linewidths=0.5)
+plt.title('Matriz de Correlação')
+plt.savefig('matriz_correlacao.png', dpi=300, bbox_inches='tight')
+plt.show()
+
+# TESTES DE PRESSUPOSTOS
+# ======================
+
+print("\\n🔬 TESTES DE PRESSUPOSTOS")
+print("=" * 50)
+
+# 1. Teste de normalidade
+def teste_normalidade(dados_col, nome_var):
+    estatistica, p_valor = shapiro(dados_col)
+    print(f"{nome_var}:")
+    print(f"  Estatística: {estatistica:.4f}")
+    print(f"  P-valor: {p_valor:.6f}")
+    print(f"  Interpretação: {'Normal' if p_valor > 0.05 else 'Não-normal'}")
+    return p_valor > 0.05
+
+print("Testes de Normalidade (Shapiro-Wilk):")
+normalidade_x = teste_normalidade(dados['variavel_x'], 'Variável X')
+normalidade_y = teste_normalidade(dados['variavel_y'], 'Variável Y')
+
+# 2. Q-Q Plots
+fig, axes = plt.subplots(1, 2, figsize=(12, 5))
+stats.probplot(dados['variavel_x'], dist="norm", plot=axes[0])
+axes[0].set_title('Q-Q Plot - Variável X')
+stats.probplot(dados['variavel_y'], dist="norm", plot=axes[1])
+axes[1].set_title('Q-Q Plot - Variável Y')
+plt.tight_layout()
+plt.savefig('qq_plots.png', dpi=300, bbox_inches='tight')
+plt.show()
+
+# 3. Teste de homocedasticidade
+grupos = [dados[dados['categoria'] == cat]['variavel_y'] for cat in dados['categoria'].unique()]
+estatistica_levene, p_valor_levene = levene(*grupos)
+print(f"\\nTeste de Levene (Homocedasticidade):")
+print(f"  Estatística: {estatistica_levene:.4f}")
+print(f"  P-valor: {p_valor_levene:.6f}")
+print(f"  Interpretação: {'Variâncias iguais' if p_valor_levene > 0.05 else 'Variâncias diferentes'}")
+
+# ANÁLISES ESTATÍSTICAS PRINCIPAIS
+# =================================
+
+print("\\n📊 ANÁLISES ESTATÍSTICAS")
+print("=" * 50)
+
+# 1. Teste t para duas amostras independentes
+grupo_controle = dados[dados['tratamento'] == 'Controle']['variavel_y']
+grupo_experimental = dados[dados['tratamento'] == 'Experimental']['variavel_y']
+
+t_stat, p_valor_t = ttest_ind(grupo_controle, grupo_experimental)
+print(f"Teste t para duas amostras:")
+print(f"  Estatística t: {t_stat:.4f}")
+print(f"  P-valor: {p_valor_t:.6f}")
+print(f"  Interpretação: {'Diferença significativa' if p_valor_t < 0.05 else 'Sem diferença significativa'}")
+
+# Tamanho do efeito (Cohen's d)
+cohens_d = (grupo_experimental.mean() - grupo_controle.mean()) / np.sqrt(((len(grupo_experimental)-1)*grupo_experimental.var() + (len(grupo_controle)-1)*grupo_controle.var()) / (len(grupo_experimental) + len(grupo_controle) - 2))
+print(f"  Cohen's d: {cohens_d:.4f}")
+efeito = 'pequeno' if abs(cohens_d) < 0.5 else 'médio' if abs(cohens_d) < 0.8 else 'grande'
+print(f"  Tamanho do efeito: {efeito}")
+
+# 2. ANOVA (para mais de 2 grupos)
+grupos_categoria = [dados[dados['categoria'] == cat]['variavel_y'] for cat in dados['categoria'].unique()]
+f_stat, p_valor_anova = f_oneway(*grupos_categoria)
+print(f"\\nANOVA:")
+print(f"  Estatística F: {f_stat:.4f}")
+print(f"  P-valor: {p_valor_anova:.6f}")
+print(f"  Interpretação: {'Diferença entre grupos' if p_valor_anova < 0.05 else 'Sem diferença entre grupos'}")
+
+# Teste post-hoc (Tukey)
+if p_valor_anova < 0.05:
+    tukey_result = pairwise_tukeyhsd(dados['variavel_y'], dados['categoria'])
+    print(f"\\nTeste post-hoc (Tukey):")
+    print(tukey_result)
+
+# 3. Regressão Linear
+X = dados[['variavel_x']]
+y = dados['variavel_y']
+
+# Adicionar constante para intercepto
+X_const = sm.add_constant(X)
+modelo = sm.OLS(y, X_const).fit()
+
+print(f"\\nRegressão Linear:")
+print(modelo.summary())
+
+# VISUALIZAÇÕES DOS RESULTADOS
+# =============================
+
+print("\\n📈 GERANDO VISUALIZAÇÕES")
+print("=" * 50)
+
+# 1. Comparação entre grupos
+plt.figure(figsize=(12, 5))
+
+plt.subplot(1, 2, 1)
+sns.barplot(data=dados, x='tratamento', y='variavel_y', 
+           capsize=0.1, errwidth=2, alpha=0.8)
+plt.title('Média da Variável Y por Tratamento')
+plt.ylabel('Variável Y')
+
+plt.subplot(1, 2, 2)
+sns.boxplot(data=dados, x='categoria', y='variavel_y')
+plt.title('Distribuição da Variável Y por Categoria')
+plt.ylabel('Variável Y')
+
+plt.tight_layout()
+plt.savefig('comparacao_grupos.png', dpi=300, bbox_inches='tight')
+plt.show()
+
+# 2. Regressão
+plt.figure(figsize=(10, 6))
+plt.scatter(dados['variavel_x'], dados['variavel_y'], alpha=0.6, label='Dados')
+x_range = np.linspace(dados['variavel_x'].min(), dados['variavel_x'].max(), 100)
+y_pred = modelo.params[0] + modelo.params[1] * x_range
+plt.plot(x_range, y_pred, 'r-', linewidth=2, label=f'Regressão (R² = {modelo.rsquared:.3f})')
+plt.xlabel('Variável X')
+plt.ylabel('Variável Y')
+plt.title('Regressão Linear: Y = f(X)')
+plt.legend()
+plt.grid(True, alpha=0.3)
+plt.savefig('regressao_linear.png', dpi=300, bbox_inches='tight')
+plt.show()
+
+# VALIDAÇÃO DO MODELO
+# ===================
+
+print("\\n✅ VALIDAÇÃO DO MODELO")
+print("=" * 50)
+
+# Divisão treino/teste
+X_treino, X_teste, y_treino, y_teste = train_test_split(
+    X, y, test_size=0.3, random_state=123
+)
+
+# Modelo scikit-learn para validação
+modelo_sklearn = LinearRegression()
+modelo_sklearn.fit(X_treino, y_treino)
+
+# Predições
+y_pred_treino = modelo_sklearn.predict(X_treino)
+y_pred_teste = modelo_sklearn.predict(X_teste)
+
+# Métricas
+rmse_treino = np.sqrt(mean_squared_error(y_treino, y_pred_treino))
+rmse_teste = np.sqrt(mean_squared_error(y_teste, y_pred_teste))
+mae_teste = mean_absolute_error(y_teste, y_pred_teste)
+r2_teste = r2_score(y_teste, y_pred_teste)
+
+print(f"Métricas de Validação:")
+print(f"  RMSE Treino: {rmse_treino:.3f}")
+print(f"  RMSE Teste: {rmse_teste:.3f}")
+print(f"  MAE Teste: {mae_teste:.3f}")
+print(f"  R² Teste: {r2_teste:.3f}")
+
+# Validação cruzada
+cv_scores = cross_val_score(modelo_sklearn, X, y, cv=5, 
+                           scoring='neg_mean_squared_error')
+rmse_cv = np.sqrt(-cv_scores)
+print(f"  RMSE CV (5-fold): {rmse_cv.mean():.3f} ± {rmse_cv.std():.3f}")
+
+# RELATÓRIO FINAL
+# ===============
+
+print("\\n" + "="*60)
+print("📋 RESUMO EXECUTIVO DA ANÁLISE")
+print("="*60)
+
+print(f"📅 Data da análise: {pd.Timestamp.now().strftime('%d/%m/%Y %H:%M')}")
+print(f"📊 Tamanho da amostra: {len(dados):,} observações")
+print(f"🔢 Variáveis analisadas: {dados.shape[1]} variáveis")
+
+print(f"\\n🔍 PRINCIPAIS RESULTADOS:")
+print(f"   • Teste t p-valor: {p_valor_t:.6f}")
+print(f"   • Cohen's d: {cohens_d:.3f} (efeito {efeito})")
+print(f"   • ANOVA p-valor: {p_valor_anova:.6f}")
+print(f"   • R² regressão: {modelo.rsquared:.3f}")
+print(f"   • RMSE validação: {rmse_teste:.3f}")
+
+print(f"\\n📊 INTERPRETAÇÃO:")
+if p_valor_t < 0.05:
+    print(f"   ✅ Encontrada diferença significativa entre tratamentos")
+else:
+    print(f"   ❌ Não há evidência de diferença entre tratamentos")
+
+if modelo.rsquared > 0.5:
+    print(f"   ✅ Modelo de regressão com boa capacidade explicativa")
+else:
+    print(f"   ⚠️  Modelo de regressão com baixa capacidade explicativa")
+
+# SALVAR RESULTADOS
+# =================
+
+print(f"\\n💾 SALVANDO RESULTADOS...")
+
+# Salvar estatísticas descritivas
+descritivas.to_csv('estatisticas_descritivas.csv')
+
+# Salvar resultados da regressão
+resultados_regressao = pd.DataFrame({
+    'parametro': ['intercepto', 'variavel_x'],
+    'coeficiente': modelo.params,
+    'erro_padrao': modelo.bse,
+    'p_valor': modelo.pvalues
+})
+resultados_regressao.to_csv('resultados_regressao.csv', index=False)
+
+# Salvar métricas de validação
+metricas = pd.DataFrame({
+    'metrica': ['RMSE_treino', 'RMSE_teste', 'MAE_teste', 'R2_teste', 'RMSE_CV_media'],
+    'valor': [rmse_treino, rmse_teste, mae_teste, r2_teste, rmse_cv.mean()]
+})
+metricas.to_csv('metricas_validacao.csv', index=False)
+
+print(f"✅ Análise concluída! Arquivos salvos:")
+print(f"   📁 estatisticas_descritivas.csv")
+print(f"   📁 resultados_regressao.csv") 
+print(f"   📁 metricas_validacao.csv")
+print(f"   🖼️  analise_exploratoria.png")
+print(f"   🖼️  matriz_correlacao.png")
+print(f"   🖼️  comparacao_grupos.png")
+print(f"   🖼️  regressao_linear.png")
+
+print(f"\\n🎯 PRÓXIMOS PASSOS SUGERIDOS:")
+print(f"   1. Verificar pressupostos adicionais se necessário")
+print(f"   2. Considerar transformações de dados se apropriado")
+print(f"   3. Explorar modelos mais complexos se R² baixo")
+print(f"   4. Validar resultados com dados independentes")
+print(f"   5. Documentar limitações e interpretações")
+`;
+
+    const blob = new Blob([codigoPython], { type: 'text/plain; charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'Template_Analise_Cientifica.py';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
+
   // Função para processar respostas do tutorial e gerar recomendações
   const processarTutorial = () => {
     const { objetivo, dados, tamanho, interpretabilidade } = tutorialRespostas;
@@ -1268,28 +2232,28 @@ A metodologia científica em ciência de dados envolve um processo sistemático 
             <Card>
               <CardContent>
                 <Typography variant="h6" gutterBottom>
-                  📊 Relatório Científico Completo
+                  📊 Relatório Científico HTML
                 </Typography>
                 <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-                  Template detalhado seguindo padrões acadêmicos com todas as seções necessárias.
+                  Template profissional em HTML com formatação acadêmica. Pode ser aberto no Word ou navegador.
                 </Typography>
                 
                 <List dense>
                   <ListItem>
                     <ListItemIcon><CheckCircle color="success" fontSize="small" /></ListItemIcon>
-                    <ListItemText primary="Estrutura acadêmica completa" />
+                    <ListItemText primary="Formatação profissional pronta" />
                   </ListItem>
                   <ListItem>
                     <ListItemIcon><CheckCircle color="success" fontSize="small" /></ListItemIcon>
-                    <ListItemText primary="Seções para metodologia e resultados" />
+                    <ListItemText primary="Tabelas e fórmulas estilizadas" />
                   </ListItem>
                   <ListItem>
                     <ListItemIcon><CheckCircle color="success" fontSize="small" /></ListItemIcon>
-                    <ListItemText primary="Checklists de validação" />
+                    <ListItemText primary="Seções metodológicas completas" />
                   </ListItem>
                   <ListItem>
                     <ListItemIcon><CheckCircle color="success" fontSize="small" /></ListItemIcon>
-                    <ListItemText primary="Espaços para código e anexos" />
+                    <ListItemText primary="Compatível com Word/Google Docs" />
                   </ListItem>
                 </List>
 
@@ -1297,10 +2261,10 @@ A metodologia científica em ciência de dados envolve um processo sistemático 
                   variant="contained"
                   startIcon={<Download />}
                   fullWidth
-                  onClick={downloadRelatorioTemplateDetalhado}
+                  onClick={downloadTemplateWord}
                   sx={{ mt: 2 }}
                 >
-                  Download Template Detalhado
+                  Download Template HTML
                 </Button>
               </CardContent>
             </Card>
@@ -1310,80 +2274,127 @@ A metodologia científica em ciência de dados envolve um processo sistemático 
             <Card>
               <CardContent>
                 <Typography variant="h6" gutterBottom>
-                  🎯 Checklist de Qualidade
+                  🎯 Checklist Interativo
                 </Typography>
                 <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-                  Lista de verificação para garantir rigor científico em suas análises.
+                  Checklist completo com sistema de pontuação para garantir qualidade científica.
                 </Typography>
+                
+                <List dense>
+                  <ListItem>
+                    <ListItemIcon><CheckCircle color="success" fontSize="small" /></ListItemIcon>
+                    <ListItemText primary="Sistema de pontuação integrado" />
+                  </ListItem>
+                  <ListItem>
+                    <ListItemIcon><CheckCircle color="success" fontSize="small" /></ListItemIcon>
+                    <ListItemText primary="Categorias por prioridade" />
+                  </ListItem>
+                  <ListItem>
+                    <ListItemIcon><CheckCircle color="success" fontSize="small" /></ListItemIcon>
+                    <ListItemText primary="Perguntas de autocrítica" />
+                  </ListItem>
+                  <ListItem>
+                    <ListItemIcon><CheckCircle color="success" fontSize="small" /></ListItemIcon>
+                    <ListItemText primary="Versão impressa disponível" />
+                  </ListItem>
+                </List>
 
-                <Accordion>
-                  <AccordionSummary expandIcon={<ExpandMore />}>
-                    <Typography variant="subtitle2">📋 Checklist Completo</Typography>
-                  </AccordionSummary>
-                  <AccordionDetails>
-                    <Box>
-                      <Typography variant="subtitle2" gutterBottom color="primary">
-                        Preparação dos Dados:
-                      </Typography>
-                      <List dense>
-                        {[
-                          'Verificar qualidade e completude dos dados',
-                          'Tratar valores faltantes adequadamente',
-                          'Identificar e tratar outliers',
-                          'Verificar distribuições das variáveis',
-                          'Testar pressupostos do método escolhido'
-                        ].map((item, idx) => (
-                          <ListItem key={idx}>
-                            <ListItemIcon>
-                              <input type="checkbox" />
-                            </ListItemIcon>
-                            <ListItemText primary={item} />
-                          </ListItem>
-                        ))}
-                      </List>
+                <Button
+                  variant="contained"
+                  startIcon={<Download />}
+                  fullWidth
+                  onClick={downloadChecklistPDF}
+                  sx={{ mt: 2 }}
+                  color="secondary"
+                >
+                  Download Checklist
+                </Button>
+              </CardContent>
+            </Card>
+          </Grid>
 
-                      <Typography variant="subtitle2" gutterBottom color="primary" sx={{ mt: 2 }}>
-                        Execução da Análise:
-                      </Typography>
-                      <List dense>
-                        {[
-                          'Justificar escolha do método',
-                          'Definir nível de significância',
-                          'Executar testes de validação',
-                          'Calcular intervalos de confiança',
-                          'Verificar robustez dos resultados'
-                        ].map((item, idx) => (
-                          <ListItem key={idx}>
-                            <ListItemIcon>
-                              <input type="checkbox" />
-                            </ListItemIcon>
-                            <ListItemText primary={item} />
-                          </ListItem>
-                        ))}
-                      </List>
+          <Grid item xs={12} md={6}>
+            <Card>
+              <CardContent>
+                <Typography variant="h6" gutterBottom>
+                  💻 Código R Completo
+                </Typography>
+                <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+                  Script R completo com análise exploratória, testes e validação seguindo boas práticas.
+                </Typography>
+                
+                <List dense>
+                  <ListItem>
+                    <ListItemIcon><CheckCircle color="success" fontSize="small" /></ListItemIcon>
+                    <ListItemText primary="Análise exploratória automatizada" />
+                  </ListItem>
+                  <ListItem>
+                    <ListItemIcon><CheckCircle color="success" fontSize="small" /></ListItemIcon>
+                    <ListItemText primary="Testes de pressupostos" />
+                  </ListItem>
+                  <ListItem>
+                    <ListItemIcon><CheckCircle color="success" fontSize="small" /></ListItemIcon>
+                    <ListItemText primary="Validação cruzada" />
+                  </ListItem>
+                  <ListItem>
+                    <ListItemIcon><CheckCircle color="success" fontSize="small" /></ListItemIcon>
+                    <ListItemText primary="Relatório automático" />
+                  </ListItem>
+                </List>
 
-                      <Typography variant="subtitle2" gutterBottom color="primary" sx={{ mt: 2 }}>
-                        Documentação:
-                      </Typography>
-                      <List dense>
-                        {[
-                          'Documentar todo o processo',
-                          'Incluir código reproduzível',
-                          'Discutir limitações',
-                          'Apresentar conclusões claras',
-                          'Sugerir próximos passos'
-                        ].map((item, idx) => (
-                          <ListItem key={idx}>
-                            <ListItemIcon>
-                              <input type="checkbox" />
-                            </ListItemIcon>
-                            <ListItemText primary={item} />
-                          </ListItem>
-                        ))}
-                      </List>
-                    </Box>
-                  </AccordionDetails>
-                </Accordion>
+                <Button
+                  variant="contained"
+                  startIcon={<Download />}
+                  fullWidth
+                  onClick={downloadCodigoR}
+                  sx={{ mt: 2 }}
+                  color="info"
+                >
+                  Download Código R
+                </Button>
+              </CardContent>
+            </Card>
+          </Grid>
+
+          <Grid item xs={12} md={6}>
+            <Card>
+              <CardContent>
+                <Typography variant="h6" gutterBottom>
+                  🐍 Código Python Completo
+                </Typography>
+                <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+                  Script Python científico com pandas, scipy, sklearn e visualizações profissionais.
+                </Typography>
+                
+                <List dense>
+                  <ListItem>
+                    <ListItemIcon><CheckCircle color="success" fontSize="small" /></ListItemIcon>
+                    <ListItemText primary="Bibliotecas científicas modernas" />
+                  </ListItem>
+                  <ListItem>
+                    <ListItemIcon><CheckCircle color="success" fontSize="small" /></ListItemIcon>
+                    <ListItemText primary="Visualizações com seaborn/matplotlib" />
+                  </ListItem>
+                  <ListItem>
+                    <ListItemIcon><CheckCircle color="success" fontSize="small" /></ListItemIcon>
+                    <ListItemText primary="Machine Learning integrado" />
+                  </ListItem>
+                  <ListItem>
+                    <ListItemIcon><CheckCircle color="success" fontSize="small" /></ListItemIcon>
+                    <ListItemText primary="Métricas e validação" />
+                  </ListItem>
+                </List>
+
+                <Button
+                  variant="contained"
+                  startIcon={<Download />}
+                  fullWidth
+                  onClick={downloadCodigoPython}
+                  sx={{ mt: 2 }}
+                  color="warning"
+                >
+                  Download Código Python
+                </Button>
               </CardContent>
             </Card>
           </Grid>
@@ -1392,31 +2403,29 @@ A metodologia científica em ciência de dados envolve um processo sistemático 
             <Card>
               <CardContent>
                 <Typography variant="h6" gutterBottom>
-                  📚 Recursos Adicionais
+                  📚 Template Markdown (Original)
                 </Typography>
-                
-                <Grid container spacing={2}>
-                  <Grid item xs={12} sm={6} md={3}>
-                    <Button variant="outlined" fullWidth startIcon={<FilePresent />}>
-                      Template LaTeX
-                    </Button>
-                  </Grid>
-                  <Grid item xs={12} sm={6} md={3}>
-                    <Button variant="outlined" fullWidth startIcon={<Analytics />}>
-                      Guia de Visualização
-                    </Button>
-                  </Grid>
-                  <Grid item xs={12} sm={6} md={3}>
-                    <Button variant="outlined" fullWidth startIcon={<Psychology />}>
-                      Casos de Uso
-                    </Button>
-                  </Grid>
-                  <Grid item xs={12} sm={6} md={3}>
-                    <Button variant="outlined" fullWidth startIcon={<School />}>
-                      Tutoriais
-                    </Button>
-                  </Grid>
-                </Grid>
+                <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+                  Versão simples em formato Markdown para usuários avançados.
+                </Typography>
+
+                <Button
+                  variant="outlined"
+                  startIcon={<Download />}
+                  onClick={downloadRelatorioTemplateDetalhado}
+                  sx={{ mr: 2, mb: 1 }}
+                >
+                  Download Template .MD
+                </Button>
+
+                <Button
+                  variant="outlined"
+                  startIcon={<Download />}
+                  onClick={downloadGuiaCompleto}
+                  sx={{ mb: 1 }}
+                >
+                  Download Guia Completo .MD
+                </Button>
               </CardContent>
             </Card>
           </Grid>
