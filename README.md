@@ -1,4 +1,38 @@
-# 🚀 DataScience Pro - Plataforma Completa de Análise de Dados
+# 🧠 DataScience Pro V3.0 - Portal Completo de Análise de Dados
+
+> **Portal profissional de ciência de dados com foco em Santa Catarina e metodologia científica**
+
+[![Version](https://img.shields.io/badge/version-3.0.0-blue.svg)](https://github.com/cordeirotelecom/site-analise-de-dados-completa)
+[![Status](https://img.shields.io/badge/status-Production-green.svg)](https://datasciencepro-completo.netlify.app)
+[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+
+## 🏛️ **NOVIDADE V3.0: Portal Santa Catarina Completo**
+
+### ✨ **Principais Funcionalidades**
+
+#### 📍 **Portal de Dados de Santa Catarina**
+- **Dados reais atualizados**: 7.3M população, R$349B PIB, 295 municípios
+- **4 municípios detalhados**: Florianópolis, São José, Joinville, Blumenau
+- **Interface 100% em português** com explicações didáticas
+- **5 seções organizadas**: Municípios, Templates, Fontes, Guias, Power BI
+
+#### 📋 **Templates Educativos**
+- **4 templates prontos** para análise de dados
+- **Múltiplos formatos**: PDF, Excel, Power BI, Word
+- **Análise demográfica, econômica, saúde e educação**
+- **Exemplos práticos** para cada tipo de relatório
+
+#### 🎯 **Metodologia Científica**
+- **Guia passo a passo** com 5 etapas estruturadas
+- **Exemplos práticos** para cada fase da análise
+- **Material didático** completo e detalhado
+- **Boas práticas** de pesquisa científica
+
+#### 📊 **Tutorial Power BI Completo**
+- **Vídeo tutorial** de 25 minutos
+- **Dashboards prontos** para download (.pbix)
+- **Dados de exemplo** tratados (.xlsx)
+- **Guia de instalação** e requisitos
 
 ## 🎯 Visão Geral
 
@@ -8,6 +42,7 @@ O **DataScience Pro** é uma plataforma revolucionária que substitui ferramenta
 
 - **🤖 AutoML Inteligente**: IA seleciona automaticamente os melhores modelos
 - **📊 Análise Completa**: Estatística, correlações, clustering, análise fatorial
+- **🏛️ Portal Santa Catarina**: Dados oficiais com templates educativos
 - **📄 Relatórios Científicos**: Geração automática em LaTeX para publicação
 - **🎨 Interface Sem Código**: Usuários não-técnicos podem fazer análises avançadas
 - **⚡ Pipeline Automatizado**: Do upload à publicação em minutos
