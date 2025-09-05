@@ -42,24 +42,27 @@ import {
   TrendingUp,
   Description,
   SmartToy,
+  BugReport,
 } from '@mui/icons-material';
+import { NotificationProvider } from './components/NotificationProvider';
+import ErrorBoundaryGlobal from './components/ErrorBoundaryGlobal';
+import LoadingComponent from './components/LoadingComponent';
 
 // Lazy loading components para melhor performance
-const UploadArea = lazy(() => import('./components/UploadArea'));
+const UploadArea = lazy(() => import('./components/UploadAreaMelhorado'));
 const AnaliseAvancada = lazy(() => import('./components/AnaliseAvancada'));
 const DashboardView = lazy(() => import('./components/DashboardView'));
 const RelatoriosCientificos = lazy(() => import('./components/RelatoriosCientificos'));
-const RelatoriosCompletosStaCatarina = lazy(() => import('./components/RelatoriosCompletosStaCatarina'));
+import DadosSantaCatarinaCompletoV2 from './components/DadosSantaCatarinaCompletoV2';
 const MetodologiaCientificaAvancada = lazy(() => import('./components/MetodologiaCientificaAvancada'));
 const CentroAprendizadoCompleto = lazy(() => import('./components/CentroAprendizadoCompleto'));
 const DatasetsESitesReais = lazy(() => import('./components/DatasetsESitesReais'));
 const DadosAbertosCompleto = lazy(() => import('./components/DadosAbertosCompleto'));
 const AnalisePreditivaIA = lazy(() => import('./components/AnalisePreditivaIA'));
-const BigDataAnalytics = lazy(() => import('./components/BigDataAnalytics'));
-const SistemaNotificacoes = lazy(() => import('./components/SistemaNotificacoes'));
-const MonitoramentoTempoReal = lazy(() => import('./components/MonitoramentoTempoReal'));
-const BackupAvancado = lazy(() => import('./components/BackupAvancado'));
-const ConfiguracoesAvancadas = lazy(() => import('./components/ConfiguracoesAvancadas'));const theme = createTheme({
+import BigDataAnalyticsCompleto from './components/BigDataAnalyticsCompleto';
+const TestingSystemAdvanced = lazy(() => import('./components/TestingSystemAdvanced'));
+
+const theme = createTheme({
 	palette: {
 		mode: 'light',
 		primary: { main: '#1976d2' },
@@ -79,17 +82,14 @@ const App: React.FC = () => {
     { index: 1, label: 'Análise Avançada', icon: <Analytics /> },
     { index: 2, label: 'Dashboard', icon: <Assessment /> },
     { index: 3, label: 'Relatórios Científicos', icon: <Description /> },
-    { index: 4, label: 'Santa Catarina', icon: <Public /> },
+    { index: 4, label: 'Santa Catarina - Portal Completo', icon: <Public /> },
     { index: 5, label: 'Metodologia Científica', icon: <Science /> },
     { index: 6, label: 'Centro de Aprendizado', icon: <MenuBook /> },
     { index: 7, label: 'Datasets e Sites', icon: <Storage /> },
     { index: 8, label: 'Dados Abertos Completo', icon: <Storage /> },
     { index: 9, label: 'IA Preditiva', icon: <TrendingUp /> },
-    { index: 10, label: 'BigData Analytics', icon: <Storage /> },
-    { index: 11, label: 'Notificações', icon: <Notifications /> },
-    { index: 12, label: 'Monitoramento', icon: <MonitorHeart /> },
-    { index: 13, label: 'Backup Avançado', icon: <Backup /> },
-    { index: 14, label: 'Configurações', icon: <Settings /> },
+    { index: 10, label: 'BigData Analytics Center', icon: <Storage /> },
+    { index: 11, label: 'Testes Automatizados', icon: <BugReport /> },
   ];
 
   const handleDrawerToggle = () => setMobileOpen(!mobileOpen);
@@ -241,17 +241,14 @@ const App: React.FC = () => {
         case 1: return <AnaliseAvancada />;
         case 2: return <DashboardView data={uploadedData} />;
         case 3: return <RelatoriosCientificos />;
-        case 4: return <RelatoriosCompletosStaCatarina />;
+        case 4: return <DadosSantaCatarinaCompletoV2 />;
         case 5: return <MetodologiaCientificaAvancada />;
         case 6: return <CentroAprendizadoCompleto />;
         case 7: return <DatasetsESitesReais />;
         case 8: return <DadosAbertosCompleto />;
         case 9: return <AnalisePreditivaIA />;
-        case 10: return <BigDataAnalytics />;
-        case 11: return <SistemaNotificacoes />;
-        case 12: return <MonitoramentoTempoReal />;
-        case 13: return <BackupAvancado />;
-        case 14: return <ConfiguracoesAvancadas />;
+        case 10: return <BigDataAnalyticsCompleto />;
+        case 11: return <TestingSystemAdvanced />;
         default: return (
           <Alert severity="error" sx={{ m: 2 }}>
             Componente não encontrado para a aba {currentTab}
@@ -267,7 +264,8 @@ const App: React.FC = () => {
     }
   };	return (
 		<ThemeProvider theme={theme}>
-			<CssBaseline />
+			<NotificationProvider>
+				<CssBaseline />
 			<Box sx={{ display: 'flex', minHeight: '100vh' }}>
 				<AppBar 
 					position="fixed" 
@@ -352,24 +350,20 @@ const App: React.FC = () => {
 						minHeight: 'calc(100vh - 64px)',
 					}}
 				>
-					<Suspense fallback={
-						<Box sx={{ 
-							display: 'flex', 
-							justifyContent: 'center', 
-							alignItems: 'center', 
-							minHeight: '400px',
-							flexDirection: 'column',
-						}}>
-							<CircularProgress size={60} color="primary" />
-							<Typography variant="h6" sx={{ mt: 2, color: 'text.secondary' }}>
-								Carregando {menuItems[currentTab]?.label}...
-							</Typography>
-						</Box>
-					}>
-						{renderComponent()}
-					</Suspense>
+					<ErrorBoundaryGlobal>
+						<Suspense fallback={
+							<LoadingComponent 
+								message={`Carregando ${menuItems[currentTab]?.label}...`}
+								variant="circular"
+								size="large"
+							/>
+						}>
+							{renderComponent()}
+						</Suspense>
+					</ErrorBoundaryGlobal>
 				</Box>
 			</Box>
+		</NotificationProvider>
 		</ThemeProvider>
 	);
 };
