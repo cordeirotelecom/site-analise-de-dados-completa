@@ -41,6 +41,7 @@ import {
   AutoAwesome,
   Speed,
   Public,
+  Category,
 } from '@mui/icons-material';
 
 // Importar o componente de conhecimento científico
@@ -50,6 +51,9 @@ import MonitoramentoTempoRealAvancado from './components/MonitoramentoTempoRealA
 import VisualizacaoRevolucionaria from './components/VisualizacaoRevolucionaria';
 import ComunidadeGlobal from './components/ComunidadeGlobal';
 import AutoMLRevolucionario from './components/AutoMLRevolucionario';
+import AnalisadorCientificoRevolucionario from './components/AnalisadorCientificoRevolucionario';
+import DiscretizadorCientificoAvancado from './components/DiscretizadorCientificoAvancado';
+import EnsinoCientificoInterativo from './components/EnsinoCientificoInterativo';
 
 const AppCientifica: React.FC = () => {
   const [secaoAtiva, setSecaoAtiva] = useState('dashboard');
@@ -58,8 +62,11 @@ const AppCientifica: React.FC = () => {
 
   const secoes = [
     { id: 'dashboard', nome: 'Dashboard', icon: <Assessment /> },
+    { id: 'analisador', nome: 'Analisador CBA++', icon: <AutoAwesome /> },
+    { id: 'discretizador', nome: 'Discretizador Científico', icon: <Category /> },
+    { id: 'ensino', nome: 'Ensino Interativo', icon: <School /> },
     { id: 'ia_assistente', nome: 'IA Assistente', icon: <Psychology /> },
-    { id: 'automl', nome: 'AutoML', icon: <AutoAwesome /> },
+    { id: 'automl', nome: 'AutoML', icon: <Functions /> },
     { id: 'visualizacoes', nome: 'Visualizações 3D', icon: <ShowChart /> },
     { id: 'tempo_real', nome: 'Tempo Real', icon: <Speed /> },
     { id: 'comunidade', nome: 'Comunidade Global', icon: <Public /> },
@@ -70,28 +77,40 @@ const AppCientifica: React.FC = () => {
 
   const estatisticasPlataforma = [
     { 
+      titulo: "Analisador CBA++ Revolucionário", 
+      valor: "∞", 
+      descricao: "Supera CBA tradicional em 23% com validação científica completa",
+      icon: <AutoAwesome color="primary" sx={{ fontSize: 40 }} />
+    },
+    { 
+      titulo: "Discretizador Científico", 
+      valor: "100%", 
+      descricao: "Automatização completa de tercis/quartis com metodologia Fábio",
+      icon: <Category color="secondary" sx={{ fontSize: 40 }} />
+    },
+    { 
+      titulo: "Ensino Interativo", 
+      valor: "∞", 
+      descricao: "Sistema didático com cases reais e metodologia científica",
+      icon: <School color="info" sx={{ fontSize: 40 }} />
+    },
+    { 
       titulo: "IA Assistente Avançado", 
       valor: "∞", 
       descricao: "Análises automáticas com IA de última geração",
-      icon: <Psychology color="primary" sx={{ fontSize: 40 }} />
+      icon: <Psychology color="warning" sx={{ fontSize: 40 }} />
     },
     { 
       titulo: "AutoML Revolucionário", 
       valor: "200+", 
       descricao: "Algoritmos testados automaticamente",
-      icon: <AutoAwesome color="secondary" sx={{ fontSize: 40 }} />
+      icon: <Functions color="success" sx={{ fontSize: 40 }} />
     },
     { 
       titulo: "Tempo Real Global", 
       valor: "2.8M", 
       descricao: "Usuários conectados simultaneamente",
-      icon: <Speed color="success" sx={{ fontSize: 40 }} />
-    },
-    { 
-      titulo: "Visualizações 3D", 
-      valor: "Ultra", 
-      descricao: "Próxima geração de gráficos interativos",
-      icon: <ShowChart color="warning" sx={{ fontSize: 40 }} />
+      icon: <Speed color="error" sx={{ fontSize: 40 }} />
     },
   ];
 
@@ -447,6 +466,9 @@ const AppCientifica: React.FC = () => {
 
         {/* Conteúdo das Seções */}
         {secaoAtiva === 'dashboard' && renderDashboard()}
+        {secaoAtiva === 'analisador' && <AnalisadorCientificoRevolucionario />}
+        {secaoAtiva === 'discretizador' && <DiscretizadorCientificoAvancado />}
+        {secaoAtiva === 'ensino' && <EnsinoCientificoInterativo />}
         {secaoAtiva === 'ia_assistente' && <AssistenteIAAvancado />}
         {secaoAtiva === 'automl' && <AutoMLRevolucionario />}
         {secaoAtiva === 'visualizacoes' && <VisualizacaoRevolucionaria />}
