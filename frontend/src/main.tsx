@@ -1,10 +1,10 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import App from './AppSimpleNetlify'
+import AppCientifica from './AppCientifica'
 import './index.css'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <App />
+    <AppCientifica />
   </React.StrictMode>,
 )

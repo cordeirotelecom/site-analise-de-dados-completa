@@ -75,7 +75,6 @@ import {
   PointElement,
 } from 'chart.js';
 import { Bar, Line, Pie, Doughnut } from 'react-chartjs-2';
-import AutomatedReport from './AutomatedReport';
 
 ChartJS.register(
   CategoryScale,
@@ -917,21 +916,12 @@ const DataAnalysisDashboard: React.FC<DataAnalysisDashboardProps> = ({
     );
   };
 
-  const renderReport = () => (
-    <AutomatedReport
-      data={data}
-      analysis={analysis}
-      fileName={fileName}
-    />
-  );
-
   const viewComponents = {
     overview: renderOverview,
     statistics: renderStatistics,
     correlations: renderCorrelations,
     anomalies: renderAnomalies,
-    visualizations: renderVisualizations,
-    report: renderReport
+    visualizations: renderVisualizations
   };
 
   return (
@@ -954,8 +944,7 @@ const DataAnalysisDashboard: React.FC<DataAnalysisDashboardProps> = ({
             { key: 'statistics', label: 'Estatísticas', icon: <Calculate /> },
             { key: 'correlations', label: 'Correlações', icon: <TrendingUp /> },
             { key: 'anomalies', label: 'Anomalias', icon: <Warning /> },
-            { key: 'visualizations', label: 'Gráficos', icon: <BarChart /> },
-            { key: 'report', label: 'Relatório', icon: <Assessment /> }
+            { key: 'visualizations', label: 'Gráficos', icon: <BarChart /> }
           ].map((view) => (
             <Grid item key={view.key}>
               <Button
