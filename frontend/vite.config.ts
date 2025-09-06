@@ -14,19 +14,42 @@ export default defineConfig({
     chunkSizeWarningLimit: 1000,
     rollupOptions: {
       output: {
-        manualChunks: {
-          'vendor': ['react', 'react-dom'],
-          'mui': ['@mui/material', '@mui/icons-material', '@mui/lab'],
-          'charts': ['plotly.js', 'react-plotly.js', 'recharts'],
-          'utils': ['axios', 'date-fns']
+        manualChunks: (id) => {
+          if (id.includes('node_modules')) {
+            if (id.includes('react') || id.includes('react-dom')) {
+              return 'vendor';
+            }
+            if (id.includes('@mui') || id.includes('@emotion')) {
+              return 'mui';
+            }
+            if (id.includes('plotly') || id.includes('chart') || id.includes('recharts')) {
+              return 'charts';
+            }
+            return 'vendor';
+          }
         }
       }
     }
   },
   
-  // Otimizações de desenvolvimento
+  // Configurar polyfills para Node.js modules
+  define: {
+    global: 'globalThis',
+  },
+  
+  resolve: {
+    alias: {
+      buffer: 'buffer',
+      process: 'process/browser',
+      util: 'util',
+    },
+  },
+  
+  // Servidor de desenvolvimento
   server: {
-    port: 3000,
+    port: 5173,
+    host: true,
+    strictPort: false,
     proxy: {
       '/api': {
         target: 'http://localhost:8000',
@@ -46,6 +69,6 @@ export default defineConfig({
   
   // Otimizações de performance
   optimizeDeps: {
-    include: ['react', 'react-dom', '@mui/material', '@mui/icons-material']
+    include: ['react', 'react-dom', '@mui/material', '@mui/icons-material', 'buffer', 'process']
   }
 })

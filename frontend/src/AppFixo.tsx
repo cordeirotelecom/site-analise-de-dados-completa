@@ -55,7 +55,7 @@ const CentroAprendizadoCompleto = lazy(() => import('./components/CentroAprendiz
 const DatasetsESitesReais = lazy(() => import('./components/DatasetsESitesReais'));
 const DadosAbertosCompleto = lazy(() => import('./components/DadosAbertosCompleto'));
 const AnalisePreditivaIA = lazy(() => import('./components/AnalisePreditivaIA'));
-const BigDataAnalytics = lazy(() => import('./components/BigDataAnalytics'));
+const BigDataAnalyticsCompleto = lazy(() => import('./components/BigDataAnalyticsCompleto'));
 const SistemaNotificacoes = lazy(() => import('./components/SistemaNotificacoes'));
 const MonitoramentoTempoReal = lazy(() => import('./components/MonitoramentoTempoReal'));
 const BackupAvancado = lazy(() => import('./components/BackupAvancado'));
@@ -296,7 +296,7 @@ const AppFixo: React.FC = () => {
         case 7: return <DatasetsESitesReais />;
         case 8: return <DadosAbertosCompleto />;
         case 9: return <AnalisePreditivaIA />;
-        case 10: return <BigDataAnalytics />;
+        case 10: return <BigDataAnalyticsCompleto />;
         case 11: return <SistemaNotificacoes />;
         case 12: return <MonitoramentoTempoReal />;
         case 13: return <BackupAvancado />;

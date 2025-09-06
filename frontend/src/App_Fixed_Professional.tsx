@@ -58,7 +58,7 @@ import ConfiguracoesAvancadas from './components/ConfiguracoesAvancadas';
 import DadosAbertosCompleto from './components/DadosAbertosCompleto';
 import BackupAvancado from './components/BackupAvancado';
 import AnalisePreditivaIA from './components/AnalisePreditivaIA';
-import BigDataAnalytics from './components/BigDataAnalytics';
+import BigDataAnalyticsCompleto from './components/BigDataAnalyticsCompleto';
 import SantaCatarinaDataHub from './components/SantaCatarinaDataHub';
 import ScientificAnalysisWorkbench from './components/ScientificAnalysisWorkbench';
 import DatabricksBigDataStudio from './components/DatabricksBigDataStudio';
@@ -461,7 +461,7 @@ const App: React.FC = () => {
         <SantaCatarinaDataHub key="sc-hub" />,
         <ScientificAnalysisWorkbench key="bancada" />,
         <AnalisePreditivaIA key="ia-preditiva" />,
-        <BigDataAnalytics key="bigdata" />,
+        <BigDataAnalyticsCompleto key="bigdata" />,
         <SistemaNotificacoes key="notificacoes" />,
         <MonitoramentoTempoReal key="monitoramento" />,
         <BackupAvancado key="backup" />,

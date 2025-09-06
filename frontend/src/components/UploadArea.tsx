@@ -32,6 +32,13 @@ import {
   DialogActions,
   IconButton,
   Tooltip,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  TextField,
+  Switch,
+  FormControlLabel,
 } from '@mui/material';
 import {
   CloudUpload,
@@ -45,7 +52,17 @@ import {
   Download,
   Refresh,
   Visibility,
+  Close,
+  Assessment,
+  AutoAwesome,
+  Science,
+  PlayArrow,
+  FileUpload,
+  DeleteSweep,
 } from '@mui/icons-material';
+import { useNotification } from './NotificationProvider';
+import Papa from 'papaparse';
+import * as XLSX from 'xlsx';
 
 interface UploadAreaProps {
   onDataUpload: (data: any) => void;
@@ -65,6 +82,117 @@ const UploadArea: React.FC<UploadAreaProps> = ({ onDataUpload }) => {
   const [error, setError] = useState<string>('');
   const [uploadedFiles, setUploadedFiles] = useState<any[]>([]);
   const [selectedFileIndex, setSelectedFileIndex] = useState(0);
+  const { showNotification, showProgress } = useNotification();
+
+  // Função para processar arquivos CSV com Papa Parse
+  const parseCSV = (content: string, filename: string): Promise<any[]> => {
+    return new Promise((resolve, reject) => {
+      Papa.parse(content, {
+        header: true,
+        skipEmptyLines: true,
+        dynamicTyping: true,
+        transformHeader: (header) => header.trim(),
+        transform: (value) => {
+          if (typeof value === 'string') {
+            const trimmed = value.trim();
+            // Tentar converter datas
+            if (trimmed.match(/^\d{4}-\d{2}-\d{2}$/)) {
+              return new Date(trimmed);
+            }
+            // Tentar converter números com vírgula
+            if (trimmed.match(/^\d+,\d+$/)) {
+              return parseFloat(trimmed.replace(',', '.'));
+            }
+            return trimmed;
+          }
+          return value;
+        },
+        complete: (results) => {
+          if (results.errors.length > 0) {
+            console.warn('Avisos no parse CSV:', results.errors);
+            showNotification(
+              `${results.errors.length} avisos encontrados no arquivo ${filename}`, 
+              'warning'
+            );
+          }
+          resolve(results.data);
+        },
+        error: (error) => {
+          reject(new Error(`Erro ao processar CSV: ${error.message}`));
+        }
+      });
+    });
+  };
+
+  // Função para processar arquivos Excel
+  const parseExcel = (arrayBuffer: ArrayBuffer, filename: string): Promise<any[]> => {
+    return new Promise((resolve, reject) => {
+      try {
+        const workbook = XLSX.read(arrayBuffer, { type: 'array' });
+        const sheetName = workbook.SheetNames[0]; // Primeira aba
+        const worksheet = workbook.Sheets[sheetName];
+        const data = XLSX.utils.sheet_to_json(worksheet, { 
+          header: 1,
+          defval: null,
+          raw: false,
+          dateNF: 'yyyy-mm-dd'
+        });
+        
+        if (data.length === 0) {
+          reject(new Error('Arquivo Excel vazio'));
+          return;
+        }
+
+        // Converter para formato com cabeçalhos
+        const headers = data[0] as string[];
+        const rows = data.slice(1);
+        const jsonData = rows.map(row => {
+          const obj: any = {};
+          headers.forEach((header, index) => {
+            obj[header] = (row as any[])[index] || null;
+          });
+          return obj;
+        });
+
+        showNotification(`Excel processado: ${jsonData.length} linhas encontradas`, 'success');
+        resolve(jsonData);
+      } catch (error) {
+        reject(new Error(`Erro ao processar Excel: ${(error as Error).message}`));
+      }
+    });
+  };
+
+  // Função para processar arquivos JSON
+  const parseJSON = (content: string, filename: string): Promise<any[]> => {
+    return new Promise((resolve, reject) => {
+      try {
+        const data = JSON.parse(content);
+        
+        // Se for um array, retornar direto
+        if (Array.isArray(data)) {
+          resolve(data);
+          return;
+        }
+        
+        // Se for um objeto, tentar extrair arrays
+        if (typeof data === 'object') {
+          const arrays = Object.values(data).filter(value => Array.isArray(value));
+          if (arrays.length > 0) {
+            resolve(arrays[0] as any[]);
+            return;
+          }
+          
+          // Se não tiver arrays, converter objeto para array
+          resolve([data]);
+          return;
+        }
+        
+        reject(new Error('Formato JSON inválido'));
+      } catch (error) {
+        reject(new Error(`Erro ao processar JSON: ${(error as Error).message}`));
+      }
+    });
+  };
 
   const supportedFormats = [
     { 
@@ -213,7 +341,7 @@ const UploadArea: React.FC<UploadAreaProps> = ({ onDataUpload }) => {
 
           if (file.name.toLowerCase().endsWith('.csv')) {
             const text = e.target?.result as string;
-            data = parseCSV(text);
+            data = await parseCSV(text, file.name);
             
           } else if (file.name.toLowerCase().endsWith('.json')) {
             const text = e.target?.result as string;
@@ -223,7 +351,7 @@ const UploadArea: React.FC<UploadAreaProps> = ({ onDataUpload }) => {
           } else if (file.name.toLowerCase().match(/\.xlsx?$/)) {
             // Para Excel, vamos usar uma implementação mais robusta
             const arrayBuffer = e.target?.result as ArrayBuffer;
-            data = await parseExcel(arrayBuffer);
+            data = await parseExcel(arrayBuffer, file.name);
             
           } else {
             throw new Error('Formato de arquivo não suportado ainda.');
@@ -269,78 +397,6 @@ const UploadArea: React.FC<UploadAreaProps> = ({ onDataUpload }) => {
         reader.readAsArrayBuffer(file);
       }
     });
-  };
-
-  // Funções auxiliares para parsing
-  const parseCSV = (text: string): any[] => {
-    const lines = text.split('\n').filter(line => line.trim());
-    if (lines.length === 0) return [];
-    
-    const headers = parseCSVLine(lines[0]);
-    const data: any[] = [];
-    
-    for (let i = 1; i < lines.length; i++) {
-      const values = parseCSVLine(lines[i]);
-      if (values.length === 0) continue;
-      
-      const row: any = {};
-      headers.forEach((header, index) => {
-        const value = values[index] || '';
-        row[header] = convertValue(value);
-      });
-      data.push(row);
-    }
-    
-    return data;
-  };
-
-  const parseCSVLine = (line: string): string[] => {
-    const result: string[] = [];
-    let inQuotes = false;
-    let currentField = '';
-    
-    for (let i = 0; i < line.length; i++) {
-      const char = line[i];
-      
-      if (char === '"') {
-        if (inQuotes && line[i + 1] === '"') {
-          currentField += '"';
-          i++; // Skip next quote
-        } else {
-          inQuotes = !inQuotes;
-        }
-      } else if (char === ',' && !inQuotes) {
-        result.push(currentField.trim());
-        currentField = '';
-      } else {
-        currentField += char;
-      }
-    }
-    
-    result.push(currentField.trim());
-    return result;
-  };
-
-  const convertValue = (value: string): any => {
-    if (value === '' || value === 'null' || value === 'NULL') return null;
-    if (value === 'true' || value === 'TRUE') return true;
-    if (value === 'false' || value === 'FALSE') return false;
-    
-    const numValue = Number(value);
-    if (!isNaN(numValue) && value !== '') return numValue;
-    
-    return value;
-  };
-
-  const parseExcel = async (arrayBuffer: ArrayBuffer): Promise<any[]> => {
-    // Para uma implementação mais simples, vamos tratar como CSV por agora
-    // Em uma implementação real, usaríamos a biblioteca 'xlsx'
-    try {
-      const text = new TextDecoder().decode(arrayBuffer);
-      return parseCSV(text);
-    } catch (error) {
-      throw new Error('Formato Excel não suportado nesta versão. Use CSV.');
-    }
   };
 
   const analyzeDataTypes = (data: any[], headers: string[]): any => {
