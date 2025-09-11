@@ -1,6 +1,7 @@
 [build]
-  publish = "."
-  command = "echo 'Site estático pronto'"
+  base = "frontend"
+  publish = "frontend/dist"
+  command = "npm ci && npm run build"
 
 [build.environment]
   NODE_VERSION = "18"
