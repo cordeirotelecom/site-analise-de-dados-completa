@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useCallback, useState, ReactNode } from 'react';
-import { Snackbar, Alert, AlertProps, Slide } from '@mui/material';
+import { Snackbar, Alert, AlertProps, Slide, SlideProps } from '@mui/material';
 import { TransitionProps } from '@mui/material/transitions';
 
 type ToastType = 'success' | 'error' | 'warning' | 'info';
