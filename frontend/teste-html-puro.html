@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DataScience Pro - TESTE PURO HTML</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            padding: 20px; 
+            margin: 0;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 { color: #1976d2; }
+        .status {
+            background: #e3f2fd;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+        button {
+            background: #1976d2;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover { background: #1565c0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎉 DataScience Pro - TESTE PURO HTML</h1>
+        <h2 id="mensagem">Site HTML Funcionando Perfeitamente!</h2>
+        <p><strong>Se você está vendo este texto, o Netlify está funcionando corretamente!</strong></p>
+        
+        <button onclick="testarJavaScript()">Testar JavaScript</button>
+        
+        <div class="status">
+            <h3>✅ Status do Sistema HTML:</h3>
+            <ul>
+                <li>✅ HTML carregado</li>
+                <li>✅ CSS funcionando</li>
+                <li>✅ Netlify deployado</li>
+                <li id="js-status">⏳ JavaScript testando...</li>
+            </ul>
+        </div>
+        
+        <div style="margin-top: 30px; padding: 20px; background: #fff3e0; border-radius: 8px;">
+            <h3>🔧 Diagnóstico:</h3>
+            <p>Este é um teste para verificar se o problema está no React ou no deploy.</p>
+            <p><strong>Data/Hora:</strong> <span id="timestamp"></span></p>
+        </div>
+    </div>
+
+    <script>
+        function testarJavaScript() {
+            document.getElementById('mensagem').textContent = 'JavaScript funcionando! 🚀';
+            document.getElementById('js-status').innerHTML = '✅ JavaScript funcionando';
+            alert('Tudo funcionando perfeitamente!');
+        }
+        
+        // Mostrar timestamp
+        document.getElementById('timestamp').textContent = new Date().toLocaleString('pt-BR');
+        
+        // Testar JS automaticamente
+        setTimeout(() => {
+            document.getElementById('js-status').innerHTML = '✅ JavaScript carregado automaticamente';
+        }, 1000);
+    </script>
+</body>
+</html>

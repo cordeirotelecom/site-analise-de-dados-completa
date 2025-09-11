@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {
   Box,
   Container,
@@ -55,7 +55,7 @@ import AnalisadorCientificoRevolucionario from './components/AnalisadorCientific
 import DiscretizadorCientificoAvancado from './components/DiscretizadorCientificoAvancado';
 import EnsinoCientificoInterativo from './components/EnsinoCientificoInterativo';
 
-const AppCientifica: React.FC = () => {
+const AppCientifica = () => {
   const [secaoAtiva, setSecaoAtiva] = useState('dashboard');
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
