@@ -38,6 +38,10 @@ import {
 import { useLoading, useCache } from './hooks/usePerformance';
 import LoadingComponent from './components/LoadingComponent';
 
+interface DataScienceProCompletoProps {
+  defaultTab?: number;
+}
+
 interface TabPanelProps {
   children?: React.ReactNode;
   index: number;
@@ -59,8 +63,8 @@ function TabPanel(props: TabPanelProps) {
   );
 }
 
-const DataScienceProCompleto = () => {
-  const [tabValue, setTabValue] = useState(0);
+const DataScienceProCompleto: React.FC<DataScienceProCompletoProps> = ({ defaultTab = 0 }) => {
+  const [tabValue, setTabValue] = useState(defaultTab);
   const [uploadProgress, setUploadProgress] = useState(0);
   const { loading, startLoading, stopLoading } = useLoading();
   const [stats, setStats] = useCache('dashboardStats', {
@@ -93,19 +97,9 @@ const DataScienceProCompleto = () => {
   };
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      {/* Header */}
-      <AppBar position="static" sx={{ background: 'linear-gradient(45deg, #1976d2, #42a5f5)' }}>
-        <Toolbar>
-          <Typography variant="h5" component="div" sx={{ flexGrow: 1, fontWeight: 'bold' }}>
-            🚀 DataScience Pro - Plataforma Big Data & Machine Learning
-          </Typography>
-        </Toolbar>
-      </AppBar>
-
-      <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-        {/* Estatísticas Principais */}
-        <Grid container spacing={3} sx={{ mb: 4 }}>
+    <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+      {/* Estatísticas Principais */}
+      <Grid container spacing={3} sx={{ mb: 4 }}>
           {[
             { icon: HadoopIcon, title: 'Hadoop Cluster', value: `${stats.hadoopNodes} Nodes`, subtitle: 'Processamento Distribuído', gradient: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', delay: 100 },
             { icon: SparkIcon, title: 'Apache Spark', value: stats.sparkData, subtitle: 'Dados Processados', gradient: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)', delay: 200 },
@@ -557,8 +551,7 @@ const DataScienceProCompleto = () => {
             </Grid>
           </CardContent>
         </Card>
-      </Container>
-    </Box>
+    </Container>
   );
 };
 
