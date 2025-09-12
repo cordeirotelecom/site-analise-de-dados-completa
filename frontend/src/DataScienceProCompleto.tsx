@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, lazy, Suspense } from 'react';
 import {
   AppBar,
   Toolbar,
@@ -18,7 +18,10 @@ import {
   ListItemIcon,
   Chip,
   LinearProgress,
-  Alert
+  Alert,
+  Fade,
+  Zoom,
+  Slide
 } from '@mui/material';
 import {
   Storage as HadoopIcon,
@@ -32,6 +35,8 @@ import {
   Code as CodeIcon,
   PlayArrow as RunIcon
 } from '@mui/icons-material';
+import { useLoading, useCache } from './hooks/usePerformance';
+import LoadingComponent from './components/LoadingComponent';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -57,9 +62,21 @@ function TabPanel(props: TabPanelProps) {
 const DataScienceProCompleto = () => {
   const [tabValue, setTabValue] = useState(0);
   const [uploadProgress, setUploadProgress] = useState(0);
+  const { loading, startLoading, stopLoading } = useLoading();
+  const [stats, setStats] = useCache('dashboardStats', {
+    hadoopNodes: 15,
+    sparkData: '2.4TB',
+    mlModels: 127,
+    analytics: '99.9%'
+  });
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
+    startLoading();
     setTabValue(newValue);
+    // Simula carregamento de dados da aba
+    setTimeout(() => {
+      stopLoading();
+    }, 500);
   };
 
   const simulateUpload = () => {
@@ -89,46 +106,36 @@ const DataScienceProCompleto = () => {
       <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
         {/* Estatísticas Principais */}
         <Grid container spacing={3} sx={{ mb: 4 }}>
-          <Grid item xs={12} sm={6} md={3}>
-            <Card sx={{ background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', color: 'white' }}>
-              <CardContent>
-                <HadoopIcon sx={{ fontSize: 40, mb: 1 }} />
-                <Typography variant="h6">Hadoop Cluster</Typography>
-                <Typography variant="h4">15 Nodes</Typography>
-                <Typography variant="body2">Processamento Distribuído</Typography>
-              </CardContent>
-            </Card>
-          </Grid>
-          <Grid item xs={12} sm={6} md={3}>
-            <Card sx={{ background: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)', color: 'white' }}>
-              <CardContent>
-                <SparkIcon sx={{ fontSize: 40, mb: 1 }} />
-                <Typography variant="h6">Apache Spark</Typography>
-                <Typography variant="h4">3.5.0</Typography>
-                <Typography variant="body2">Análise em Tempo Real</Typography>
-              </CardContent>
-            </Card>
-          </Grid>
-          <Grid item xs={12} sm={6} md={3}>
-            <Card sx={{ background: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)', color: 'white' }}>
-              <CardContent>
-                <MLIcon sx={{ fontSize: 40, mb: 1 }} />
-                <Typography variant="h6">ML Models</Typography>
-                <Typography variant="h4">47</Typography>
-                <Typography variant="body2">Modelos Treinados</Typography>
-              </CardContent>
-            </Card>
-          </Grid>
-          <Grid item xs={12} sm={6} md={3}>
-            <Card sx={{ background: 'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)', color: 'white' }}>
-              <CardContent>
-                <DeepLearningIcon sx={{ fontSize: 40, mb: 1 }} />
-                <Typography variant="h6">Deep Learning</Typography>
-                <Typography variant="h4">12 TB</Typography>
-                <Typography variant="body2">Dados Processados</Typography>
-              </CardContent>
-            </Card>
-          </Grid>
+          {[
+            { icon: HadoopIcon, title: 'Hadoop Cluster', value: `${stats.hadoopNodes} Nodes`, subtitle: 'Processamento Distribuído', gradient: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', delay: 100 },
+            { icon: SparkIcon, title: 'Apache Spark', value: stats.sparkData, subtitle: 'Dados Processados', gradient: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)', delay: 200 },
+            { icon: MLIcon, title: 'ML Models', value: stats.mlModels, subtitle: 'Modelos Treinados', gradient: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)', delay: 300 },
+            { icon: DeepLearningIcon, title: 'Analytics', value: stats.analytics, subtitle: 'Precisão Média', gradient: 'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)', delay: 400 }
+          ].map((stat, index) => (
+            <Grid item xs={12} sm={6} md={3} key={stat.title}>
+              <Zoom in={true} timeout={stat.delay}>
+                <Card 
+                  sx={{ 
+                    background: stat.gradient, 
+                    color: 'white',
+                    cursor: 'pointer',
+                    transition: 'transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out',
+                    '&:hover': {
+                      transform: 'translateY(-4px)',
+                      boxShadow: '0 8px 25px rgba(0,0,0,0.15)'
+                    }
+                  }}
+                >
+                  <CardContent>
+                    <stat.icon sx={{ fontSize: 40, mb: 1 }} />
+                    <Typography variant="h6">{stat.title}</Typography>
+                    <Typography variant="h4" sx={{ fontWeight: 'bold' }}>{stat.value}</Typography>
+                    <Typography variant="body2">{stat.subtitle}</Typography>
+                  </CardContent>
+                </Card>
+              </Zoom>
+            </Grid>
+          ))}
         </Grid>
 
         {/* Navegação por Abas */}

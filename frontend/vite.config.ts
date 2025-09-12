@@ -4,29 +4,21 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   plugins: [react()],
   
-  // Configurações de build para produção
+  // Configurações de build para produção otimizadas
   build: {
     target: 'es2015',
     outDir: 'dist',
     assetsDir: 'assets',
     sourcemap: false,
     minify: 'esbuild',
-    chunkSizeWarningLimit: 1000,
+    chunkSizeWarningLimit: 500,
     rollupOptions: {
       output: {
-        manualChunks: (id) => {
-          if (id.includes('node_modules')) {
-            if (id.includes('react') || id.includes('react-dom')) {
-              return 'vendor';
-            }
-            if (id.includes('@mui') || id.includes('@emotion')) {
-              return 'mui';
-            }
-            if (id.includes('plotly') || id.includes('chart') || id.includes('recharts')) {
-              return 'charts';
-            }
-            return 'vendor';
-          }
+        manualChunks: {
+          'vendor': ['react', 'react-dom'],
+          'mui': ['@mui/material', '@mui/icons-material', '@emotion/react', '@emotion/styled'],
+          'charts': ['chart.js', 'react-chartjs-2', 'recharts', 'plotly.js'],
+          'utils': ['axios', 'date-fns', 'papaparse']
         }
       }
     }
@@ -43,6 +35,11 @@ export default defineConfig({
       process: 'process/browser',
       util: 'util',
     },
+  },
+  
+  // Otimizações de desenvolvimento
+  optimizeDeps: {
+    include: ['react', 'react-dom', '@mui/material', '@emotion/react', '@emotion/styled']
   },
   
   // Servidor de desenvolvimento
@@ -69,6 +66,6 @@ export default defineConfig({
   
   // Otimizações de performance
   optimizeDeps: {
-    include: ['react', 'react-dom', '@mui/material', '@mui/icons-material', 'buffer', 'process']
+    include: ['react', 'react-dom', '@mui/material', '@mui/icons-material', '@emotion/react', '@emotion/styled', 'buffer', 'process']
   }
 })
