@@ -55,7 +55,7 @@ const AppCientificaCompleto = () => {
     { id: 'ensino', nome: 'Ensino Interativo', icon: <School /> },
     { id: 'ia_assistente', nome: 'IA Assistente', icon: <Psychology /> },
     { id: 'automl', nome: 'AutoML', icon: <Functions /> },
-    { id: 'visualizacoes', nome: 'Visualizações 3D', icon: <ShowChart /> },
+    { id: 'visualizacoes', nome: 'Visualizações', icon: <ShowChart /> },
     { id: 'tempo_real', nome: 'Tempo Real', icon: <Speed /> },
     { id: 'comunidade', nome: 'Comunidade Global', icon: <Public /> },
     { id: 'metodologia', nome: 'Metodologia Científica', icon: <Science /> },
@@ -350,8 +350,8 @@ const AppCientificaCompleto = () => {
           'Machine Learning automatizado com seleção inteligente de algoritmos, otimização de hiperparâmetros e validação cruzada automática.'
         )}
         {secaoAtiva === 'visualizacoes' && renderSecaoGenerica(
-          '📊 Visualizações 3D Revolucionárias',
-          'Gráficos interativos 3D com tecnologia de ponta para exploração visual avançada de dados multidimensionais.'
+          '📊 Visualizações Funcionais',
+          'Gráficos práticos e funcionais para análise visual dos seus dados reais.'
         )}
         {secaoAtiva === 'tempo_real' && renderSecaoGenerica(
           '⏱️ Monitoramento Tempo Real',
