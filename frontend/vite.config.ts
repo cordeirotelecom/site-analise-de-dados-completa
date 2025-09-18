@@ -37,9 +37,9 @@ export default defineConfig({
     },
   },
   
-  // Otimizações de desenvolvimento
+  // Otimizações de desenvolvimento e produção
   optimizeDeps: {
-    include: ['react', 'react-dom', '@mui/material', '@emotion/react', '@emotion/styled']
+    include: ['react', 'react-dom', '@mui/material', '@mui/icons-material', '@emotion/react', '@emotion/styled', 'buffer', 'process']
   },
   
   // Servidor de desenvolvimento
@@ -62,10 +62,5 @@ export default defineConfig({
   },
   
   // Configurações de base para deploy
-  base: '/',
-  
-  // Otimizações de performance
-  optimizeDeps: {
-    include: ['react', 'react-dom', '@mui/material', '@mui/icons-material', '@emotion/react', '@emotion/styled', 'buffer', 'process']
-  }
+  base: '/'
 })

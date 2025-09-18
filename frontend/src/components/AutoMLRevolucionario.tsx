@@ -186,19 +186,19 @@ const AutoMLRevolucionario: React.FC = () => {
     {
       nome: "🧠 Neural Architecture Search (NAS)",
       descricao: "IA que projeta redes neurais automaticamente",
-      impacto: "Supera arquiteturas manuais em 95% dos casos",
+      impacto: "Otimização automática de arquiteturas neurais",
       ativo: true
     },
     {
       nome: "⚡ AutoML Distribuído",
       descricao: "Processamento paralelo em múltiplas GPUs",
-      impacto: "100x mais rápido que ferramentas tradicionais",
+      impacto: "Processamento acelerado para datasets grandes",
       ativo: true
     },
     {
       nome: "🔬 Explicabilidade Automática",
       descricao: "SHAP, LIME e outras técnicas automaticamente",
-      impacto: "Modelos 100% interpretáveis e auditáveis",
+      impacto: "Modelos interpretáveis e auditáveis",
       ativo: true
     },
     {
@@ -377,13 +377,13 @@ joblib.dump(modelo, 'modelo_automl.pkl')`,
       {/* Header */}
       <Box sx={{ textAlign: 'center', mb: 4 }}>
         <Typography variant="h3" gutterBottom>
-          🤖 AutoML Revolucionário
+          🤖 AutoML Avançado
         </Typography>
         <Typography variant="h6" color="text.secondary">
           Inteligência Artificial que cria modelos de ML automaticamente
         </Typography>
         <Typography variant="body1" color="text.secondary" sx={{ mt: 2 }}>
-          De dados brutos a modelo em produção em segundos, sem código, 100% automático
+          De dados brutos a modelo em produção, automação inteligente de ML
         </Typography>
       </Box>
 
@@ -405,7 +405,7 @@ joblib.dump(modelo, 'modelo_automl.pkl')`,
                     onClick={executarAutoML}
                     sx={{ fontSize: '1.2rem', py: 2, px: 4 }}
                   >
-                    Iniciar AutoML Revolucionário
+                    Iniciar AutoML
                   </Button>
                   <Typography variant="body2" sx={{ mt: 2 }}>
                     A IA irá analisar seus dados e criar o melhor modelo automaticamente

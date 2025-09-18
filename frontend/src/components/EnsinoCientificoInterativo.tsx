@@ -646,7 +646,7 @@ const EnsinerCientificoInterativo: React.FC = () => {
       <Card sx={{ mb: 3, background: 'linear-gradient(45deg, #1565c0 30%, #42a5f5 90%)' }}>
         <CardContent>
           <Typography variant="h6" sx={{ color: 'white', mb: 2 }}>
-            🎓 Sistema de Ensino Revolucionário
+            🎓 Sistema de Ensino Interativo
           </Typography>
           <Grid container spacing={2}>
             <Grid item xs={12} md={4}>

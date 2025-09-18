@@ -1,16 +1,7 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
-import { Box } from '@mui/material';
-
-// Componentes principais
 import DataScienceProCompleto from './DataScienceProCompleto';
-import Navigation from './components/Navigation';
-
-// Lazy loading dos componentes de páginas
-import { Suspense } from 'react';
-import LoadingComponent from './components/LoadingComponent';
 
 const theme = createTheme({
   palette: {
@@ -33,75 +24,41 @@ const theme = createTheme({
   typography: {
     fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
     h1: {
-      fontWeight: 700,
+      fontSize: '2.5rem',
+      fontWeight: 600,
     },
     h2: {
-      fontWeight: 600,
-    },
-    h3: {
-      fontWeight: 600,
+      fontSize: '2rem',
+      fontWeight: 500,
     },
   },
   components: {
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          textTransform: 'none',
+          borderRadius: 8,
+        },
+      },
+    },
     MuiCard: {
       styleOverrides: {
         root: {
           borderRadius: 12,
-          boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
-          transition: 'transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out',
-          '&:hover': {
-            transform: 'translateY(-2px)',
-            boxShadow: '0 8px 25px rgba(0,0,0,0.15)',
-          },
-        },
-      },
-    },
-    MuiButton: {
-      styleOverrides: {
-        root: {
-          borderRadius: 8,
-          textTransform: 'none',
-          fontWeight: 600,
+          boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
         },
       },
     },
   },
 });
 
-// Componentes de página
-const HomePage = () => <DataScienceProCompleto defaultTab={0} />;
-const HadoopPage = () => <DataScienceProCompleto defaultTab={0} />;
-const SparkPage = () => <DataScienceProCompleto defaultTab={1} />;
-const MLPage = () => <DataScienceProCompleto defaultTab={2} />;
-const DeepLearningPage = () => <DataScienceProCompleto defaultTab={3} />;
-const DataEngineeringPage = () => <DataScienceProCompleto defaultTab={4} />;
-const AnalyticsPage = () => <DataScienceProCompleto defaultTab={5} />;
-
-const App: React.FC = () => {
+function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Router>
-        <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-          <Navigation />
-          <Box component="main" sx={{ flexGrow: 1 }}>
-            <Suspense fallback={<LoadingComponent fullScreen message="Carregando página..." />}>
-              <Routes>
-                <Route path="/" element={<HomePage />} />
-                <Route path="/hadoop" element={<HadoopPage />} />
-                <Route path="/spark" element={<SparkPage />} />
-                <Route path="/machine-learning" element={<MLPage />} />
-                <Route path="/deep-learning" element={<DeepLearningPage />} />
-                <Route path="/data-engineering" element={<DataEngineeringPage />} />
-                <Route path="/analytics" element={<AnalyticsPage />} />
-                <Route path="*" element={<Navigate to="/" replace />} />
-              </Routes>
-            </Suspense>
-          </Box>
-        </Box>
-      </Router>
+      <DataScienceProCompleto />
     </ThemeProvider>
   );
-};
+}
 
 export default App;

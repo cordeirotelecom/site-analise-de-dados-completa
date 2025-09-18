@@ -16,6 +16,9 @@ from typing import List, Dict, Any, Optional
 from datetime import datetime
 import logging
 
+# Importar rotas
+from app.rotas.santa_catarina_completo import router as santa_catarina_router
+
 # Configurar logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -37,6 +40,9 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Registrar rotas
+app.include_router(santa_catarina_router, prefix="/api/santa-catarina", tags=["Santa Catarina"])
 
 # Variável global para armazenar dados carregados
 dados_sessao = {}

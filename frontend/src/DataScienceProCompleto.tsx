@@ -1,557 +1,390 @@
-import { useState, lazy, Suspense } from 'react';
+import React, { useState } from 'react';
 import {
-  AppBar,
-  Toolbar,
-  Typography,
+  Box,
   Container,
-  Grid,
+  Typography,
   Card,
   CardContent,
+  AppBar,
+  Toolbar,
   Button,
-  Box,
-  Tab,
-  Tabs,
+  Grid,
   Paper,
-  List,
-  ListItem,
-  ListItemText,
-  ListItemIcon,
-  Chip,
-  LinearProgress,
   Alert,
-  Fade,
-  Zoom,
-  Slide
+  Chip,
+  useTheme,
+  useMediaQuery,
+  Switch,
+  FormControlLabel,
+  CircularProgress,
 } from '@mui/material';
 import {
-  Storage as HadoopIcon,
-  Speed as SparkIcon,
-  Psychology as MLIcon,
-  AutoAwesome as DeepLearningIcon,
-  Engineering as DataEngIcon,
-  CloudUpload as UploadIcon,
-  Analytics as AnalyticsIcon,
-  School as LearningIcon,
-  Code as CodeIcon,
-  PlayArrow as RunIcon
+  Science,
+  School,
+  Assessment,
+  AutoAwesome,
+  Category,
+  Psychology,
+  Functions,
+  ShowChart,
+  Speed,
+  Public,
+  Analytics,
+  Timeline,
+  Upload,
+  CheckCircle,
+  BugReport,
+  Api,
+  Storage,
 } from '@mui/icons-material';
-import { useLoading, useCache } from './hooks/usePerformance';
-import LoadingComponent from './components/LoadingComponent';
 
-interface DataScienceProCompletoProps {
-  defaultTab?: number;
-}
+// Importações diretas dos componentes
+import AnalisadorCientificoRevolucionario from './components/AnalisadorCientificoRevolucionario';
+import DiscretizadorCientificoAvancado from './components/DiscretizadorCientificoAvancado';
+import EnsinoCientificoInterativo from './components/EnsinoCientificoInterativo';
+import AssistenteIAAvancado from './components/AssistenteIAAvancado';
+import AutoMLRevolucionario from './components/AutoMLRevolucionario';
+import VisualizacaoRevolucionaria from './components/VisualizacaoRevolucionaria';
+import MonitoramentoTempoRealAvancado from './components/MonitoramentoTempoRealAvancado';
+import ComunidadeGlobal from './components/ComunidadeGlobal';
+import SistemaConhecimento from './components/SistemaConhecimento';
 
-interface TabPanelProps {
-  children?: React.ReactNode;
-  index: number;
-  value: number;
-}
+const DataScienceProCompleto: React.FC = () => {
+  const [secaoAtiva, setSecaoAtiva] = useState('dashboard');
+  const [modoAvancado, setModoAvancado] = useState(false);
+  const [carregando, setCarregando] = useState(false);
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
-function TabPanel(props: TabPanelProps) {
-  const { children, value, index, ...other } = props;
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
-      {...other}
-    >
-      {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
-    </div>
-  );
-}
+  const secoes = [
+    { id: 'dashboard', nome: 'Dashboard', icon: <Assessment />, status: 'ativo' },
+    { id: 'analisador', nome: 'Analisador CBA', icon: <AutoAwesome />, status: 'ativo' },
+    { id: 'discretizador', nome: 'Discretizador', icon: <Category />, status: 'ativo' },
+    { id: 'ensino', nome: 'Tutoriais', icon: <School />, status: 'ativo' },
+    { id: 'ia_assistente', nome: 'Assistente IA', icon: <Psychology />, status: 'ativo' },
+    { id: 'automl', nome: 'AutoML', icon: <Functions />, status: 'ativo' },
+    { id: 'visualizacoes', nome: 'Visualizações', icon: <ShowChart />, status: 'ativo' },
+    { id: 'tempo_real', nome: 'Monitoramento', icon: <Speed />, status: 'ativo' },
+    { id: 'comunidade', nome: 'Comunidade', icon: <Public />, status: 'ativo' },
+    { id: 'santa_catarina', nome: 'Santa Catarina', icon: <Api />, status: 'implementado' },
+    { id: 'conhecimento', nome: 'Base Conhecimento', icon: <Storage />, status: 'implementado' },
+  ];
 
-const DataScienceProCompleto: React.FC<DataScienceProCompletoProps> = ({ defaultTab = 0 }) => {
-  const [tabValue, setTabValue] = useState(defaultTab);
-  const [uploadProgress, setUploadProgress] = useState(0);
-  const { loading, startLoading, stopLoading } = useLoading();
-  const [stats, setStats] = useCache('dashboardStats', {
-    hadoopNodes: 15,
-    sparkData: '2.4TB',
-    mlModels: 127,
-    analytics: '99.9%'
-  });
-
-  const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
-    startLoading();
-    setTabValue(newValue);
-    // Simula carregamento de dados da aba
-    setTimeout(() => {
-      stopLoading();
-    }, 500);
+  const handleSecaoChange = async (novaSecao: string) => {
+    setCarregando(true);
+    
+    // Simular carregamento (remover em produção)
+    await new Promise(resolve => setTimeout(resolve, 300));
+    
+    setSecaoAtiva(novaSecao);
+    setCarregando(false);
+    
+    console.log(`Navegando para: ${novaSecao}`);
   };
 
-  const simulateUpload = () => {
-    setUploadProgress(0);
-    const timer = setInterval(() => {
-      setUploadProgress((prevProgress) => {
-        if (prevProgress >= 100) {
-          clearInterval(timer);
-          return 100;
-        }
-        return prevProgress + 10;
-      });
-    }, 200);
-  };
-
-  return (
-    <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-      {/* Estatísticas Principais */}
-      <Grid container spacing={3} sx={{ mb: 4 }}>
-          {[
-            { icon: HadoopIcon, title: 'Hadoop Cluster', value: `${stats.hadoopNodes} Nodes`, subtitle: 'Processamento Distribuído', gradient: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', delay: 100 },
-            { icon: SparkIcon, title: 'Apache Spark', value: stats.sparkData, subtitle: 'Dados Processados', gradient: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)', delay: 200 },
-            { icon: MLIcon, title: 'ML Models', value: stats.mlModels, subtitle: 'Modelos Treinados', gradient: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)', delay: 300 },
-            { icon: DeepLearningIcon, title: 'Analytics', value: stats.analytics, subtitle: 'Precisão Média', gradient: 'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)', delay: 400 }
-          ].map((stat, index) => (
-            <Grid item xs={12} sm={6} md={3} key={stat.title}>
-              <Zoom in={true} timeout={stat.delay}>
-                <Card 
-                  sx={{ 
-                    background: stat.gradient, 
-                    color: 'white',
-                    cursor: 'pointer',
-                    transition: 'transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out',
-                    '&:hover': {
-                      transform: 'translateY(-4px)',
-                      boxShadow: '0 8px 25px rgba(0,0,0,0.15)'
-                    }
-                  }}
-                >
-                  <CardContent>
-                    <stat.icon sx={{ fontSize: 40, mb: 1 }} />
-                    <Typography variant="h6">{stat.title}</Typography>
-                    <Typography variant="h4" sx={{ fontWeight: 'bold' }}>{stat.value}</Typography>
-                    <Typography variant="body2">{stat.subtitle}</Typography>
-                  </CardContent>
-                </Card>
-              </Zoom>
-            </Grid>
-          ))}
-        </Grid>
-
-        {/* Navegação por Abas */}
-        <Paper sx={{ width: '100%', mb: 3 }}>
-          <Tabs
-            value={tabValue}
-            onChange={handleTabChange}
-            variant="scrollable"
-            scrollButtons="auto"
-            sx={{ borderBottom: 1, borderColor: 'divider' }}
-          >
-            <Tab icon={<HadoopIcon />} label="Hadoop & Big Data" />
-            <Tab icon={<SparkIcon />} label="Apache Spark" />
-            <Tab icon={<MLIcon />} label="Machine Learning" />
-            <Tab icon={<DeepLearningIcon />} label="Deep Learning" />
-            <Tab icon={<DataEngIcon />} label="Data Engineering" />
-            <Tab icon={<LearningIcon />} label="Aprendizado" />
-          </Tabs>
-
-          {/* Hadoop & Big Data */}
-          <TabPanel value={tabValue} index={0}>
-            <Grid container spacing={3}>
-              <Grid item xs={12} md={6}>
-                <Card>
-                  <CardContent>
-                    <Typography variant="h6" gutterBottom>
-                      🐘 Ecossistema Hadoop
-                    </Typography>
-                    <List>
-                      <ListItem>
-                        <ListItemIcon><HadoopIcon color="primary" /></ListItemIcon>
-                        <ListItemText primary="HDFS - Sistema de Arquivos Distribuído" secondary="Armazenamento escalável de petabytes" />
-                      </ListItem>
-                      <ListItem>
-                        <ListItemIcon><AnalyticsIcon color="primary" /></ListItemIcon>
-                        <ListItemText primary="MapReduce - Processamento Paralelo" secondary="Algoritmos distribuídos eficientes" />
-                      </ListItem>
-                      <ListItem>
-                        <ListItemIcon><DataEngIcon color="primary" /></ListItemIcon>
-                        <ListItemText primary="YARN - Gerenciamento de Recursos" secondary="Orquestração de workloads" />
-                      </ListItem>
-                    </List>
-                  </CardContent>
-                </Card>
-              </Grid>
-              <Grid item xs={12} md={6}>
-                <Card>
-                  <CardContent>
-                    <Typography variant="h6" gutterBottom>
-                      📊 Ferramentas do Ecossistema
-                    </Typography>
-                    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, mb: 2 }}>
-                      <Chip label="Hive" color="primary" />
-                      <Chip label="HBase" color="secondary" />
-                      <Chip label="Kafka" color="success" />
-                      <Chip label="Flume" color="info" />
-                      <Chip label="Sqoop" color="warning" />
-                      <Chip label="Oozie" color="error" />
-                    </Box>
-                    <Button variant="contained" startIcon={<UploadIcon />} onClick={simulateUpload}>
-                      Upload Big Data
-                    </Button>
-                    {uploadProgress > 0 && (
-                      <Box sx={{ mt: 2 }}>
-                        <LinearProgress variant="determinate" value={uploadProgress} />
-                        <Typography variant="body2" sx={{ mt: 1 }}>
-                          Progresso: {uploadProgress}%
-                        </Typography>
-                      </Box>
-                    )}
-                  </CardContent>
-                </Card>
-              </Grid>
-            </Grid>
-          </TabPanel>
-
-          {/* Apache Spark */}
-          <TabPanel value={tabValue} index={1}>
-            <Grid container spacing={3}>
-              <Grid item xs={12} md={8}>
-                <Card>
-                  <CardContent>
-                    <Typography variant="h6" gutterBottom>
-                      ⚡ Apache Spark - Processamento Rápido
-                    </Typography>
-                    <Alert severity="info" sx={{ mb: 2 }}>
-                      Spark é 100x mais rápido que Hadoop MapReduce para processamento em memória
-                    </Alert>
-                    <List>
-                      <ListItem>
-                        <ListItemText 
-                          primary="Spark SQL" 
-                          secondary="Processamento de dados estruturados com queries SQL otimizadas" 
-                        />
-                      </ListItem>
-                      <ListItem>
-                        <ListItemText 
-                          primary="Spark Streaming" 
-                          secondary="Processamento de dados em tempo real com micro-batches" 
-                        />
-                      </ListItem>
-                      <ListItem>
-                        <ListItemText 
-                          primary="MLlib" 
-                          secondary="Biblioteca de machine learning escalável e distribuída" 
-                        />
-                      </ListItem>
-                      <ListItem>
-                        <ListItemText 
-                          primary="GraphX" 
-                          secondary="Processamento de grafos em larga escala" 
-                        />
-                      </ListItem>
-                    </List>
-                  </CardContent>
-                </Card>
-              </Grid>
-              <Grid item xs={12} md={4}>
-                <Card>
-                  <CardContent>
-                    <Typography variant="h6" gutterBottom>
-                      🔧 Configuração Atual
-                    </Typography>
-                    <Typography variant="body2" sx={{ mb: 1 }}>
-                      <strong>Executors:</strong> 50
-                    </Typography>
-                    <Typography variant="body2" sx={{ mb: 1 }}>
-                      <strong>Cores:</strong> 200 total
-                    </Typography>
-                    <Typography variant="body2" sx={{ mb: 1 }}>
-                      <strong>Memória:</strong> 500GB
-                    </Typography>
-                    <Typography variant="body2" sx={{ mb: 2 }}>
-                      <strong>Modo:</strong> Cluster
-                    </Typography>
-                    <Button variant="outlined" startIcon={<RunIcon />} fullWidth>
-                      Executar Job Spark
-                    </Button>
-                  </CardContent>
-                </Card>
-              </Grid>
-            </Grid>
-          </TabPanel>
-
-          {/* Machine Learning */}
-          <TabPanel value={tabValue} index={2}>
-            <Grid container spacing={3}>
-              <Grid item xs={12}>
-                <Card>
-                  <CardContent>
-                    <Typography variant="h6" gutterBottom>
-                      🤖 Algoritmos de Machine Learning Implementados
-                    </Typography>
-                    <Grid container spacing={2}>
-                      <Grid item xs={12} sm={6} md={4}>
-                        <Paper sx={{ p: 2, textAlign: 'center' }}>
-                          <Typography variant="h6" color="primary">Supervisão</Typography>
-                          <List dense>
-                            <ListItem><ListItemText primary="Random Forest" /></ListItem>
-                            <ListItem><ListItemText primary="SVM" /></ListItem>
-                            <ListItem><ListItemText primary="Gradient Boosting" /></ListItem>
-                            <ListItem><ListItemText primary="Linear/Logistic Regression" /></ListItem>
-                          </List>
-                        </Paper>
-                      </Grid>
-                      <Grid item xs={12} sm={6} md={4}>
-                        <Paper sx={{ p: 2, textAlign: 'center' }}>
-                          <Typography variant="h6" color="secondary">Não Supervisionado</Typography>
-                          <List dense>
-                            <ListItem><ListItemText primary="K-Means" /></ListItem>
-                            <ListItem><ListItemText primary="DBSCAN" /></ListItem>
-                            <ListItem><ListItemText primary="PCA" /></ListItem>
-                            <ListItem><ListItemText primary="Autoencoders" /></ListItem>
-                          </List>
-                        </Paper>
-                      </Grid>
-                      <Grid item xs={12} sm={6} md={4}>
-                        <Paper sx={{ p: 2, textAlign: 'center' }}>
-                          <Typography variant="h6" color="success.main">Reinforcement</Typography>
-                          <List dense>
-                            <ListItem><ListItemText primary="Q-Learning" /></ListItem>
-                            <ListItem><ListItemText primary="Deep Q-Network" /></ListItem>
-                            <ListItem><ListItemText primary="Policy Gradient" /></ListItem>
-                            <ListItem><ListItemText primary="Actor-Critic" /></ListItem>
-                          </List>
-                        </Paper>
-                      </Grid>
-                    </Grid>
-                  </CardContent>
-                </Card>
-              </Grid>
-            </Grid>
-          </TabPanel>
-
-          {/* Deep Learning */}
-          <TabPanel value={tabValue} index={3}>
-            <Grid container spacing={3}>
-              <Grid item xs={12} md={6}>
-                <Card>
-                  <CardContent>
-                    <Typography variant="h6" gutterBottom>
-                      🧠 Arquiteturas de Deep Learning
-                    </Typography>
-                    <List>
-                      <ListItem>
-                        <ListItemText 
-                          primary="Redes Neurais Convolucionais (CNN)" 
-                          secondary="Para visão computacional e processamento de imagens" 
-                        />
-                      </ListItem>
-                      <ListItem>
-                        <ListItemText 
-                          primary="Redes Neurais Recorrentes (RNN/LSTM)" 
-                          secondary="Para processamento de sequências e séries temporais" 
-                        />
-                      </ListItem>
-                      <ListItem>
-                        <ListItemText 
-                          primary="Transformers & Attention" 
-                          secondary="Para processamento de linguagem natural (NLP)" 
-                        />
-                      </ListItem>
-                      <ListItem>
-                        <ListItemText 
-                          primary="GANs (Generative Adversarial Networks)" 
-                          secondary="Para geração de dados sintéticos" 
-                        />
-                      </ListItem>
-                    </List>
-                  </CardContent>
-                </Card>
-              </Grid>
-              <Grid item xs={12} md={6}>
-                <Card>
-                  <CardContent>
-                    <Typography variant="h6" gutterBottom>
-                      🛠 Frameworks Utilizados
-                    </Typography>
-                    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, mb: 2 }}>
-                      <Chip label="TensorFlow" color="primary" />
-                      <Chip label="PyTorch" color="secondary" />
-                      <Chip label="Keras" color="success" />
-                      <Chip label="Hugging Face" color="info" />
-                      <Chip label="ONNX" color="warning" />
-                    </Box>
-                    <Typography variant="body2" sx={{ mb: 2 }}>
-                      Modelos pré-treinados disponíveis: BERT, GPT, ResNet, EfficientNet
-                    </Typography>
-                    <Button variant="contained" color="secondary">
-                      Treinar Novo Modelo
-                    </Button>
-                  </CardContent>
-                </Card>
-              </Grid>
-            </Grid>
-          </TabPanel>
-
-          {/* Data Engineering */}
-          <TabPanel value={tabValue} index={4}>
-            <Grid container spacing={3}>
-              <Grid item xs={12}>
-                <Card>
-                  <CardContent>
-                    <Typography variant="h6" gutterBottom>
-                      🔧 Pipeline de Engenharia de Dados
-                    </Typography>
-                    <Grid container spacing={2}>
-                      <Grid item xs={12} md={4}>
-                        <Paper sx={{ p: 2 }}>
-                          <Typography variant="h6" color="primary">Ingestão</Typography>
-                          <List dense>
-                            <ListItem><ListItemText primary="Apache Kafka" secondary="Streaming em tempo real" /></ListItem>
-                            <ListItem><ListItemText primary="Apache Flume" secondary="Coleta de logs" /></ListItem>
-                            <ListItem><ListItemText primary="Sqoop" secondary="Transferência RDBMS" /></ListItem>
-                            <ListItem><ListItemText primary="APIs REST" secondary="Integração de sistemas" /></ListItem>
-                          </List>
-                        </Paper>
-                      </Grid>
-                      <Grid item xs={12} md={4}>
-                        <Paper sx={{ p: 2 }}>
-                          <Typography variant="h6" color="secondary">Processamento</Typography>
-                          <List dense>
-                            <ListItem><ListItemText primary="Apache Spark" secondary="Processamento distribuído" /></ListItem>
-                            <ListItem><ListItemText primary="Apache Flink" secondary="Stream processing" /></ListItem>
-                            <ListItem><ListItemText primary="Airflow" secondary="Orquestração de workflows" /></ListItem>
-                            <ListItem><ListItemText primary="Pandas/Dask" secondary="Análise exploratória" /></ListItem>
-                          </List>
-                        </Paper>
-                      </Grid>
-                      <Grid item xs={12} md={4}>
-                        <Paper sx={{ p: 2 }}>
-                          <Typography variant="h6" color="success.main">Armazenamento</Typography>
-                          <List dense>
-                            <ListItem><ListItemText primary="HDFS" secondary="Data Lake distribuído" /></ListItem>
-                            <ListItem><ListItemText primary="HBase" secondary="NoSQL em tempo real" /></ListItem>
-                            <ListItem><ListItemText primary="ElasticSearch" secondary="Busca e análise" /></ListItem>
-                            <ListItem><ListItemText primary="Cassandra" secondary="Base distribuída" /></ListItem>
-                          </List>
-                        </Paper>
-                      </Grid>
-                    </Grid>
-                  </CardContent>
-                </Card>
-              </Grid>
-            </Grid>
-          </TabPanel>
-
-          {/* Aprendizado */}
-          <TabPanel value={tabValue} index={5}>
-            <Grid container spacing={3}>
-              <Grid item xs={12} md={8}>
-                <Card>
-                  <CardContent>
-                    <Typography variant="h6" gutterBottom>
-                      📚 Cursos e Recursos de Aprendizado
-                    </Typography>
-                    <List>
-                      <ListItem>
-                        <ListItemIcon><LearningIcon color="primary" /></ListItemIcon>
-                        <ListItemText 
-                          primary="Hadoop Fundamentals" 
-                          secondary="Aprenda HDFS, MapReduce e YARN do zero" 
-                        />
-                        <Button variant="outlined" size="small">Iniciar</Button>
-                      </ListItem>
-                      <ListItem>
-                        <ListItemIcon><SparkIcon color="primary" /></ListItemIcon>
-                        <ListItemText 
-                          primary="Apache Spark Avançado" 
-                          secondary="Spark SQL, Streaming e MLlib na prática" 
-                        />
-                        <Button variant="outlined" size="small">Iniciar</Button>
-                      </ListItem>
-                      <ListItem>
-                        <ListItemIcon><MLIcon color="primary" /></ListItemIcon>
-                        <ListItemText 
-                          primary="Machine Learning em Produção" 
-                          secondary="MLOps, deployment e monitoramento de modelos" 
-                        />
-                        <Button variant="outlined" size="small">Iniciar</Button>
-                      </ListItem>
-                      <ListItem>
-                        <ListItemIcon><DeepLearningIcon color="primary" /></ListItemIcon>
-                        <ListItemText 
-                          primary="Deep Learning com TensorFlow" 
-                          secondary="CNNs, RNNs e Transformers aplicados" 
-                        />
-                        <Button variant="outlined" size="small">Iniciar</Button>
-                      </ListItem>
-                      <ListItem>
-                        <ListItemIcon><DataEngIcon color="primary" /></ListItemIcon>
-                        <ListItemText 
-                          primary="Data Engineering Pipeline" 
-                          secondary="Construa pipelines robustos de dados" 
-                        />
-                        <Button variant="outlined" size="small">Iniciar</Button>
-                      </ListItem>
-                    </List>
-                  </CardContent>
-                </Card>
-              </Grid>
-              <Grid item xs={12} md={4}>
-                <Card>
-                  <CardContent>
-                    <Typography variant="h6" gutterBottom>
-                      🏆 Certificações
-                    </Typography>
-                    <List dense>
-                      <ListItem>
-                        <ListItemText primary="Cloudera Data Engineer" />
-                      </ListItem>
-                      <ListItem>
-                        <ListItemText primary="AWS Big Data Specialist" />
-                      </ListItem>
-                      <ListItem>
-                        <ListItemText primary="Google Cloud ML Engineer" />
-                      </ListItem>
-                      <ListItem>
-                        <ListItemText primary="Microsoft Azure Data Scientist" />
-                      </ListItem>
-                    </List>
-                    <Button variant="contained" color="success" fullWidth sx={{ mt: 2 }}>
-                      Ver Todas
-                    </Button>
-                  </CardContent>
-                </Card>
-              </Grid>
-            </Grid>
-          </TabPanel>
-        </Paper>
-
-        {/* Seção de Upload de Dados */}
-        <Card sx={{ mt: 3 }}>
+  const renderDashboard = () => (
+    <Grid container spacing={3}>
+      <Grid item xs={12}>
+        <Alert severity="info" sx={{ mb: 3 }}>
+          <Typography variant="h6">📊 Sistema de Análise de Dados</Typography>
+          <Typography variant="body2">
+            Interface web para análise de dados com ferramentas de machine learning e estatística.
+          </Typography>
+        </Alert>
+      </Grid>
+      
+      {/* Estatísticas */}
+      <Grid item xs={12} md={4}>
+        <Card sx={{ height: '100%', background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', color: 'white' }}>
           <CardContent>
-            <Typography variant="h6" gutterBottom>
-              📁 Centro de Upload de Datasets
+            <Typography variant="h4" gutterBottom>
+              <AutoAwesome sx={{ mr: 1, fontSize: 40 }} />
+              CBA++
             </Typography>
-            <Grid container spacing={2}>
-              <Grid item xs={12} sm={6} md={3}>
-                <Button variant="outlined" fullWidth startIcon={<UploadIcon />}>
-                  CSV/Excel
-                </Button>
-              </Grid>
-              <Grid item xs={12} sm={6} md={3}>
-                <Button variant="outlined" fullWidth startIcon={<UploadIcon />}>
-                  JSON/XML
-                </Button>
-              </Grid>
-              <Grid item xs={12} sm={6} md={3}>
-                <Button variant="outlined" fullWidth startIcon={<UploadIcon />}>
-                  Parquet/Avro
-                </Button>
-              </Grid>
-              <Grid item xs={12} sm={6} md={3}>
-                <Button variant="outlined" fullWidth startIcon={<UploadIcon />}>
-                  Conectar BD
-                </Button>
-              </Grid>
-            </Grid>
+            <Typography variant="h6">Analisador de Dados</Typography>
+            <Typography variant="body2">
+              Sistema de análise baseado em regras de associação com interface científica
+            </Typography>
           </CardContent>
         </Card>
-    </Container>
+      </Grid>
+
+      <Grid item xs={12} md={4}>
+        <Card sx={{ height: '100%', background: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)', color: 'white' }}>
+          <CardContent>
+            <Typography variant="h4" gutterBottom>
+              <Api sx={{ mr: 1, fontSize: 40 }} />
+              SC
+            </Typography>
+            <Typography variant="h6">Dados Santa Catarina</Typography>
+            <Typography variant="body2">
+              Integração com APIs do IBGE para dados oficiais de Santa Catarina
+            </Typography>
+          </CardContent>
+        </Card>
+      </Grid>
+
+      <Grid item xs={12} md={4}>
+        <Card sx={{ height: '100%', background: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)', color: 'white' }}>
+          <CardContent>
+            <Typography variant="h4" gutterBottom>
+              <CheckCircle sx={{ mr: 1, fontSize: 40 }} />
+              11
+            </Typography>
+            <Typography variant="h6">Seções Ativas</Typography>
+            <Typography variant="body2">
+              Interface organizada em seções especializadas para análise de dados
+            </Typography>
+          </CardContent>
+        </Card>
+      </Grid>
+
+      {/* Lista de Funcionalidades */}
+      <Grid item xs={12}>
+        <Paper sx={{ p: 3 }}>
+          <Typography variant="h5" gutterBottom>
+            � Seções da Plataforma
+          </Typography>
+          
+          <Grid container spacing={2}>
+            {secoes.map((secao) => (
+              <Grid item xs={12} sm={6} md={4} key={secao.id}>
+                <Card 
+                  sx={{ 
+                    cursor: 'pointer',
+                    '&:hover': { transform: 'scale(1.02)' },
+                    transition: 'transform 0.2s',
+                    border: secaoAtiva === secao.id ? 2 : 0,
+                    borderColor: 'primary.main'
+                  }}
+                  onClick={() => handleSecaoChange(secao.id)}
+                >
+                  <CardContent sx={{ textAlign: 'center' }}>
+                    {secao.icon}
+                    <Typography variant="h6" sx={{ mt: 1 }}>
+                      {secao.nome}
+                    </Typography>
+                    <Chip 
+                      label={secao.status} 
+                      color={secao.status === 'funcional' ? 'success' : secao.status === 'corrigido' ? 'primary' : 'secondary'}
+                      size="small"
+                      sx={{ mt: 1 }}
+                    />
+                  </CardContent>
+                </Card>
+              </Grid>
+            ))}
+          </Grid>
+        </Paper>
+      </Grid>
+    </Grid>
+  );
+
+  const renderSecaoSantaCatarina = () => (
+    <Box>
+      <Typography variant="h4" gutterBottom>
+        🏝️ Dados de Santa Catarina
+      </Typography>
+      
+      <Alert severity="info" sx={{ mb: 3 }}>
+        <Typography variant="h6">📊 Integração com IBGE</Typography>
+        <Typography variant="body2">
+          Acesso a dados oficiais de Santa Catarina através das APIs do IBGE
+        </Typography>
+      </Alert>
+
+      <Grid container spacing={3}>
+        <Grid item xs={12} md={6}>
+          <Card>
+            <CardContent>
+              <Typography variant="h6" gutterBottom>
+                📊 Dados Disponíveis
+              </Typography>
+              <ul>
+                <li>295 Municípios de Santa Catarina</li>
+                <li>Dados populacionais (fonte: IBGE)</li>
+                <li>Indicadores econômicos básicos</li>
+                <li>Informações geográficas</li>
+                <li>APIs em desenvolvimento</li>
+              </ul>
+            </CardContent>
+          </Card>
+        </Grid>
+        
+        <Grid item xs={12} md={6}>
+          <Card>
+            <CardContent>
+              <Typography variant="h6" gutterBottom>
+                🔗 Status da API
+              </Typography>
+              <Typography variant="body2" component="div">
+                <strong>Backend em desenvolvimento:</strong><br/>
+                • Endpoints planejados para dados de SC<br/>
+                • Integração com IBGE em progresso<br/>
+                • Interface web funcional<br/>
+                <em>Nota: API backend requer deploy separado</em>
+              </Typography>
+            </CardContent>
+          </Card>
+        </Grid>
+      </Grid>
+    </Box>
+  );
+
+  const renderBaseConhecimento = () => (
+    <Box>
+      <Typography variant="h4" gutterBottom>
+        📚 Base de Conhecimento
+      </Typography>
+      
+      <Alert severity="info" sx={{ mb: 3 }}>
+        <Typography variant="h6">📖 Conteúdo Educacional</Typography>
+        <Typography variant="body2">
+          Artigos e tutoriais sobre análise de dados e metodologia científica
+        </Typography>
+      </Alert>
+
+      <Grid container spacing={3}>
+        <Grid item xs={12} md={4}>
+          <Card>
+            <CardContent>
+              <Science color="primary" sx={{ fontSize: 40 }} />
+              <Typography variant="h6" sx={{ mt: 2 }}>
+                Metodologia Científica
+              </Typography>
+              <Typography variant="body2">
+                Fundamentos de metodologia científica aplicada à análise de dados
+              </Typography>
+            </CardContent>
+          </Card>
+        </Grid>
+        
+        <Grid item xs={12} md={4}>
+          <Card>
+            <CardContent>
+              <Analytics color="primary" sx={{ fontSize: 40 }} />
+              <Typography variant="h6" sx={{ mt: 2 }}>
+                Estatística Descritiva
+              </Typography>
+              <Typography variant="body2">
+                Conceitos básicos de estatística e análise exploratória de dados
+              </Typography>
+            </CardContent>
+          </Card>
+        </Grid>
+        
+        <Grid item xs={12} md={4}>
+          <Card>
+            <CardContent>
+              <Timeline color="primary" sx={{ fontSize: 40 }} />
+              <Typography variant="h6" sx={{ mt: 2 }}>
+                Exemplos Práticos
+              </Typography>
+              <Typography variant="body2">
+                Casos de uso e exemplos de análises com dados reais
+              </Typography>
+            </CardContent>
+          </Card>
+        </Grid>
+      </Grid>
+    </Box>
+  );
+
+  const renderSecaoAtual = () => {
+    if (carregando) {
+      return (
+        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: 200 }}>
+          <CircularProgress size={60} />
+          <Typography variant="h6" sx={{ ml: 2 }}>
+            Carregando seção...
+          </Typography>
+        </Box>
+      );
+    }
+
+    switch (secaoAtiva) {
+      case 'dashboard':
+        return renderDashboard();
+      case 'analisador':
+        return <AnalisadorCientificoRevolucionario />;
+      case 'discretizador':
+        return <DiscretizadorCientificoAvancado />;
+      case 'ensino':
+        return <EnsinoCientificoInterativo />;
+      case 'ia_assistente':
+        return <AssistenteIAAvancado />;
+      case 'automl':
+        return <AutoMLRevolucionario />;
+      case 'visualizacoes':
+        return <VisualizacaoRevolucionaria />;
+      case 'tempo_real':
+        return <MonitoramentoTempoRealAvancado />;
+      case 'comunidade':
+        return <ComunidadeGlobal />;
+      case 'santa_catarina':
+        return renderSecaoSantaCatarina();
+      case 'conhecimento':
+        return <SistemaConhecimento />;
+      default:
+        return renderDashboard();
+    }
+  };
+
+  return (
+    <Box sx={{ minHeight: '100vh', bgcolor: 'background.default' }}>
+      {/* Header */}
+      <AppBar position="static" sx={{ background: 'linear-gradient(45deg, #2196F3 30%, #21CBF3 90%)' }}>
+        <Toolbar>
+          <Science sx={{ mr: 2, fontSize: 32 }} />
+          <Typography variant="h5" component="div" sx={{ flexGrow: 1, fontWeight: 'bold' }}>
+            DataScience Pro - Plataforma de Análise de Dados
+          </Typography>
+          <FormControlLabel
+            control={
+              <Switch
+                checked={modoAvancado}
+                onChange={(e) => setModoAvancado(e.target.checked)}
+                color="default"
+              />
+            }
+            label="Modo Avançado"
+            sx={{ color: 'white' }}
+          />
+        </Toolbar>
+      </AppBar>
+
+      <Container maxWidth="xl" sx={{ py: 4 }}>
+        {/* Menu de Navegação */}
+        <Paper sx={{ p: 2, mb: 4 }}>
+          <Typography variant="h6" gutterBottom>
+            🧭 Navegação Principal
+          </Typography>
+          <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
+            {secoes.map((secao) => (
+              <Button
+                key={secao.id}
+                variant={secaoAtiva === secao.id ? 'contained' : 'outlined'}
+                startIcon={secao.icon}
+                onClick={() => handleSecaoChange(secao.id)}
+                size={isMobile ? 'small' : 'medium'}
+                sx={{ 
+                  mb: 1,
+                  borderColor: secao.status === 'funcional' ? 'success.main' : 
+                              secao.status === 'corrigido' ? 'primary.main' : 'secondary.main'
+                }}
+              >
+                {isMobile ? secao.nome.split(' ')[0] : secao.nome}
+              </Button>
+            ))}
+          </Box>
+        </Paper>
+
+        {/* Conteúdo Principal */}
+        <Box sx={{ minHeight: 400 }}>
+          {renderSecaoAtual()}
+        </Box>
+      </Container>
+    </Box>
   );
 };
 

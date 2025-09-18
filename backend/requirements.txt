@@ -4,6 +4,7 @@
 # Framework web
 fastapi==0.104.1
 uvicorn[standard]==0.24.0
+httpx==0.25.2
 
 # Análise de dados e científica
 pandas==2.1.4
