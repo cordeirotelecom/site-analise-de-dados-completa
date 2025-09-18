@@ -58,13 +58,49 @@ const AnalisadorCientificoRevolucionario: React.FC = () => {
   return (
     <Box sx={{ p: 3 }}>
       <Typography variant="h4" gutterBottom>
-        📊 Analisador CBA (Classification Based on Associations)
+        📊 Analisador CBA - Tutorial Completo
       </Typography>
       
       <Typography variant="body1" sx={{ mb: 3 }}>
-        Ferramenta para análise de dados usando algoritmo CBA - Classification Based on Associations.
-        Faça upload de um arquivo CSV para iniciar a análise.
+        <strong>CBA (Classification Based on Associations)</strong> é um algoritmo de mineração de dados
+        que descobre padrões e regras nos seus dados. Aprenda como usar passo a passo!
       </Typography>
+
+      {/* Tutorial Didático */}
+      <Card sx={{ mb: 4, background: 'linear-gradient(45deg, #4caf50 30%, #81c784 90%)' }}>
+        <CardContent>
+          <Typography variant="h6" sx={{ color: 'white', mb: 2 }}>
+            🎓 O que é o Algoritmo CBA? (Explicação Didática)
+          </Typography>
+          <Grid container spacing={2}>
+            <Grid item xs={12} md={4}>
+              <Typography variant="body2" sx={{ color: 'white' }}>
+                <strong>📖 Conceito:</strong><br/>
+                O CBA encontra regras do tipo "SE... ENTÃO..." nos seus dados.
+                Exemplo: "SE idade &gt; 30 E renda &gt; 5000 ENTÃO compra = SIM"
+              </Typography>
+            </Grid>
+            <Grid item xs={12} md={4}>
+              <Typography variant="body2" sx={{ color: 'white' }}>
+                <strong>🔍 Como funciona:</strong><br/>
+                1. Analisa todas as combinações possíveis<br/>
+                2. Encontra padrões frequentes<br/>
+                3. Cria regras de classificação<br/>
+                4. Ordena por qualidade e confiança
+              </Typography>
+            </Grid>
+            <Grid item xs={12} md={4}>
+              <Typography variant="body2" sx={{ color: 'white' }}>
+                <strong>💡 Aplicações:</strong><br/>
+                • Análise de comportamento do cliente<br/>
+                • Detecção de fraudes<br/>
+                • Diagnósticos médicos<br/>
+                • Recomendações de produtos
+              </Typography>
+            </Grid>
+          </Grid>
+        </CardContent>
+      </Card>
 
       {/* Upload */}
       <Card sx={{ mb: 3 }}>

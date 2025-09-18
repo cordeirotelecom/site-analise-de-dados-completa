@@ -1,375 +1,123 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Box,
   Container,
   Typography,
   Card,
   CardContent,
-  Grid,
   Button,
-  Paper,
-  Alert,
-  Chip,
+  Grid,
   LinearProgress,
+  Alert,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Chip,
   Stepper,
   Step,
   StepLabel,
   StepContent,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-  Avatar,
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  Switch,
-  FormControlLabel,
-  Slider,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  CircularProgress,
 } from '@mui/material';
 import {
-  Psychology,
+  Upload,
   AutoAwesome,
-  Speed,
-  TrendingUp,
-  Assessment,
-  CheckCircle,
-  Settings,
-  Code,
   Analytics,
-  Insights,
-  Timeline,
-  ExpandMore,
-  Rocket,
-  Stars,
-  AutoGraph,
-  Memory,
-  Storage,
-  Cloud,
-  Security,
+  Assessment,
+  TrendingUp,
+  School,
+  PlayArrow,
 } from '@mui/icons-material';
 
-interface ModeloML {
-  nome: string;
-  tipo: 'classificacao' | 'regressao' | 'clustering' | 'deep_learning';
-  acuracia: number;
-  tempo_treino: number;
-  complexidade: 'Baixa' | 'Média' | 'Alta';
-  explicabilidade: number;
-  recomendado: boolean;
-}
-
-interface ResultadoAutoML {
-  melhor_modelo: ModeloML;
-  todos_modelos: ModeloML[];
-  insights_automaticos: string[];
-  codigo_gerado: string;
-  deployment_ready: boolean;
-  performance_metrics: {
-    accuracy: number;
-    precision: number;
-    recall: number;
-    f1_score: number;
-    roc_auc: number;
-  };
-}
-
 const AutoMLRevolucionario: React.FC = () => {
-  const [etapaAtiva, setEtapaAtiva] = useState(0);
+  const [arquivo, setArquivo] = useState<File | null>(null);
   const [processandoAutoML, setProcessandoAutoML] = useState(false);
-  const [resultado, setResultado] = useState<ResultadoAutoML | null>(null);
-  const [configuracoes, setConfiguracoes] = useState({
-    tempo_maximo: 300, // segundos
-    modelos_testar: 'todos',
-    otimizacao_objetivo: 'accuracy',
-    cross_validation: true,
-    feature_engineering: true,
-    hyperparameter_tuning: true,
-    ensemble_methods: true,
-    explainable_ai: true,
-  });
+  const [resultado, setResultado] = useState<any>(null);
+  const [etapaAtual, setEtapaAtual] = useState(0);
 
   const etapasAutoML = [
     {
-      titulo: "🔍 Análise Automática dos Dados",
-      descricao: "IA analisa estrutura, qualidade e padrões nos dados",
-      detalhes: [
-        "Detecção automática do tipo de problema (classificação/regressão)",
-        "Análise de qualidade dos dados e valores ausentes",
-        "Identificação de features importantes",
-        "Detecção de outliers e anomalias",
-        "Análise de correlações e multicolinearidade"
-      ]
+      label: '📁 Upload dos Dados',
+      description: 'Carregue seu arquivo CSV com os dados para análise',
+      detalhes: 'Formatos aceitos: CSV, Excel. Certifique-se de ter uma coluna target (resultado esperado).'
     },
     {
-      titulo: "🛠️ Feature Engineering Automático",
-      descricao: "Criação inteligente de novas features",
-      detalhes: [
-        "Transformações matemáticas automáticas",
-        "Encoding inteligente de variáveis categóricas",
-        "Seleção de features com IA",
-        "Criação de features polinomiais",
-        "Normalização e escalonamento automático"
-      ]
+      label: '🔍 Análise Exploratória',
+      description: 'Sistema analisa automaticamente a qualidade e padrões dos dados',
+      detalhes: 'Verifica tipos de dados, valores ausentes, correlações e distribuições.'
     },
     {
-      titulo: "🤖 Seleção e Treino de Modelos",
-      descricao: "Testa centenas de modelos automaticamente",
-      detalhes: [
-        "50+ algoritmos de ML testados",
-        "Otimização de hiperparâmetros automática",
-        "Cross-validation inteligente",
-        "Ensemble methods automáticos",
-        "Early stopping e regularização"
-      ]
+      label: '🧠 Seleção de Algoritmos',
+      description: 'IA escolhe os melhores algoritmos para seu tipo de problema',
+      detalhes: 'Testa Random Forest, XGBoost, SVM, Neural Networks e outros.'
     },
     {
-      titulo: "📊 Avaliação e Otimização",
-      descricao: "Avalia performance e otimiza automaticamente",
-      detalhes: [
-        "Métricas de performance automáticas",
-        "Análise de overfitting/underfitting",
-        "Otimização multi-objetivo",
-        "Validação cruzada estratificada",
-        "Testes de significância estatística"
-      ]
+      label: '⚙️ Otimização de Hiperparâmetros',
+      description: 'Ajusta automaticamente os parâmetros para máxima performance',
+      detalhes: 'Usa técnicas como Grid Search, Random Search e Bayesian Optimization.'
     },
     {
-      titulo: "🚀 Deploy Automático",
-      descricao: "Modelo pronto para produção",
-      detalhes: [
-        "Geração de código automática",
-        "API REST criada automaticamente",
-        "Monitoramento de performance",
-        "Versionamento de modelos",
-        "Documentação automática"
-      ]
+      label: '📊 Validação e Métricas',
+      description: 'Avalia o modelo com cross-validation e métricas robustas',
+      detalhes: 'Accuracy, Precision, Recall, F1-Score, ROC-AUC conforme o problema.'
+    },
+    {
+      label: '🎯 Modelo Final',
+      description: 'Entrega o melhor modelo treinado e pronto para uso',
+      detalhes: 'Inclui explicabilidade, importância das features e predições.'
     }
   ];
 
-  const modelosDisponiveis = [
-    {
-      categoria: "Árvores de Decisão",
-      modelos: ["Random Forest", "XGBoost", "LightGBM", "CatBoost", "Extra Trees"]
-    },
-    {
-      categoria: "Modelos Lineares",
-      modelos: ["Linear Regression", "Ridge", "Lasso", "Elastic Net", "Logistic Regression"]
-    },
-    {
-      categoria: "Métodos de Kernel",
-      modelos: ["SVM", "SVR", "Gaussian Process", "RBF Networks"]
-    },
-    {
-      categoria: "Métodos de Ensemble",
-      modelos: ["Voting Classifier", "Bagging", "AdaBoost", "Gradient Boosting"]
-    },
-    {
-      categoria: "Deep Learning",
-      modelos: ["Neural Networks", "AutoEncoders", "CNN", "RNN", "Transformers"]
-    },
-    {
-      categoria: "Métodos Bayesianos",
-      modelos: ["Naive Bayes", "Bayesian Ridge", "Bayesian Networks"]
-    }
+  const algoritmosDisponiveis = [
+    { nome: 'Random Forest', tipo: 'Ensemble', descricao: 'Combina múltiplas árvores de decisão' },
+    { nome: 'XGBoost', tipo: 'Gradient Boosting', descricao: 'Algoritmo de boosting otimizado' },
+    { nome: 'Neural Networks', tipo: 'Deep Learning', descricao: 'Redes neurais artificiais' },
+    { nome: 'SVM', tipo: 'Kernel Methods', descricao: 'Support Vector Machines' },
+    { nome: 'Logistic Regression', tipo: 'Linear', descricao: 'Regressão logística clássica' },
+    { nome: 'K-Nearest Neighbors', tipo: 'Instance-based', descricao: 'Classificação por vizinhança' },
   ];
 
-  const recursosAvancados = [
-    {
-      nome: "🧠 Neural Architecture Search (NAS)",
-      descricao: "IA que projeta redes neurais automaticamente",
-      impacto: "Otimização automática de arquiteturas neurais",
-      ativo: true
-    },
-    {
-      nome: "⚡ AutoML Distribuído",
-      descricao: "Processamento paralelo em múltiplas GPUs",
-      impacto: "Processamento acelerado para datasets grandes",
-      ativo: true
-    },
-    {
-      nome: "🔬 Explicabilidade Automática",
-      descricao: "SHAP, LIME e outras técnicas automaticamente",
-      impacto: "Modelos interpretáveis e auditáveis",
-      ativo: true
-    },
-    {
-      nome: "📈 Monitoramento Contínuo",
-      descricao: "Detecta drift e retreina automaticamente",
-      impacto: "Mantém performance sem intervenção manual",
-      ativo: true
-    },
-    {
-      nome: "🌐 Edge AI Deployment",
-      descricao: "Deploy automático em dispositivos IoT",
-      impacao: "Modelos otimizados para qualquer hardware",
-      ativo: true
+  const handleUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      setArquivo(file);
+      setEtapaAtual(1);
     }
-  ];
-
-  const compararFerramentas = [
-    {
-      ferramenta: "Nossa Plataforma",
-      automl: "✅ Total",
-      velocidade: "100x",
-      modelos: "200+",
-      explicabilidade: "✅ Automática",
-      preco: "Gratuito",
-      score: 10
-    },
-    {
-      ferramenta: "Google AutoML",
-      automl: "⚠️ Limitado",
-      velocidade: "10x",
-      modelos: "20+",
-      explicabilidade: "❌ Manual",
-      preco: "$$$",
-      score: 6
-    },
-    {
-      ferramenta: "Azure AutoML",
-      automl: "⚠️ Parcial",
-      velocidade: "5x",
-      modelos: "15+",
-      explicabilidade: "⚠️ Básica",
-      preco: "$$$",
-      score: 5
-    },
-    {
-      ferramenta: "H2O.ai",
-      automl: "✅ Bom",
-      velocidade: "20x",
-      modelos: "50+",
-      explicabilidade: "✅ Boa",
-      preco: "$$",
-      score: 7
-    },
-    {
-      ferramenta: "DataRobot",
-      automl: "✅ Bom",
-      velocidade: "15x",
-      modelos: "100+",
-      explicabilidade: "✅ Boa",
-      preco: "$$$$",
-      score: 6
-    }
-  ];
+  };
 
   const executarAutoML = async () => {
+    if (!arquivo) return;
+    
     setProcessandoAutoML(true);
-    setEtapaAtiva(0);
+    setEtapaAtual(2);
 
-    // Simular processo de AutoML
-    for (let i = 0; i < etapasAutoML.length; i++) {
+    // Simulação do processo AutoML
+    for (let i = 2; i <= 5; i++) {
       await new Promise(resolve => setTimeout(resolve, 2000));
-      setEtapaAtiva(i + 1);
+      setEtapaAtual(i);
     }
 
-    // Simular resultado final
-    const resultadoSimulado: ResultadoAutoML = {
-      melhor_modelo: {
-        nome: "XGBoost Optimized",
-        tipo: "classificacao",
-        acuracia: 0.96,
-        tempo_treino: 45,
-        complexidade: "Média",
-        explicabilidade: 0.88,
-        recomendado: true
-      },
-      todos_modelos: [
-        {
-          nome: "XGBoost Optimized",
-          tipo: "classificacao",
-          acuracia: 0.96,
-          tempo_treino: 45,
-          complexidade: "Média",
-          explicabilidade: 0.88,
-          recomendado: true
-        },
-        {
-          nome: "Random Forest Ensemble",
-          tipo: "classificacao",
-          acuracia: 0.94,
-          tempo_treino: 32,
-          complexidade: "Baixa",
-          explicabilidade: 0.92,
-          recomendado: false
-        },
-        {
-          nome: "Neural Network Auto",
-          tipo: "classificacao",
-          acuracia: 0.95,
-          tempo_treino: 120,
-          complexidade: "Alta",
-          explicabilidade: 0.65,
-          recomendado: false
-        }
-      ],
-      insights_automaticos: [
-        "🎯 Feature 'idade' é a mais importante (34% de contribuição)",
-        "📊 Modelo atinge 96% de acurácia com apenas 8 features",
-        "⚠️ Detectados 3 outliers que podem ser casos especiais",
-        "🔄 Recomendado retreino mensal para manter performance",
-        "🚀 Modelo pronto para deploy em produção"
-      ],
-      codigo_gerado: `# Código gerado automaticamente pelo AutoML
-import pandas as pd
-import numpy as np
-from xgboost import XGBClassifier
-from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import StandardScaler
-from sklearn.metrics import classification_report
+    // Resultado final simulado
+    setResultado({
+      melhorModelo: 'XGBoost',
+      accuracy: 0.94,
+      precision: 0.91,
+      recall: 0.96,
+      f1Score: 0.93,
+      tempoTreinamento: '2.3 min',
+      featuresImportantes: [
+        { nome: 'feature_1', importancia: 0.35 },
+        { nome: 'feature_2', importancia: 0.28 },
+        { nome: 'feature_3', importancia: 0.22 },
+        { nome: 'feature_4', importancia: 0.15 }
+      ]
+    });
 
-# Carregamento e preparação dos dados
-dados = pd.read_csv('dados_processados.csv')
-X = dados.drop('target', axis=1)
-y = dados['target']
-
-# Divisão treino/teste
-X_train, X_test, y_train, y_test = train_test_split(
-    X, y, test_size=0.2, random_state=42, stratify=y
-)
-
-# Modelo otimizado automaticamente
-modelo = XGBClassifier(
-    n_estimators=200,
-    max_depth=6,
-    learning_rate=0.1,
-    subsample=0.8,
-    colsample_bytree=0.8,
-    random_state=42
-)
-
-# Treino
-modelo.fit(X_train, y_train)
-
-# Predições
-y_pred = modelo.predict(X_test)
-print(classification_report(y_test, y_pred))
-
-# Salvar modelo
-import joblib
-joblib.dump(modelo, 'modelo_automl.pkl')`,
-      deployment_ready: true,
-      performance_metrics: {
-        accuracy: 0.96,
-        precision: 0.94,
-        recall: 0.97,
-        f1_score: 0.95,
-        roc_auc: 0.98
-      }
-    };
-
-    setResultado(resultadoSimulado);
     setProcessandoAutoML(false);
+    setEtapaAtual(6);
   };
 
   return (
@@ -377,174 +125,207 @@ joblib.dump(modelo, 'modelo_automl.pkl')`,
       {/* Header */}
       <Box sx={{ textAlign: 'center', mb: 4 }}>
         <Typography variant="h3" gutterBottom>
-          🤖 AutoML Avançado
+          🤖 AutoML - Machine Learning Automatizado
         </Typography>
         <Typography variant="h6" color="text.secondary">
-          Inteligência Artificial que cria modelos de ML automaticamente
+          Aprenda e use AutoML: IA que cria modelos de ML automaticamente
         </Typography>
         <Typography variant="body1" color="text.secondary" sx={{ mt: 2 }}>
-          De dados brutos a modelo em produção, automação inteligente de ML
+          Tutorial completo: do upload dos dados até o modelo pronto para uso
         </Typography>
       </Box>
 
-      {/* Status e Controles */}
+      {/* Tutorial e Explicação */}
+      <Card sx={{ mb: 4, background: 'linear-gradient(45deg, #2196f3 30%, #21cbf3 90%)' }}>
+        <CardContent>
+          <Typography variant="h6" sx={{ color: 'white', mb: 2 }}>
+            📚 O que é AutoML? (Tutorial Didático)
+          </Typography>
+          <Grid container spacing={2}>
+            <Grid item xs={12} md={4}>
+              <Typography variant="body2" sx={{ color: 'white' }}>
+                <strong>📖 Conceito:</strong><br/>
+                AutoML automatiza todo o processo de criação de modelos de Machine Learning, 
+                desde a preparação dos dados até a otimização final.
+              </Typography>
+            </Grid>
+            <Grid item xs={12} md={4}>
+              <Typography variant="body2" sx={{ color: 'white' }}>
+                <strong>🎯 Como funciona:</strong><br/>
+                1. Analisa seus dados<br/>
+                2. Testa diferentes algoritmos<br/>
+                3. Otimiza parâmetros automaticamente<br/>
+                4. Escolhe o melhor modelo
+              </Typography>
+            </Grid>
+            <Grid item xs={12} md={4}>
+              <Typography variant="body2" sx={{ color: 'white' }}>
+                <strong>💡 Vantagens:</strong><br/>
+                • Não precisa ser especialista em ML<br/>
+                • Economiza tempo de desenvolvimento<br/>
+                • Testa múltiplas abordagens<br/>
+                • Resultados profissionais
+              </Typography>
+            </Grid>
+          </Grid>
+        </CardContent>
+      </Card>
+
+      {/* Guia Passo a Passo */}
+      <Card sx={{ mb: 4 }}>
+        <CardContent>
+          <Typography variant="h6" gutterBottom>
+            📋 Guia Passo a Passo: Como usar o AutoML
+          </Typography>
+          <Grid container spacing={3}>
+            <Grid item xs={12} md={3}>
+              <Box sx={{ textAlign: 'center', p: 2, border: '2px dashed #2196f3', borderRadius: 2 }}>
+                <Typography variant="h4" color="primary">1</Typography>
+                <Typography variant="h6" gutterBottom>📁 Upload</Typography>
+                <Typography variant="body2">
+                  Faça upload do seu arquivo CSV com os dados. 
+                  Certifique-se de que tem uma coluna target (resultado esperado).
+                </Typography>
+              </Box>
+            </Grid>
+            <Grid item xs={12} md={3}>
+              <Box sx={{ textAlign: 'center', p: 2, border: '2px dashed #ff9800', borderRadius: 2 }}>
+                <Typography variant="h4" color="primary">2</Typography>
+                <Typography variant="h6" gutterBottom>🔍 Análise</Typography>
+                <Typography variant="body2">
+                  O sistema analisa automaticamente seus dados: 
+                  tipos, qualidade, correlações e padrões.
+                </Typography>
+              </Box>
+            </Grid>
+            <Grid item xs={12} md={3}>
+              <Box sx={{ textAlign: 'center', p: 2, border: '2px dashed #4caf50', borderRadius: 2 }}>
+                <Typography variant="h4" color="primary">3</Typography>
+                <Typography variant="h6" gutterBottom>🤖 Treinamento</Typography>
+                <Typography variant="body2">
+                  Testa diferentes algoritmos: Random Forest, 
+                  XGBoost, Neural Networks e escolhe o melhor.
+                </Typography>
+              </Box>
+            </Grid>
+            <Grid item xs={12} md={3}>
+              <Box sx={{ textAlign: 'center', p: 2, border: '2px dashed #9c27b0', borderRadius: 2 }}>
+                <Typography variant="h4" color="primary">4</Typography>
+                <Typography variant="h6" gutterBottom>📊 Resultado</Typography>
+                <Typography variant="body2">
+                  Receba o modelo treinado com métricas, 
+                  gráficos e explicações detalhadas.
+                </Typography>
+              </Box>
+            </Grid>
+          </Grid>
+        </CardContent>
+      </Card>
+
+      {/* Interface de Upload e Execução */}
       <Grid container spacing={3} sx={{ mb: 4 }}>
         <Grid item xs={12} md={8}>
           <Card>
             <CardContent>
               <Typography variant="h6" gutterBottom>
-                🚀 Processo AutoML
+                🚀 Execute seu AutoML
               </Typography>
               
-              {!processandoAutoML && !resultado && (
+              {!arquivo && (
                 <Box sx={{ textAlign: 'center', py: 4 }}>
-                  <Button
-                    variant="contained"
-                    size="large"
-                    startIcon={<AutoAwesome />}
-                    onClick={executarAutoML}
-                    sx={{ fontSize: '1.2rem', py: 2, px: 4 }}
-                  >
-                    Iniciar AutoML
-                  </Button>
+                  <input
+                    accept=".csv,.xlsx,.xls"
+                    style={{ display: 'none' }}
+                    id="upload-automl"
+                    type="file"
+                    onChange={handleUpload}
+                  />
+                  <label htmlFor="upload-automl">
+                    <Button
+                      variant="contained"
+                      component="span"
+                      startIcon={<Upload />}
+                      size="large"
+                    >
+                      Fazer Upload dos Dados
+                    </Button>
+                  </label>
                   <Typography variant="body2" sx={{ mt: 2 }}>
-                    A IA irá analisar seus dados e criar o melhor modelo automaticamente
+                    Formatos aceitos: CSV, Excel (.xlsx, .xls)
                   </Typography>
+                </Box>
+              )}
+
+              {arquivo && !processandoAutoML && !resultado && (
+                <Box>
+                  <Alert severity="success" sx={{ mb: 2 }}>
+                    <strong>Arquivo carregado:</strong> {arquivo.name} ({(arquivo.size / 1024).toFixed(1)} KB)
+                  </Alert>
+                  <Box sx={{ textAlign: 'center', py: 2 }}>
+                    <Button
+                      variant="contained"
+                      size="large"
+                      startIcon={<PlayArrow />}
+                      onClick={executarAutoML}
+                    >
+                      Iniciar AutoML
+                    </Button>
+                  </Box>
                 </Box>
               )}
 
               {processandoAutoML && (
                 <Box>
-                  <Stepper activeStep={etapaAtiva} orientation="vertical">
-                    {etapasAutoML.map((etapa, index) => (
-                      <Step key={index}>
-                        <StepLabel>
-                          <Typography variant="h6">{etapa.titulo}</Typography>
-                        </StepLabel>
-                        <StepContent>
-                          <Typography paragraph>{etapa.descricao}</Typography>
-                          <List dense>
-                            {etapa.detalhes.map((detalhe, idx) => (
-                              <ListItem key={idx}>
-                                <ListItemIcon sx={{ minWidth: 30 }}>
-                                  {index < etapaAtiva ? (
-                                    <CheckCircle color="success" />
-                                  ) : index === etapaAtiva ? (
-                                    <CircularProgress size={20} />
-                                  ) : (
-                                    <Typography color="text.secondary">•</Typography>
-                                  )}
-                                </ListItemIcon>
-                                <ListItemText 
-                                  primary={detalhe}
-                                  primaryTypographyProps={{ variant: 'body2' }}
-                                />
-                              </ListItem>
-                            ))}
-                          </List>
-                        </StepContent>
-                      </Step>
-                    ))}
-                  </Stepper>
+                  <Typography variant="h6" gutterBottom>
+                    ⚡ Processando AutoML...
+                  </Typography>
+                  <LinearProgress sx={{ mb: 2 }} />
+                  <Typography variant="body2" color="text.secondary">
+                    Etapa {etapaAtual}/6: {etapasAutoML[etapaAtual - 1]?.description}
+                  </Typography>
                 </Box>
               )}
 
               {resultado && (
                 <Box>
                   <Alert severity="success" sx={{ mb: 3 }}>
-                    <Typography variant="h6" gutterBottom>
-                      🎉 AutoML Concluído com Sucesso!
-                    </Typography>
-                    <Typography variant="body2">
-                      Melhor modelo encontrado: <strong>{resultado.melhor_modelo.nome}</strong> 
-                      com {(resultado.melhor_modelo.acuracia * 100).toFixed(1)}% de acurácia
-                    </Typography>
+                    <strong>✅ AutoML Concluído!</strong> Seu modelo foi treinado com sucesso.
                   </Alert>
-
-                  <Accordion defaultExpanded>
-                    <AccordionSummary expandIcon={<ExpandMore />}>
-                      <Typography variant="h6">🏆 Melhor Modelo</Typography>
-                    </AccordionSummary>
-                    <AccordionDetails>
-                      <Grid container spacing={2}>
-                        <Grid item xs={12} sm={6} md={3}>
-                          <Paper sx={{ p: 2, textAlign: 'center' }}>
-                            <Typography variant="h4" color="primary">
-                              {(resultado.melhor_modelo.acuracia * 100).toFixed(1)}%
-                            </Typography>
-                            <Typography variant="body2">Acurácia</Typography>
-                          </Paper>
-                        </Grid>
-                        <Grid item xs={12} sm={6} md={3}>
-                          <Paper sx={{ p: 2, textAlign: 'center' }}>
-                            <Typography variant="h4" color="secondary">
-                              {resultado.melhor_modelo.tempo_treino}s
-                            </Typography>
-                            <Typography variant="body2">Tempo de Treino</Typography>
-                          </Paper>
-                        </Grid>
-                        <Grid item xs={12} sm={6} md={3}>
-                          <Paper sx={{ p: 2, textAlign: 'center' }}>
-                            <Typography variant="h4" color="success.main">
-                              {(resultado.melhor_modelo.explicabilidade * 100).toFixed(0)}%
-                            </Typography>
-                            <Typography variant="body2">Explicabilidade</Typography>
-                          </Paper>
-                        </Grid>
-                        <Grid item xs={12} sm={6} md={3}>
-                          <Paper sx={{ p: 2, textAlign: 'center' }}>
-                            <Typography variant="h4" color="warning.main">
-                              {resultado.melhor_modelo.complexidade}
-                            </Typography>
-                            <Typography variant="body2">Complexidade</Typography>
-                          </Paper>
-                        </Grid>
-                      </Grid>
-                    </AccordionDetails>
-                  </Accordion>
-
-                  <Accordion>
-                    <AccordionSummary expandIcon={<ExpandMore />}>
-                      <Typography variant="h6">💡 Insights Automáticos</Typography>
-                    </AccordionSummary>
-                    <AccordionDetails>
-                      <List>
-                        {resultado.insights_automaticos.map((insight, index) => (
-                          <ListItem key={index}>
-                            <ListItemIcon>
-                              <Insights color="primary" />
-                            </ListItemIcon>
-                            <ListItemText primary={insight} />
-                          </ListItem>
-                        ))}
-                      </List>
-                    </AccordionDetails>
-                  </Accordion>
-
-                  <Accordion>
-                    <AccordionSummary expandIcon={<ExpandMore />}>
-                      <Typography variant="h6">💻 Código Gerado</Typography>
-                    </AccordionSummary>
-                    <AccordionDetails>
-                      <Paper sx={{ p: 2, bgcolor: '#f5f5f5' }}>
-                        <Typography variant="body2" component="pre" sx={{ fontFamily: 'monospace', fontSize: '0.8rem' }}>
-                          {resultado.codigo_gerado}
+                  
+                  <Grid container spacing={2}>
+                    <Grid item xs={6} md={3}>
+                      <Paper sx={{ p: 2, textAlign: 'center' }}>
+                        <Typography variant="h4" color="primary">
+                          {(resultado.accuracy * 100).toFixed(1)}%
                         </Typography>
+                        <Typography variant="body2">Accuracy</Typography>
                       </Paper>
-                    </AccordionDetails>
-                  </Accordion>
-
-                  <Box sx={{ mt: 3, display: 'flex', gap: 2 }}>
-                    <Button variant="contained" startIcon={<Rocket />}>
-                      Deploy em Produção
-                    </Button>
-                    <Button variant="outlined" startIcon={<Code />}>
-                      Baixar Código
-                    </Button>
-                    <Button variant="outlined" startIcon={<Assessment />}>
-                      Relatório Completo
-                    </Button>
-                  </Box>
+                    </Grid>
+                    <Grid item xs={6} md={3}>
+                      <Paper sx={{ p: 2, textAlign: 'center' }}>
+                        <Typography variant="h4" color="primary">
+                          {(resultado.precision * 100).toFixed(1)}%
+                        </Typography>
+                        <Typography variant="body2">Precision</Typography>
+                      </Paper>
+                    </Grid>
+                    <Grid item xs={6} md={3}>
+                      <Paper sx={{ p: 2, textAlign: 'center' }}>
+                        <Typography variant="h4" color="primary">
+                          {(resultado.recall * 100).toFixed(1)}%
+                        </Typography>
+                        <Typography variant="body2">Recall</Typography>
+                      </Paper>
+                    </Grid>
+                    <Grid item xs={6} md={3}>
+                      <Paper sx={{ p: 2, textAlign: 'center' }}>
+                        <Typography variant="h4" color="primary">
+                          {resultado.melhorModelo}
+                        </Typography>
+                        <Typography variant="body2">Melhor Modelo</Typography>
+                      </Paper>
+                    </Grid>
+                  </Grid>
                 </Box>
               )}
             </CardContent>
@@ -552,212 +333,176 @@ joblib.dump(modelo, 'modelo_automl.pkl')`,
         </Grid>
 
         <Grid item xs={12} md={4}>
-          <Card sx={{ mb: 3 }}>
+          <Card>
             <CardContent>
               <Typography variant="h6" gutterBottom>
-                ⚙️ Configurações Avançadas
+                📊 Processo em Tempo Real
               </Typography>
               
-              <FormControl fullWidth sx={{ mb: 2 }}>
-                <InputLabel>Objetivo de Otimização</InputLabel>
-                <Select
-                  value={configuracoes.otimizacao_objetivo}
-                  onChange={(e) => setConfiguracoes({
-                    ...configuracoes,
-                    otimizacao_objetivo: e.target.value
-                  })}
-                >
-                  <MenuItem value="accuracy">Acurácia</MenuItem>
-                  <MenuItem value="precision">Precisão</MenuItem>
-                  <MenuItem value="recall">Recall</MenuItem>
-                  <MenuItem value="f1">F1-Score</MenuItem>
-                  <MenuItem value="roc_auc">ROC-AUC</MenuItem>
-                </Select>
-              </FormControl>
-
-              <Typography gutterBottom>Tempo Máximo (segundos)</Typography>
-              <Slider
-                value={configuracoes.tempo_maximo}
-                onChange={(e, value) => setConfiguracoes({
-                  ...configuracoes,
-                  tempo_maximo: value as number
-                })}
-                min={60}
-                max={3600}
-                step={60}
-                valueLabelDisplay="auto"
-                sx={{ mb: 2 }}
-              />
-
-              <FormControlLabel
-                control={
-                  <Switch
-                    checked={configuracoes.cross_validation}
-                    onChange={(e) => setConfiguracoes({
-                      ...configuracoes,
-                      cross_validation: e.target.checked
-                    })}
-                  />
-                }
-                label="Cross-Validation"
-                sx={{ mb: 1 }}
-              />
-
-              <FormControlLabel
-                control={
-                  <Switch
-                    checked={configuracoes.feature_engineering}
-                    onChange={(e) => setConfiguracoes({
-                      ...configuracoes,
-                      feature_engineering: e.target.checked
-                    })}
-                  />
-                }
-                label="Feature Engineering"
-                sx={{ mb: 1 }}
-              />
-
-              <FormControlLabel
-                control={
-                  <Switch
-                    checked={configuracoes.ensemble_methods}
-                    onChange={(e) => setConfiguracoes({
-                      ...configuracoes,
-                      ensemble_methods: e.target.checked
-                    })}
-                  />
-                }
-                label="Ensemble Methods"
-                sx={{ mb: 1 }}
-              />
+              <Stepper activeStep={etapaAtual - 1} orientation="vertical">
+                {etapasAutoML.map((etapa, index) => (
+                  <Step key={index}>
+                    <StepLabel>{etapa.label}</StepLabel>
+                    <StepContent>
+                      <Typography variant="body2">{etapa.detalhes}</Typography>
+                    </StepContent>
+                  </Step>
+                ))}
+              </Stepper>
             </CardContent>
           </Card>
-
-          <Alert severity="info">
-            <Typography variant="h6" gutterBottom>
-              🧠 IA de Próxima Geração
-            </Typography>
-            <Typography variant="body2">
-              Nossa IA testa mais de 200 algoritmos simultaneamente,
-              otimiza hiperparâmetros automaticamente e gera código pronto para produção.
-            </Typography>
-          </Alert>
         </Grid>
       </Grid>
 
-      {/* Recursos Avançados */}
-      <Typography variant="h5" gutterBottom>
-        🚀 Recursos Ultra-Avançados
-      </Typography>
-      
-      <Grid container spacing={3} sx={{ mb: 4 }}>
-        {recursosAvancados.map((recurso, index) => (
-          <Grid item xs={12} md={6} key={index}>
-            <Card sx={{ height: '100%' }}>
-              <CardContent>
-                <Typography variant="h6" gutterBottom>
-                  {recurso.nome}
-                </Typography>
-                <Typography variant="body2" color="text.secondary" paragraph>
-                  {recurso.descricao}
-                </Typography>
-                <Alert severity="success">
-                  <Typography variant="body2">
-                    <strong>Impacto:</strong> {recurso.impacto}
+      {/* Algoritmos Disponíveis */}
+      <Card sx={{ mb: 4 }}>
+        <CardContent>
+          <Typography variant="h6" gutterBottom>
+            🧠 Algoritmos de Machine Learning Disponíveis
+          </Typography>
+          
+          <Grid container spacing={2}>
+            {algoritmosDisponiveis.map((algo, index) => (
+              <Grid item xs={12} md={6} key={index}>
+                <Paper sx={{ p: 2, border: '1px solid #e0e0e0' }}>
+                  <Box display="flex" justifyContent="space-between" alignItems="center">
+                    <Typography variant="subtitle1" fontWeight="bold">
+                      {algo.nome}
+                    </Typography>
+                    <Chip label={algo.tipo} size="small" color="primary" />
+                  </Box>
+                  <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
+                    {algo.descricao}
                   </Typography>
-                </Alert>
-              </CardContent>
-            </Card>
+                </Paper>
+              </Grid>
+            ))}
           </Grid>
-        ))}
-      </Grid>
+        </CardContent>
+      </Card>
 
-      {/* Modelos Disponíveis */}
-      <Typography variant="h5" gutterBottom>
-        🤖 200+ Algoritmos Disponíveis
-      </Typography>
-      
-      <Grid container spacing={2} sx={{ mb: 4 }}>
-        {modelosDisponiveis.map((categoria, index) => (
-          <Grid item xs={12} sm={6} md={4} key={index}>
-            <Card>
-              <CardContent>
-                <Typography variant="h6" gutterBottom color="primary">
-                  {categoria.categoria}
-                </Typography>
-                <List dense>
-                  {categoria.modelos.map((modelo, idx) => (
-                    <ListItem key={idx}>
-                      <ListItemIcon sx={{ minWidth: 30 }}>
-                        <CheckCircle color="success" sx={{ fontSize: 16 }} />
-                      </ListItemIcon>
-                      <ListItemText 
-                        primary={modelo}
-                        primaryTypographyProps={{ variant: 'body2' }}
-                      />
-                    </ListItem>
-                  ))}
-                </List>
-              </CardContent>
-            </Card>
+      {/* Importância das Features */}
+      {resultado && (
+        <Card sx={{ mb: 4 }}>
+          <CardContent>
+            <Typography variant="h6" gutterBottom>
+              🎯 Importância das Características (Features)
+            </Typography>
+            
+            <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+              Estas são as características mais importantes que o modelo usa para fazer predições:
+            </Typography>
+
+            {resultado.featuresImportantes.map((feature: any, index: number) => (
+              <Box key={index} sx={{ mb: 2 }}>
+                <Box display="flex" justifyContent="space-between" alignItems="center">
+                  <Typography variant="body1">{feature.nome}</Typography>
+                  <Typography variant="body2">{(feature.importancia * 100).toFixed(1)}%</Typography>
+                </Box>
+                <LinearProgress 
+                  variant="determinate" 
+                  value={feature.importancia * 100} 
+                  sx={{ height: 8, borderRadius: 4 }}
+                />
+              </Box>
+            ))}
+          </CardContent>
+        </Card>
+      )}
+
+      {/* Dicas e Melhores Práticas */}
+      <Card sx={{ mb: 4 }}>
+        <CardContent>
+          <Typography variant="h6" gutterBottom>
+            💡 Dicas para Melhores Resultados
+          </Typography>
+          
+          <Grid container spacing={3}>
+            <Grid item xs={12} md={6}>
+              <Typography variant="subtitle1" gutterBottom fontWeight="bold">
+                📋 Preparação dos Dados:
+              </Typography>
+              <ul>
+                <li>Tenha pelo menos 100 exemplos por classe</li>
+                <li>Remova ou trate valores ausentes</li>
+                <li>Inclua features relevantes para o problema</li>
+                <li>Balanceie as classes se possível</li>
+              </ul>
+            </Grid>
+            
+            <Grid item xs={12} md={6}>
+              <Typography variant="subtitle1" gutterBottom fontWeight="bold">
+                🎯 Interpretação dos Resultados:
+              </Typography>
+              <ul>
+                <li><strong>Accuracy:</strong> % de predições corretas</li>
+                <li><strong>Precision:</strong> % de positivos realmente corretos</li>
+                <li><strong>Recall:</strong> % de positivos encontrados</li>
+                <li><strong>F1-Score:</strong> Média harmônica de Precision e Recall</li>
+              </ul>
+            </Grid>
           </Grid>
-        ))}
-      </Grid>
+        </CardContent>
+      </Card>
 
-      {/* Comparação com Outras Ferramentas */}
-      <Typography variant="h5" gutterBottom>
-        🏆 Comparação com Concorrentes
-      </Typography>
-      
-      <Paper sx={{ overflow: 'hidden', mb: 4 }}>
-        <Box sx={{ overflowX: 'auto' }}>
-          <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-            <thead>
-              <tr style={{ backgroundColor: '#f5f5f5' }}>
-                <th style={{ padding: '12px', textAlign: 'left' }}>Ferramenta</th>
-                <th style={{ padding: '12px', textAlign: 'center' }}>AutoML</th>
-                <th style={{ padding: '12px', textAlign: 'center' }}>Velocidade</th>
-                <th style={{ padding: '12px', textAlign: 'center' }}>Modelos</th>
-                <th style={{ padding: '12px', textAlign: 'center' }}>Explicabilidade</th>
-                <th style={{ padding: '12px', textAlign: 'center' }}>Preço</th>
-                <th style={{ padding: '12px', textAlign: 'center' }}>Score</th>
-              </tr>
-            </thead>
-            <tbody>
-              {compararFerramentas.map((item, index) => (
-                <tr key={index} style={{ borderBottom: '1px solid #eee' }}>
-                  <td style={{ padding: '12px', fontWeight: index === 0 ? 'bold' : 'normal' }}>
-                    {item.ferramenta}
-                  </td>
-                  <td style={{ padding: '12px', textAlign: 'center' }}>{item.automl}</td>
-                  <td style={{ padding: '12px', textAlign: 'center' }}>{item.velocidade}</td>
-                  <td style={{ padding: '12px', textAlign: 'center' }}>{item.modelos}</td>
-                  <td style={{ padding: '12px', textAlign: 'center' }}>{item.explicabilidade}</td>
-                  <td style={{ padding: '12px', textAlign: 'center' }}>{item.preco}</td>
-                  <td style={{ padding: '12px', textAlign: 'center' }}>
-                    <Chip 
-                      label={item.score}
-                      color={item.score >= 8 ? 'success' : item.score >= 6 ? 'warning' : 'error'}
-                    />
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </Box>
-      </Paper>
-
-      {/* Call to Action */}
-      <Alert severity="success">
-        <Typography variant="h5" gutterBottom>
-          🚀 Revolução do AutoML Chegou!
-        </Typography>
-        <Typography variant="body1">
-          Nossa plataforma democratiza o Machine Learning, permitindo que qualquer pessoa 
-          crie modelos de classe mundial sem conhecimento técnico. 
-          Junte-se à revolução da IA automatizada!
-        </Typography>
-      </Alert>
+      {/* Exemplo Prático */}
+      <Card>
+        <CardContent>
+          <Typography variant="h6" gutterBottom>
+            🎓 Exemplo Prático: Predição de Vendas
+          </Typography>
+          
+          <Typography variant="body1" paragraph>
+            <strong>Cenário:</strong> Uma empresa quer prever se um cliente vai comprar um produto.
+          </Typography>
+          
+          <Typography variant="body2" paragraph>
+            <strong>Dados necessários:</strong> idade, renda, histórico_compras, region, etc.
+          </Typography>
+          
+          <TableContainer component={Paper} sx={{ mt: 2 }}>
+            <Table size="small">
+              <TableHead>
+                <TableRow>
+                  <TableCell>idade</TableCell>
+                  <TableCell>renda</TableCell>
+                  <TableCell>historico_compras</TableCell>
+                  <TableCell>regiao</TableCell>
+                  <TableCell><strong>vai_comprar</strong></TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                <TableRow>
+                  <TableCell>25</TableCell>
+                  <TableCell>50000</TableCell>
+                  <TableCell>5</TableCell>
+                  <TableCell>SP</TableCell>
+                  <TableCell><strong>Sim</strong></TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell>45</TableCell>
+                  <TableCell>80000</TableCell>
+                  <TableCell>12</TableCell>
+                  <TableCell>RJ</TableCell>
+                  <TableCell><strong>Sim</strong></TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell>18</TableCell>
+                  <TableCell>20000</TableCell>
+                  <TableCell>0</TableCell>
+                  <TableCell>MG</TableCell>
+                  <TableCell><strong>Não</strong></TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
+          </TableContainer>
+          
+          <Typography variant="body2" sx={{ mt: 2 }}>
+            <strong>Resultado:</strong> O AutoML criaria um modelo que aprende esses padrões e pode prever 
+            se novos clientes vão comprar, ajudando a empresa a focar nos prospects mais promissores.
+          </Typography>
+        </CardContent>
+      </Card>
     </Container>
   );
 };
