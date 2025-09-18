@@ -24,6 +24,7 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
+  AlertColor,
 } from '@mui/material';
 import {
   Upload,
@@ -35,6 +36,8 @@ import {
   TrendingUp,
   Rule,
 } from '@mui/icons-material';
+import { ValidadorCSV, useValidadorCSV, ResultadoValidacao } from '../utils/ValidadorCSV';
+import ExportadorResultados from './ExportadorResultados';
 
 const AnalisadorCientificoRevolucionario: React.FC = () => {
   const [arquivo, setArquivo] = useState<File | null>(null);
@@ -42,6 +45,14 @@ const AnalisadorCientificoRevolucionario: React.FC = () => {
   const [etapaAtual, setEtapaAtual] = useState(-1);
   const [dadosArquivo, setDadosArquivo] = useState<any>(null);
   const [resultado, setResultado] = useState<any>(null);
+  const [validacao, setValidacao] = useState<ResultadoValidacao | null>(null);
+  const [alertas, setAlertas] = useState<Array<{
+    tipo: AlertColor;
+    titulo: string;
+    mensagem: string;
+  }>>([]);
+
+  const { validarArquivo } = useValidadorCSV();
 
   // Etapas do processo CBA (simplificadas e funcionais)
   const etapas = [
@@ -72,60 +83,85 @@ const AnalisadorCientificoRevolucionario: React.FC = () => {
     }
   ];
 
-  // Função para processar arquivo CSV real
-  const processarCSV = useCallback((file: File) => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        try {
-          const text = e.target?.result as string;
-          const linhas = text.split('\n').filter(linha => linha.trim());
-          const cabecalho = linhas[0].split(',').map(col => col.trim());
-          const dados = linhas.slice(1).map(linha => {
-            const valores = linha.split(',');
-            const objeto: any = {};
-            cabecalho.forEach((col, index) => {
-              objeto[col] = valores[index]?.trim() || '';
+  // Função para processar arquivo CSV com validação
+  const processarCSV = useCallback(async (file: File) => {
+    try {
+      // Primeiro, validar o arquivo
+      const resultadoValidacao = await validarArquivo(file);
+      if (!resultadoValidacao) {
+        throw new Error('Erro na validação do arquivo');
+      }
+
+      setValidacao(resultadoValidacao);
+      
+      // Gerar alertas baseados na validação
+      const novosAlertas = ValidadorCSV.gerarRecomendacoes(resultadoValidacao);
+      setAlertas(novosAlertas);
+
+      if (!resultadoValidacao.valido) {
+        throw new Error('Arquivo inválido - verifique os erros reportados');
+      }
+
+      // Se válido, processar normalmente
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          try {
+            const text = e.target?.result as string;
+            const linhas = text.split('\n').filter(linha => linha.trim());
+            const cabecalho = linhas[0].split(',').map(col => col.trim());
+            const dados = linhas.slice(1).map(linha => {
+              const valores = linha.split(',');
+              const objeto: any = {};
+              cabecalho.forEach((col, index) => {
+                objeto[col] = valores[index]?.trim() || '';
+              });
+              return objeto;
             });
-            return objeto;
-          });
 
-          const analise = {
-            totalLinhas: dados.length,
-            totalColunas: cabecalho.length,
-            colunas: cabecalho,
-            primeirasLinhas: dados.slice(0, 5),
-            tipos: cabecalho.map(col => {
-              const amostra = dados.slice(0, 20).map(row => row[col]);
-              const valoresUnicos = [...new Set(amostra)];
-              const numericos = amostra.filter(val => !isNaN(Number(val)) && val !== '');
-              
-              return {
-                nome: col,
-                tipo: numericos.length > amostra.length * 0.7 ? 'numérico' : 'categórico',
-                valoresUnicos: valoresUnicos.length,
-                exemplos: valoresUnicos.slice(0, 3)
-              };
-            }),
-            dadosCompletos: dados
-          };
+            const analise = {
+              totalLinhas: dados.length,
+              totalColunas: cabecalho.length,
+              colunas: cabecalho,
+              primeirasLinhas: dados.slice(0, 5),
+              tipos: cabecalho.map(col => {
+                const amostra = dados.slice(0, 20).map(row => row[col]);
+                const valoresUnicos = [...new Set(amostra)];
+                const numericos = amostra.filter(val => !isNaN(Number(val)) && val !== '');
+                
+                return {
+                  nome: col,
+                  tipo: numericos.length > amostra.length * 0.7 ? 'numérico' : 'categórico',
+                  valoresUnicos: valoresUnicos.length,
+                  exemplos: valoresUnicos.slice(0, 3)
+                };
+              }),
+              dadosCompletos: dados
+            };
 
-          resolve(analise);
-        } catch (error) {
-          reject(error);
-        }
-      };
-      reader.onerror = () => reject(new Error('Erro ao ler arquivo'));
-      reader.readAsText(file);
-    });
-  }, []);
+            resolve(analise);
+          } catch (error) {
+            reject(error);
+          }
+        };
+        reader.onerror = () => reject(new Error('Erro ao ler arquivo'));
+        reader.readAsText(file);
+      });
+    } catch (error) {
+      throw error;
+    }
+  }, [validarArquivo]);
 
   const handleUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (!file) return;
 
     if (!file.name.toLowerCase().endsWith('.csv')) {
-      alert('Por favor, selecione um arquivo CSV.');
+      setAlertas([{
+        tipo: 'error',
+        titulo: 'Arquivo Inválido',
+        mensagem: 'Por favor, selecione um arquivo CSV.'
+      }]);
       return;
     }
 
@@ -133,12 +169,17 @@ const AnalisadorCientificoRevolucionario: React.FC = () => {
     setEtapaAtual(-1);
     setDadosArquivo(null);
     setResultado(null);
+    setAlertas([]);
 
     try {
       const analise = await processarCSV(file);
       setDadosArquivo(analise);
     } catch (error) {
-      alert('Erro ao processar arquivo. Verifique se é um CSV válido.');
+      setAlertas([{
+        tipo: 'error',
+        titulo: 'Erro no Processamento',
+        mensagem: error instanceof Error ? error.message : 'Erro ao processar arquivo. Verifique se é um CSV válido.'
+      }]);
     }
   };
 
@@ -244,6 +285,49 @@ const AnalisadorCientificoRevolucionario: React.FC = () => {
           Descubra padrões "SE...ENTÃO" nos seus dados automaticamente
         </Typography>
       </Box>
+
+      {/* Alertas de Validação */}
+      {alertas.length > 0 && (
+        <Box sx={{ mb: 3 }}>
+          {alertas.map((alerta, index) => (
+            <Alert 
+              key={index} 
+              severity={alerta.tipo} 
+              sx={{ mb: 1 }}
+            >
+              <Typography variant="subtitle2" gutterBottom>
+                {alerta.titulo}
+              </Typography>
+              {alerta.mensagem}
+            </Alert>
+          ))}
+        </Box>
+      )}
+
+      {/* Estatísticas de Validação */}
+      {validacao && validacao.valido && (
+        <Card sx={{ mb: 3, bgcolor: 'success.light', color: 'success.contrastText' }}>
+          <CardContent>
+            <Typography variant="h6" gutterBottom>
+              ✅ Arquivo Validado com Sucesso
+            </Typography>
+            <Grid container spacing={2}>
+              {ValidadorCSV.formatarEstatisticas(validacao).map((stat, index) => (
+                <Grid item xs={6} sm={4} md={2} key={index}>
+                  <Box sx={{ textAlign: 'center' }}>
+                    <Typography variant="h6" color={`${stat.cor}.main`}>
+                      {stat.valor}
+                    </Typography>
+                    <Typography variant="caption">
+                      {stat.label}
+                    </Typography>
+                  </Box>
+                </Grid>
+              ))}
+            </Grid>
+          </CardContent>
+        </Card>
+      )}
 
       {/* Tutorial Rápido */}
       <Alert severity="info" sx={{ mb: 4 }}>
@@ -618,6 +702,93 @@ const AnalisadorCientificoRevolucionario: React.FC = () => {
           </Card>
         </Grid>
       </Grid>
+
+      {/* Seção de Exportação */}
+      {resultado && dadosArquivo && (
+        <ExportadorResultados
+          dados={{
+            titulo: `CBA Analysis - ${arquivo?.name || 'Análise'}`,
+            subtitulo: `Regras de Associação descobertas automaticamente`,
+            dados: resultado.regrasEncontradas || [],
+            metricas: [
+              {
+                nome: 'Regras Descobertas',
+                valor: resultado.regrasEncontradas?.length || 0,
+                tipo: 'numero',
+                descricao: 'Total de regras "SE...ENTÃO" encontradas'
+              },
+              {
+                nome: 'Confiança Média',
+                valor: `${resultado.confiancaMedia?.toFixed(1) || '0'}%`,
+                tipo: 'percentual',
+                descricao: 'Confiança média das regras descobertas'
+              },
+              {
+                nome: 'Suporte Médio',
+                valor: `${resultado.suporteMedia?.toFixed(1) || '0'}%`,
+                tipo: 'percentual',
+                descricao: 'Suporte médio das regras'
+              },
+              {
+                nome: 'Registros Processados',
+                valor: dadosArquivo.totalLinhas,
+                tipo: 'numero',
+                descricao: 'Total de registros analisados'
+              },
+              {
+                nome: 'Colunas Categóricas',
+                valor: dadosArquivo.tipos?.filter((t: any) => t.tipo === 'categórico').length || 0,
+                tipo: 'numero',
+                descricao: 'Número de variáveis categóricas utilizadas'
+              }
+            ],
+            analise: {
+              resumo: `Análise CBA concluída descobrindo ${resultado.regrasEncontradas?.length || 0} regras de associação com confiança média de ${resultado.confiancaMedia?.toFixed(1) || '0'}%.`,
+              detalhes: [
+                `Dataset analisado: ${dadosArquivo.totalLinhas} registros com ${dadosArquivo.totalColunas} colunas`,
+                `Regras extraídas: ${resultado.regrasEncontradas?.length || 0} padrões "SE...ENTÃO"`,
+                `Melhor regra: ${resultado.regrasEncontradas?.[0]?.regra || 'N/A'} (Confiança: ${resultado.regrasEncontradas?.[0]?.confianca?.toFixed(1) || '0'}%)`,
+                `Colunas utilizadas: ${dadosArquivo.tipos?.filter((t: any) => t.tipo === 'categórico').map((t: any) => t.nome).join(', ') || 'N/A'}`,
+                'Algoritmo CBA aplicado para descoberta automática de padrões'
+              ],
+              recomendacoes: [
+                'Use regras com alta confiança (>70%) para tomada de decisão',
+                'Considere o suporte para entender a frequência dos padrões',
+                'Valide as regras com especialistas do domínio',
+                'Teste as regras em novos conjuntos de dados antes de aplicar'
+              ],
+              limitacoes: [
+                'Qualidade das regras depende da qualidade e representatividade dos dados',
+                'Regras podem não capturar relações causais, apenas correlações',
+                'Interpretação deve considerar o contexto específico do problema',
+                'Dados categóricos produzem melhores resultados que dados numéricos'
+              ]
+            },
+            configuracao: {
+              algoritmo: 'Classification Based on Associations (CBA)',
+              suporteMinimo: resultado.parametros?.suporteMinimo || 0.1,
+              confiancaMinima: resultado.parametros?.confiancaMinima || 0.5,
+              maxRegras: resultado.parametros?.maxRegras || 100,
+              tipoAnalise: 'Regras de Associação Categóricas'
+            }
+          }}
+          nomeArquivo={`cba_${arquivo?.name?.replace('.csv', '') || 'analise'}_${new Date().toISOString().slice(0, 10)}`}
+          onExportSuccess={(formato) => {
+            setAlertas([{
+              tipo: 'success',
+              titulo: 'Export Realizado',
+              mensagem: `Arquivo ${formato.toUpperCase()} baixado com sucesso!`
+            }]);
+          }}
+          onExportError={(erro) => {
+            setAlertas([{
+              tipo: 'error',
+              titulo: 'Erro no Export',
+              mensagem: erro
+            }]);
+          }}
+        />
+      )}
     </Box>
   );
 };
