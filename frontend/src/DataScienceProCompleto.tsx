@@ -45,16 +45,17 @@ import {
   Menu as MenuIcon,
 } from '@mui/icons-material';
 
-// Importações diretas dos componentes com lazy loading
-const AnalisadorCientificoRevolucionario = lazy(() => import('./components/AnalisadorCBAFuncional'));
-const DiscretizadorCientificoAvancado = lazy(() => import('./components/DiscretizadorCientificoAvancado'));
-const EnsinoCientificoInterativo = lazy(() => import('./components/EnsinoCientificoInterativo'));
-const AssistenteIAAvancado = lazy(() => import('./components/AssistenteIAAvancado'));
-const AutoMLRevolucionario = lazy(() => import('./components/AutoMLFuncional'));
-const VisualizacaoRevolucionaria = lazy(() => import('./components/VisualizacaoRevolucionaria'));
-const MonitoramentoTempoRealAvancado = lazy(() => import('./components/MonitoramentoTempoRealAvancado'));
-const ComunidadeGlobal = lazy(() => import('./components/ComunidadeGlobal'));
-const SistemaConhecimento = lazy(() => import('./components/SistemaConhecimento'));
+// Importações diretas dos componentes
+import AnalisadorCientificoRevolucionario from './components/AnalisadorCBAFuncional';
+import AutoMLRevolucionario from './components/AutoMLFuncional';
+// Outros componentes temporariamente comentados para teste
+// import DiscretizadorCientificoAvancado from './components/DiscretizadorCientificoAvancado';
+// import EnsinoCientificoInterativo from './components/EnsinoCientificoInterativo';
+// import AssistenteIAAvancado from './components/AssistenteIAAvancado';
+// import VisualizacaoRevolucionaria from './components/VisualizacaoRevolucionaria';
+// import MonitoramentoTempoRealAvancado from './components/MonitoramentoTempoRealAvancado';
+// import ComunidadeGlobal from './components/ComunidadeGlobal';
+// import SistemaConhecimento from './components/SistemaConhecimento';
 
 const DataScienceProCompleto: React.FC = () => {
   const [secaoAtiva, setSecaoAtiva] = useState('dashboard');
@@ -320,24 +321,25 @@ const DataScienceProCompleto: React.FC = () => {
         return renderDashboard();
       case 'analisador':
         return <AnalisadorCientificoRevolucionario />;
-      case 'discretizador':
-        return <DiscretizadorCientificoAvancado />;
-      case 'ensino':
-        return <EnsinoCientificoInterativo />;
-      case 'ia_assistente':
-        return <AssistenteIAAvancado />;
       case 'automl':
         return <AutoMLRevolucionario />;
-      case 'visualizacoes':
-        return <VisualizacaoRevolucionaria />;
-      case 'tempo_real':
-        return <MonitoramentoTempoRealAvancado />;
-      case 'comunidade':
-        return <ComunidadeGlobal />;
       case 'santa_catarina':
         return renderSecaoSantaCatarina();
-      case 'conhecimento':
-        return <SistemaConhecimento />;
+      // Temporariamente comentados para identificar problema
+      // case 'discretizador':
+      //   return <DiscretizadorCientificoAvancado />;
+      // case 'ensino':
+      //   return <EnsinoCientificoInterativo />;
+      // case 'ia_assistente':
+      //   return <AssistenteIAAvancado />;
+      // case 'visualizacoes':
+      //   return <VisualizacaoRevolucionaria />;
+      // case 'tempo_real':
+      //   return <MonitoramentoTempoRealAvancado />;
+      // case 'comunidade':
+      //   return <ComunidadeGlobal />;
+      // case 'conhecimento':
+      //   return <SistemaConhecimento />;
       default:
         return renderDashboard();
     }
