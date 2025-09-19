@@ -45,17 +45,16 @@ import {
   Menu as MenuIcon,
 } from '@mui/icons-material';
 
-// Importações diretas dos componentes - TEMPORARIAMENTE COMENTADOS PARA TESTE
-// import AnalisadorCientificoRevolucionario from './components/AnalisadorCBAFuncional';
-// import AutoMLRevolucionario from './components/AutoMLFuncional';
-// Outros componentes temporariamente comentados para teste
-// import DiscretizadorCientificoAvancado from './components/DiscretizadorCientificoAvancado';
-// import EnsinoCientificoInterativo from './components/EnsinoCientificoInterativo';
-// import AssistenteIAAvancado from './components/AssistenteIAAvancado';
-// import VisualizacaoRevolucionaria from './components/VisualizacaoRevolucionaria';
-// import MonitoramentoTempoRealAvancado from './components/MonitoramentoTempoRealAvancado';
-// import ComunidadeGlobal from './components/ComunidadeGlobal';
-// import SistemaConhecimento from './components/SistemaConhecimento';
+// Importações diretas dos componentes
+import AnalisadorCientificoRevolucionario from './components/AnalisadorCBAFuncional';
+import AutoMLRevolucionario from './components/AutoMLFuncional';
+import DiscretizadorCientificoAvancado from './components/DiscretizadorCientificoAvancado';
+import EnsinoCientificoInterativo from './components/EnsinoCientificoInterativo';
+import AssistenteIAAvancado from './components/AssistenteIAAvancado';
+import VisualizacaoRevolucionaria from './components/VisualizacaoRevolucionaria';
+import MonitoramentoTempoRealAvancado from './components/MonitoramentoTempoRealAvancado';
+import ComunidadeGlobal from './components/ComunidadeGlobal';
+import SistemaConhecimento from './components/SistemaConhecimento';
 
 const DataScienceProCompleto: React.FC = () => {
   const [secaoAtiva, setSecaoAtiva] = useState('dashboard');
@@ -319,8 +318,26 @@ const DataScienceProCompleto: React.FC = () => {
     switch (secaoAtiva) {
       case 'dashboard':
         return renderDashboard();
+      case 'analisador':
+        return <AnalisadorCientificoRevolucionario />;
+      case 'discretizador':
+        return <DiscretizadorCientificoAvancado />;
+      case 'ensino':
+        return <EnsinoCientificoInterativo />;
+      case 'ia_assistente':
+        return <AssistenteIAAvancado />;
+      case 'automl':
+        return <AutoMLRevolucionario />;
+      case 'visualizacoes':
+        return <VisualizacaoRevolucionaria />;
+      case 'tempo_real':
+        return <MonitoramentoTempoRealAvancado />;
+      case 'comunidade':
+        return <ComunidadeGlobal />;
       case 'santa_catarina':
         return renderSecaoSantaCatarina();
+      case 'conhecimento':
+        return <SistemaConhecimento />;
       default:
         return renderDashboard();
     }
