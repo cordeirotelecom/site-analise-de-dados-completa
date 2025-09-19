@@ -45,9 +45,9 @@ import {
   Menu as MenuIcon,
 } from '@mui/icons-material';
 
-// Importações diretas dos componentes
-import AnalisadorCientificoRevolucionario from './components/AnalisadorCBAFuncional';
-import AutoMLRevolucionario from './components/AutoMLFuncional';
+// Importações diretas dos componentes - TEMPORARIAMENTE COMENTADOS PARA TESTE
+// import AnalisadorCientificoRevolucionario from './components/AnalisadorCBAFuncional';
+// import AutoMLRevolucionario from './components/AutoMLFuncional';
 // Outros componentes temporariamente comentados para teste
 // import DiscretizadorCientificoAvancado from './components/DiscretizadorCientificoAvancado';
 // import EnsinoCientificoInterativo from './components/EnsinoCientificoInterativo';
@@ -319,27 +319,8 @@ const DataScienceProCompleto: React.FC = () => {
     switch (secaoAtiva) {
       case 'dashboard':
         return renderDashboard();
-      case 'analisador':
-        return <AnalisadorCientificoRevolucionario />;
-      case 'automl':
-        return <AutoMLRevolucionario />;
       case 'santa_catarina':
         return renderSecaoSantaCatarina();
-      // Temporariamente comentados para identificar problema
-      // case 'discretizador':
-      //   return <DiscretizadorCientificoAvancado />;
-      // case 'ensino':
-      //   return <EnsinoCientificoInterativo />;
-      // case 'ia_assistente':
-      //   return <AssistenteIAAvancado />;
-      // case 'visualizacoes':
-      //   return <VisualizacaoRevolucionaria />;
-      // case 'tempo_real':
-      //   return <MonitoramentoTempoRealAvancado />;
-      // case 'comunidade':
-      //   return <ComunidadeGlobal />;
-      // case 'conhecimento':
-      //   return <SistemaConhecimento />;
       default:
         return renderDashboard();
     }
