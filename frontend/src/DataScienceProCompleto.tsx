@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo, useCallback, lazy, Suspense } from 'react';
 import {
   Box,
   Container,
@@ -17,6 +17,12 @@ import {
   Switch,
   FormControlLabel,
   CircularProgress,
+  Drawer,
+  IconButton,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
 } from '@mui/material';
 import {
   Science,
@@ -36,27 +42,29 @@ import {
   BugReport,
   Api,
   Storage,
+  Menu as MenuIcon,
 } from '@mui/icons-material';
 
-// Importações diretas dos componentes
-import AnalisadorCientificoRevolucionario from './components/AnalisadorCientificoRevolucionario';
-import DiscretizadorCientificoAvancado from './components/DiscretizadorCientificoAvancado';
-import EnsinoCientificoInterativo from './components/EnsinoCientificoInterativo';
-import AssistenteIAAvancado from './components/AssistenteIAAvancado';
-import AutoMLRevolucionario from './components/AutoMLRevolucionario';
-import VisualizacaoRevolucionaria from './components/VisualizacaoRevolucionaria';
-import MonitoramentoTempoRealAvancado from './components/MonitoramentoTempoRealAvancado';
-import ComunidadeGlobal from './components/ComunidadeGlobal';
-import SistemaConhecimento from './components/SistemaConhecimento';
+// Importações diretas dos componentes com lazy loading
+const AnalisadorCientificoRevolucionario = lazy(() => import('./components/AnalisadorCBAFuncional'));
+const DiscretizadorCientificoAvancado = lazy(() => import('./components/DiscretizadorCientificoAvancado'));
+const EnsinoCientificoInterativo = lazy(() => import('./components/EnsinoCientificoInterativo'));
+const AssistenteIAAvancado = lazy(() => import('./components/AssistenteIAAvancado'));
+const AutoMLRevolucionario = lazy(() => import('./components/AutoMLFuncional'));
+const VisualizacaoRevolucionaria = lazy(() => import('./components/VisualizacaoRevolucionaria'));
+const MonitoramentoTempoRealAvancado = lazy(() => import('./components/MonitoramentoTempoRealAvancado'));
+const ComunidadeGlobal = lazy(() => import('./components/ComunidadeGlobal'));
+const SistemaConhecimento = lazy(() => import('./components/SistemaConhecimento'));
 
 const DataScienceProCompleto: React.FC = () => {
   const [secaoAtiva, setSecaoAtiva] = useState('dashboard');
   const [modoAvancado, setModoAvancado] = useState(false);
   const [carregando, setCarregando] = useState(false);
+  const [menuAberto, setMenuAberto] = useState(false);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
-  const secoes = [
+  const secoes = useMemo(() => [
     { id: 'dashboard', nome: 'Dashboard', icon: <Assessment />, status: 'ativo' },
     { id: 'analisador', nome: 'Analisador CBA', icon: <AutoAwesome />, status: 'ativo' },
     { id: 'discretizador', nome: 'Discretizador', icon: <Category />, status: 'ativo' },
@@ -68,9 +76,9 @@ const DataScienceProCompleto: React.FC = () => {
     { id: 'comunidade', nome: 'Comunidade', icon: <Public />, status: 'ativo' },
     { id: 'santa_catarina', nome: 'Santa Catarina', icon: <Api />, status: 'implementado' },
     { id: 'conhecimento', nome: 'Base Conhecimento', icon: <Storage />, status: 'implementado' },
-  ];
+  ], []);
 
-  const handleSecaoChange = async (novaSecao: string) => {
+  const handleSecaoChange = useCallback(async (novaSecao: string) => {
     setCarregando(true);
     
     // Simular carregamento (remover em produção)
@@ -78,9 +86,14 @@ const DataScienceProCompleto: React.FC = () => {
     
     setSecaoAtiva(novaSecao);
     setCarregando(false);
+    setMenuAberto(false); // Fechar menu no mobile
     
     console.log(`Navegando para: ${novaSecao}`);
-  };
+  }, []);
+
+  const toggleMenu = useCallback(() => {
+    setMenuAberto(!menuAberto);
+  }, [menuAberto]);
 
   const renderDashboard = () => (
     <Grid container spacing={3}>
@@ -335,53 +348,125 @@ const DataScienceProCompleto: React.FC = () => {
       {/* Header */}
       <AppBar position="static" sx={{ background: 'linear-gradient(45deg, #2196F3 30%, #21CBF3 90%)' }}>
         <Toolbar>
-          <Science sx={{ mr: 2, fontSize: 32 }} />
-          <Typography variant="h5" component="div" sx={{ flexGrow: 1, fontWeight: 'bold' }}>
-            DataScience Pro - Plataforma de Análise de Dados
+          {isMobile && (
+            <IconButton
+              edge="start"
+              color="inherit"
+              aria-label="menu"
+              onClick={toggleMenu}
+              sx={{ mr: 2 }}
+            >
+              <MenuIcon />
+            </IconButton>
+          )}
+          <Science sx={{ mr: 2, fontSize: { xs: 24, md: 32 } }} />
+          <Typography 
+            variant={isMobile ? "h6" : "h5"} 
+            component="div" 
+            sx={{ 
+              flexGrow: 1, 
+              fontWeight: 'bold',
+              fontSize: { xs: '1rem', sm: '1.25rem', md: '1.5rem' }
+            }}
+          >
+            {isMobile ? 'DataScience Pro' : 'DataScience Pro - Plataforma de Análise de Dados'}
           </Typography>
-          <FormControlLabel
-            control={
-              <Switch
-                checked={modoAvancado}
-                onChange={(e) => setModoAvancado(e.target.checked)}
-                color="default"
-              />
-            }
-            label="Modo Avançado"
-            sx={{ color: 'white' }}
-          />
+          {!isMobile && (
+            <FormControlLabel
+              control={
+                <Switch
+                  checked={modoAvancado}
+                  onChange={(e) => setModoAvancado(e.target.checked)}
+                  color="default"
+                />
+              }
+              label="Modo Avançado"
+              sx={{ color: 'white' }}
+            />
+          )}
         </Toolbar>
       </AppBar>
 
-      <Container maxWidth="xl" sx={{ py: 4 }}>
-        {/* Menu de Navegação */}
-        <Paper sx={{ p: 2, mb: 4 }}>
-          <Typography variant="h6" gutterBottom>
-            🧭 Navegação Principal
-          </Typography>
-          <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
+      {/* Menu Mobile */}
+      <Drawer
+        anchor="left"
+        open={menuAberto}
+        onClose={toggleMenu}
+        sx={{ display: { xs: 'block', md: 'none' } }}
+      >
+        <Box sx={{ width: 250, pt: 2 }}>
+          <List>
             {secoes.map((secao) => (
-              <Button
+              <ListItem 
+                button 
                 key={secao.id}
-                variant={secaoAtiva === secao.id ? 'contained' : 'outlined'}
-                startIcon={secao.icon}
                 onClick={() => handleSecaoChange(secao.id)}
-                size={isMobile ? 'small' : 'medium'}
                 sx={{ 
-                  mb: 1,
-                  borderColor: secao.status === 'funcional' ? 'success.main' : 
-                              secao.status === 'corrigido' ? 'primary.main' : 'secondary.main'
+                  bgcolor: secaoAtiva === secao.id ? 'primary.light' : 'transparent',
+                  '&:hover': { bgcolor: 'primary.light' }
                 }}
               >
-                {isMobile ? secao.nome.split(' ')[0] : secao.nome}
-              </Button>
+                <ListItemIcon>
+                  {secao.icon}
+                </ListItemIcon>
+                <ListItemText 
+                  primary={secao.nome}
+                  secondary={secao.status}
+                />
+              </ListItem>
             ))}
+          </List>
+          <Box sx={{ p: 2 }}>
+            <FormControlLabel
+              control={
+                <Switch
+                  checked={modoAvancado}
+                  onChange={(e) => setModoAvancado(e.target.checked)}
+                />
+              }
+              label="Modo Avançado"
+            />
           </Box>
-        </Paper>
+        </Box>
+      </Drawer>
+
+      <Container maxWidth="xl" sx={{ py: { xs: 2, md: 4 } }}>
+        {/* Menu de Navegação Desktop */}
+        {!isMobile && (
+          <Paper sx={{ p: 2, mb: 4 }}>
+            <Typography variant="h6" gutterBottom>
+              🧭 Navegação Principal
+            </Typography>
+            <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
+              {secoes.map((secao) => (
+                <Button
+                  key={secao.id}
+                  variant={secaoAtiva === secao.id ? 'contained' : 'outlined'}
+                  startIcon={secao.icon}
+                  onClick={() => handleSecaoChange(secao.id)}
+                  size={isMobile ? 'small' : 'medium'}
+                  sx={{ 
+                    mb: 1,
+                    borderColor: secao.status === 'funcional' ? 'success.main' : 
+                                secao.status === 'corrigido' ? 'primary.main' : 'secondary.main'
+                  }}
+                >
+                  {isMobile ? secao.nome.split(' ')[0] : secao.nome}
+                </Button>
+              ))}
+            </Box>
+          </Paper>
+        )}
 
         {/* Conteúdo Principal */}
         <Box sx={{ minHeight: 400 }}>
-          {renderSecaoAtual()}
+          <Suspense fallback={
+            <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: 200 }}>
+              <CircularProgress size={60} />
+            </Box>
+          }>
+            {renderSecaoAtual()}
+          </Suspense>
         </Box>
       </Container>
     </Box>
