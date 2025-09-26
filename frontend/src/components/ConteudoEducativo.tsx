@@ -77,82 +77,96 @@ const ConteudoEducativo: React.FC = () => {
 
   const conceitos = [
     {
-      titulo: "Data Science",
-      descricao: "Ciência de dados é a área que combina estatística, programação e conhecimento de domínio para extrair insights de dados.",
-      aplicacoes: ["Análise preditiva", "Segmentação de clientes", "Detecção de fraudes", "Otimização de processos"],
+      titulo: "Metodologia Científica",
+      descricao: "Conjunto de procedimentos sistemáticos para investigar fenômenos, validar hipóteses e produzir conhecimento científico confiável.",
+      aplicacoes: ["Estudos epidemiológicos", "Ensaios clínicos", "Pesquisa educacional", "Análise de dados ambientais"],
       nivel: "Básico"
     },
     {
-      titulo: "Machine Learning",
-      descricao: "Aprendizado de máquina é um subcampo da IA que permite aos computadores aprenderem sem programação explícita.",
-      aplicacoes: ["Classificação", "Regressão", "Clustering", "Sistemas de recomendação"],
+      titulo: "Biostatística",
+      descricao: "Aplicação de métodos estatísticos para resolver problemas em ciências biológicas, medicina e saúde pública.",
+      aplicacoes: ["Análise de sobrevivência", "Estudos caso-controle", "Ensaios clínicos randomizados", "Meta-análise"],
       nivel: "Intermediário"
     },
     {
-      titulo: "AutoML",
-      descricao: "AutoML automatiza o processo de aplicação de machine learning, tornando-o acessível a não especialistas.",
-      aplicacoes: ["Seleção automática de modelos", "Engenharia de features", "Otimização de hiperparâmetros"],
+      titulo: "Epidemiologia",
+      descricao: "Estudo da distribuição e determinantes de estados relacionados à saúde em populações específicas.",
+      aplicacoes: ["Vigilância epidemiológica", "Investigação de surtos", "Estudos de fatores de risco", "Avaliação de programas"],
       nivel: "Avançado"
     },
     {
-      titulo: "CBA (Class-Based Association)",
-      descricao: "CBA é uma técnica que combina mineração de regras de associação com classificação para descobrir padrões.",
-      aplicacoes: ["Análise de cesta de compras", "Regras de negócio", "Padrões comportamentais"],
+      titulo: "Big Data em Saúde",
+      descricao: "Uso de tecnologias como Hadoop e Spark para processar grandes volumes de dados de saúde e pesquisa científica.",
+      aplicacoes: ["Análise de prontuários eletrônicos", "Processamento de dados genômicos", "Vigilância em tempo real", "Machine learning médico"],
       nivel: "Avançado"
     }
   ];
 
   const tutoriais = [
     {
-      id: "csv-upload",
-      titulo: "Como Fazer Upload de CSV",
-      tempo: "5 min",
+      id: "metodologia-cientifica",
+      titulo: "Metodologia Científica em Data Science",
+      tempo: "8 min",
       dificuldade: "Básico",
       passos: [
-        "Prepare seu arquivo CSV com cabeçalhos claros",
-        "Clique em 'Selecionar Arquivo' na seção AutoML",
-        "Aguarde a validação automática",
-        "Revise os warnings e sugestões",
-        "Clique em 'Processar Dados' para continuar"
+        "Formule uma hipótese científica testável",
+        "Defina variáveis e população de estudo",
+        "Escolha o desenho de estudo apropriado",
+        "Colete dados seguindo protocolos éticos",
+        "Analise dados com métodos estatísticos apropriados",
+        "Interprete resultados e tire conclusões válidas"
       ]
     },
     {
-      id: "automl-basico",
-      titulo: "Seu Primeiro Modelo AutoML",
-      tempo: "10 min",
-      dificuldade: "Básico",
-      passos: [
-        "Faça upload de um dataset com target definido",
-        "Selecione a coluna target (variável a prever)",
-        "Escolha o tipo de problema (classificação/regressão)",
-        "Clique em 'Treinar Modelo'",
-        "Analise os resultados e métricas geradas"
-      ]
-    },
-    {
-      id: "cba-analise",
-      titulo: "Análise CBA Avançada",
+      id: "hadoop-bigdata",
+      titulo: "Processamento de Big Data com Hadoop",
       tempo: "15 min",
+      dificuldade: "Avançado",
+      passos: [
+        "Configure ambiente Hadoop para dados científicos",
+        "Carregue datasets grandes (>1GB) no HDFS",
+        "Implemente MapReduce para análise distribuída",
+        "Use Hive para queries SQL em big data",
+        "Otimize performance para processamento científico"
+      ]
+    },
+    {
+      id: "spark-filtering",
+      titulo: "Filtragem Avançada com Apache Spark",
+      tempo: "12 min",
       dificuldade: "Intermediário",
       passos: [
-        "Carregue dados transacionais ou categóricos",
-        "Configure suporte e confiança mínimos",
-        "Execute a mineração de regras",
-        "Interprete as regras descobertas",
-        "Exporte relatório com insights"
+        "Carregue dados científicos no Spark DataFrame",
+        "Aplique filtros complexos (múltiplas condições)",
+        "Use window functions para análise temporal",
+        "Implemente UDFs para cálculos específicos",
+        "Otimize queries com cache e particionamento"
+      ]
+    },
+    {
+      id: "analise-epidemiologica",
+      titulo: "Análise Epidemiológica com R/Python",
+      tempo: "20 min",
+      dificuldade: "Avançado",
+      passos: [
+        "Carregue dados epidemiológicos padronizados",
+        "Calcule medidas de frequência (prevalência, incidência)",
+        "Analise associações (OR, RR, IC95%)",
+        "Teste hipóteses com métodos apropriados",
+        "Visualize resultados com gráficos científicos"
       ]
     }
   ];
 
   const glossario = [
-    { termo: "Accuracy", definicao: "Proporção de predições corretas em relação ao total de predições" },
-    { termo: "Cross-validation", definicao: "Técnica para avaliar modelos dividindo dados em múltiplas partições" },
-    { termo: "Feature", definicao: "Variável independente ou característica usada para fazer predições" },
-    { termo: "Overfitting", definicao: "Quando um modelo aprende demais os dados de treino e não generaliza bem" },
-    { termo: "Precision", definicao: "Proporção de verdadeiros positivos entre todas as predições positivas" },
-    { termo: "Recall", definicao: "Proporção de verdadeiros positivos identificados corretamente" },
-    { termo: "Support", definicao: "Frequência com que um item ou conjunto aparece nos dados" },
-    { termo: "Confidence", definicao: "Probabilidade condicional de Y dado X em regras de associação" }
+    { termo: "Hipótese Nula", definicao: "Proposição que assume não haver diferença ou associação entre variáveis" },
+    { termo: "P-valor", definicao: "Probabilidade de observar resultado igual ou mais extremo, assumindo H0 verdadeira" },
+    { termo: "Intervalo de Confiança", definicao: "Faixa de valores que provavelmente contém o parâmetro populacional verdadeiro" },
+    { termo: "Odds Ratio", definicao: "Medida de associação que compara odds de exposição entre casos e controles" },
+    { termo: "Hadoop HDFS", definicao: "Sistema de arquivos distribuído para armazenar grandes volumes de dados científicos" },
+    { termo: "MapReduce", definicao: "Paradigma de processamento paralelo para análise de big data científico" },
+    { termo: "Spark DataFrame", definicao: "Estrutura de dados distribuída otimizada para análise de dados estruturados" },
+    { termo: "Biostatística", definicao: "Aplicação de métodos estatísticos em problemas biológicos e de saúde" }
   ];
 
   return (

@@ -32,6 +32,8 @@ import AnalisadorCientificoRevolucionario from './components/AnalisadorCBAFuncio
 import DashboardInterativo from './components/DashboardInterativo';
 import ConteudoEducativo from './components/ConteudoEducativo';
 import SistemaRelatorios from './components/SistemaRelatorios';
+import HadoopHDFS from './components/HadoopHDFS';
+import ApacheSpark from './components/ApacheSpark';
 
 const DataScienceProCompleto: React.FC = () => {
   const [secaoAtiva, setSecaoAtiva] = useState('dashboard');
@@ -41,12 +43,14 @@ const DataScienceProCompleto: React.FC = () => {
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
   const secoes = useMemo(() => [
-    { id: 'dashboard', nome: 'Dashboard Executivo', icon: <Assessment />, status: 'ativo' },
-    { id: 'educativo', nome: 'Centro de Aprendizado', icon: <Science />, status: 'ativo' },
-    { id: 'automl', nome: 'AutoML', icon: <Functions />, status: 'ativo' },
+    { id: 'dashboard', nome: 'Dashboard Científico', icon: <Assessment />, status: 'ativo' },
+    { id: 'educativo', nome: 'Metodologia Científica', icon: <Science />, status: 'ativo' },
+    { id: 'hadoop', nome: 'Hadoop & HDFS', icon: <Functions />, status: 'ativo' },
+    { id: 'spark', nome: 'Apache Spark', icon: <AutoAwesome />, status: 'ativo' },
+    { id: 'automl', nome: 'AutoML Científico', icon: <Functions />, status: 'ativo' },
     { id: 'analisador', nome: 'Analisador CBA', icon: <AutoAwesome />, status: 'ativo' },
-    { id: 'relatorios', nome: 'Relatórios', icon: <Api />, status: 'ativo' },
-    { id: 'santa_catarina', nome: 'Santa Catarina', icon: <Api />, status: 'implementado' },
+    { id: 'relatorios', nome: 'Relatórios Científicos', icon: <Api />, status: 'ativo' },
+    { id: 'santa_catarina', nome: 'Portal Santa Catarina', icon: <Api />, status: 'implementado' },
   ], []);
 
   const handleSecaoChange = useCallback(async (novaSecao: string) => {
@@ -206,6 +210,10 @@ const DataScienceProCompleto: React.FC = () => {
         return <DashboardInterativo />;
       case 'educativo':
         return <ConteudoEducativo />;
+      case 'hadoop':
+        return <HadoopHDFS />;
+      case 'spark':
+        return <ApacheSpark />;
       case 'automl':
         return <AutoMLRevolucionario />;
       case 'analisador':

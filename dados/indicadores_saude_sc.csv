@@ -1,0 +1,16 @@
+municipio,regiao,populacao,pib_per_capita,idh,taxa_mortalidade_infantil,expectativa_vida,taxa_alfabetizacao,leitos_sus_1000hab,medicos_1000hab,enfermeiros_1000hab
+Florianópolis,Grande Florianópolis,508826,89454,0.847,8.2,79.1,98.7,3.2,8.7,12.4
+Joinville,Norte,597658,52341,0.809,9.1,77.8,97.9,2.8,6.4,9.8
+Blumenau,Vale do Itajaí,361855,48920,0.806,8.7,78.2,98.1,2.5,5.9,8.7
+São José,Grande Florianópolis,242927,35782,0.809,9.4,77.5,97.4,2.1,4.8,7.9
+Criciúma,Sul,217660,41256,0.788,10.2,76.9,96.8,2.7,5.2,8.1
+Chapecó,Oeste,224013,39847,0.790,9.8,77.1,97.2,3.1,6.1,9.3
+Itajaí,Vale do Itajaí,223112,47891,0.795,9.5,77.4,96.9,2.4,5.7,8.5
+Lages,Serra,161737,28456,0.770,11.1,75.8,95.7,2.9,4.9,7.6
+Balneário Camboriú,Vale do Itajaí,138732,65789,0.845,7.9,78.8,98.4,2.2,7.8,11.2
+Palhoça,Grande Florianópolis,174821,31245,0.757,10.8,76.2,96.1,1.9,4.2,6.8
+Tubarão,Sul,106422,38762,0.796,9.7,77.0,97.1,2.6,5.4,8.3
+São Bento do Sul,Norte,84413,46578,0.782,9.9,76.8,97.5,2.3,5.1,7.9
+Brusque,Vale do Itajaí,132895,42134,0.801,8.9,77.6,97.8,2.5,5.8,8.6
+Caçador,Meio Oeste,78007,35127,0.774,10.5,76.4,96.4,2.8,4.7,7.2
+Rio do Sul,Vale do Itajaí,74839,41890,0.789,9.6,77.2,97.3,2.4,5.3,8.0

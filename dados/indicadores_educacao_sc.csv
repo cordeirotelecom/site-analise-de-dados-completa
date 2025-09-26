@@ -1,0 +1,16 @@
+municipio,regiao,total_escolas,alunos_ens_fundamental,alunos_ens_medio,taxa_aprovacao_ef,taxa_aprovacao_em,nota_ideb_anos_iniciais,nota_ideb_anos_finais,nota_enem_2024,professores_superior_completo_pct,infraestrutura_score,laboratorio_informatica,biblioteca,quadra_esportes
+Florianópolis,Grande Florianópolis,187,45678,18924,96.8,93.2,6.4,5.1,578.9,89.7,8.2,89,95,82
+Joinville,Norte,256,89456,32145,95.2,91.8,6.1,4.8,562.4,85.4,7.8,78,88,76
+Blumenau,Vale do Itajaí,148,52789,21456,96.1,92.5,6.3,5.0,571.2,87.9,8.0,85,91,79
+São José,Grande Florianópolis,98,34567,14789,94.8,90.4,5.9,4.6,548.7,82.1,7.4,74,81,69
+Criciúma,Sul,124,45123,18967,93.7,89.1,5.7,4.4,536.2,79.8,7.1,68,75,64
+Chapecó,Oeste,187,67834,25678,94.5,90.8,5.8,4.5,542.8,81.3,7.3,72,79,67
+Itajaí,Vale do Itajaí,89,34578,15234,95.4,91.6,6.0,4.7,555.1,84.2,7.6,76,84,71
+Lages,Serra,156,52345,19876,92.8,87.9,5.4,4.1,524.6,76.5,6.8,61,68,58
+Balneário Camboriú,Vale do Itajaí,67,23456,9876,97.1,94.5,6.5,5.3,585.3,91.2,8.4,92,97,87
+Palhoça,Grande Florianópolis,89,45678,18234,93.9,89.7,5.6,4.3,532.1,78.9,7.0,65,72,61
+Tubarão,Sul,78,28934,11567,94.2,90.1,5.8,4.4,541.3,80.7,7.2,70,77,65
+São Bento do Sul,Norte,67,23567,9234,95.6,92.1,6.1,4.8,558.7,85.8,7.7,77,85,73
+Brusque,Vale do Itajaí,84,34567,13456,95.8,92.3,6.2,4.9,565.4,86.5,7.8,80,87,75
+Caçador,Meio Oeste,95,28456,11234,93.1,88.4,5.5,4.2,528.9,77.2,6.9,63,70,59
+Rio do Sul,Vale do Itajaí,72,25678,10123,94.7,90.5,5.9,4.6,549.2,82.6,7.4,75,82,68

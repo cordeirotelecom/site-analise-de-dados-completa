@@ -1,0 +1,11 @@
+id_estudo,tipo_estudo,area_pesquisa,instituicao,municipio,ano_inicio,ano_fim,participantes,idade_media,genero_m_pct,variavel_principal,metodo_coleta,resultado_primario,p_valor,intervalo_confianca,financiamento,status_etica
+EST_001,Coorte,Epidemiologia,UFSC,Florianópolis,2020,2024,1547,42.3,48.2,Hipertensão,Questionário + Exames,Prevalência 23.4%,<0.001,"[21.2% - 25.8%]",CNPq,Aprovado
+EST_002,Ensaio Clínico,Cardiologia,FURB,Blumenau,2021,2023,456,58.7,52.1,Colesterol,Análise Laboratorial,Redução 15.2mg/dL,0.003,"[8.7 - 21.9]",FAPESC,Aprovado
+EST_003,Transversal,Saúde Pública,UNESC,Criciúma,2022,2022,2341,35.8,51.4,Obesidade,Antropometria,IMC médio 26.7kg/m²,<0.001,"[26.1 - 27.3]",SUS,Aprovado
+EST_004,Caso-Controle,Oncologia,UNOESC,Chapecó,2019,2022,834,47.6,44.8,Câncer Pulmão,Prontuários,OR 2.34,0.012,"[1.23 - 4.47]",INCA,Aprovado
+EST_005,Longitudinal,Geriatria,UNIVALI,Itajaí,2018,2024,623,71.2,41.7,Fragilidade,Escala CHS,Incidência 18.7%,<0.001,"[15.4% - 22.3%]",MS,Aprovado
+EST_006,Experimental,Neurologia,UDESC,Florianópolis,2021,2024,298,34.9,49.3,Memória,Testes Cognitivos,Melhora 12.4 pontos,0.007,"[3.8 - 21.2]",CAPES,Aprovado
+EST_007,Observacional,Pediatria,UNIVILLE,Joinville,2020,2023,1876,8.4,50.8,Crescimento,Medições,Z-score +0.34,<0.001,"[0.21 - 0.47]",UNICEF,Aprovado
+EST_008,Meta-análise,Saúde Mental,UFSC,Florianópolis,2022,2023,15683,29.7,38.9,Depressão,Revisão Sistemática,Prevalência 14.2%,<0.001,"[12.8% - 15.7%]",CNPq,Aprovado
+EST_009,Qualitativo,Enfermagem,FURB,Blumenau,2021,2022,67,41.3,23.9,Burnout,Entrevistas,3 categorias emergentes,N/A,N/A,Próprio,Aprovado
+EST_010,Ecológico,Epidemiologia,UNISUL,Tubarão,2020,2024,28,N/A,N/A,Mortalidade,Registros Vitais,Taxa 6.8/1000 hab,0.045,"[4.2 - 9.7]",FAPESC,Aprovado
