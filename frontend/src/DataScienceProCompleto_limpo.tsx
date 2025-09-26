@@ -29,6 +29,9 @@ import {
 // Importações diretas dos componentes essenciais
 import AutoMLRevolucionario from './components/AutoMLFuncional';
 import AnalisadorCientificoRevolucionario from './components/AnalisadorCBAFuncional';
+import DashboardInterativo from './components/DashboardInterativo';
+import ConteudoEducativo from './components/ConteudoEducativo';
+import SistemaRelatorios from './components/SistemaRelatorios';
 
 const DataScienceProCompleto: React.FC = () => {
   const [secaoAtiva, setSecaoAtiva] = useState('dashboard');
@@ -38,9 +41,11 @@ const DataScienceProCompleto: React.FC = () => {
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
   const secoes = useMemo(() => [
-    { id: 'dashboard', nome: 'Dashboard', icon: <Assessment />, status: 'ativo' },
-    { id: 'analisador', nome: 'Analisador CBA', icon: <AutoAwesome />, status: 'ativo' },
+    { id: 'dashboard', nome: 'Dashboard Executivo', icon: <Assessment />, status: 'ativo' },
+    { id: 'educativo', nome: 'Centro de Aprendizado', icon: <Science />, status: 'ativo' },
     { id: 'automl', nome: 'AutoML', icon: <Functions />, status: 'ativo' },
+    { id: 'analisador', nome: 'Analisador CBA', icon: <AutoAwesome />, status: 'ativo' },
+    { id: 'relatorios', nome: 'Relatórios', icon: <Api />, status: 'ativo' },
     { id: 'santa_catarina', nome: 'Santa Catarina', icon: <Api />, status: 'implementado' },
   ], []);
 
@@ -198,15 +203,19 @@ const DataScienceProCompleto: React.FC = () => {
 
     switch (secaoAtiva) {
       case 'dashboard':
-        return renderDashboard();
-      case 'analisador':
-        return <AnalisadorCientificoRevolucionario />;
+        return <DashboardInterativo />;
+      case 'educativo':
+        return <ConteudoEducativo />;
       case 'automl':
         return <AutoMLRevolucionario />;
+      case 'analisador':
+        return <AnalisadorCientificoRevolucionario />;
+      case 'relatorios':
+        return <SistemaRelatorios />;
       case 'santa_catarina':
         return renderSecaoSantaCatarina();
       default:
-        return renderDashboard();
+        return <DashboardInterativo />;
     }
   };
 

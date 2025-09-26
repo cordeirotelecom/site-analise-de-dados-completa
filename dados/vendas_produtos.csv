@@ -1,0 +1,16 @@
+produto,categoria,preco,vendas_mes,avaliacao,promocao,regiao
+Smartphone,Eletrônicos,899.99,150,4.2,sim,Sul
+Notebook,Eletrônicos,2499.99,75,4.5,não,Sudeste
+Tablet,Eletrônicos,649.99,120,4.0,sim,Sul
+Fone Bluetooth,Eletrônicos,199.99,300,4.3,sim,Norte
+Smart TV,Eletrônicos,1899.99,90,4.6,não,Sudeste
+Camiseta,Roupas,29.99,500,3.8,sim,Nordeste
+Calça Jeans,Roupas,89.99,200,4.1,não,Sul
+Tênis,Calçados,159.99,180,4.4,sim,Sudeste
+Sandália,Calçados,79.99,220,3.9,sim,Norte
+Livro Ficção,Livros,24.99,80,4.7,não,Sul
+Livro Técnico,Livros,149.99,35,4.5,não,Sudeste
+Cafeteira,Casa,299.99,110,4.2,sim,Sul
+Micro-ondas,Casa,399.99,85,4.3,não,Nordeste
+Aspirador,Casa,599.99,60,4.0,sim,Sudeste
+Panela Elétrica,Casa,189.99,95,4.4,não,Norte
