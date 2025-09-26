@@ -1,0 +1,42 @@
+{
+  "name": "DataScience Pro - Portal de Dados Abertos e Análise Avançada",
+  "short_name": "DataScience Pro",
+  "description": "Portal completo com 30+ APIs de dados abertos do Brasil (Santa Catarina, São José, Florianópolis) + análise estatística avançada e machine learning automatizado",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#1976d2",
+  "theme_color": "#1976d2",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='40' fill='%231976d2'/%3E%3Ctext x='50' y='55' text-anchor='middle' fill='white' font-size='30' font-family='Arial'%3E🧠%3C/text%3E%3C/svg%3E",
+      "sizes": "192x192",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='40' fill='%231976d2'/%3E%3Ctext x='50' y='55' text-anchor='middle' fill='white' font-size='30' font-family='Arial'%3E🧠%3C/text%3E%3C/svg%3E",
+      "sizes": "512x512",
+      "type": "image/svg+xml"
+    }
+  ],
+  "categories": ["education", "productivity", "utilities"],
+  "lang": "pt-BR",
+  "scope": "/",
+  "screenshots": [
+    {
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1280' height='720' viewBox='0 0 1280 720'%3E%3Crect width='1280' height='720' fill='%23f5f7fa'/%3E%3Ctext x='640' y='360' text-anchor='middle' fill='%231976d2' font-size='48' font-family='Arial'%3EDataScience Pro%3C/text%3E%3C/svg%3E",
+      "sizes": "1280x720",
+      "type": "image/svg+xml",
+      "form_factor": "wide"
+    }
+  ],
+  "features": [
+    "analytics",
+    "machine-learning",
+    "data-visualization",
+    "scientific-computing",
+    "government-apis",
+    "real-time-metrics"
+  ],
+  "prefer_related_applications": false
+}
