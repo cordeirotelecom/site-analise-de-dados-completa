@@ -3,6 +3,7 @@ import react from '@vitejs/plugin-react'
 
 export default defineConfig({
   plugins: [react()],
+  base: './', // Base relativa para funcionar no Netlify
   
   // Configurações de build para produção otimizadas
   build: {
@@ -59,8 +60,5 @@ export default defineConfig({
   preview: {
     port: 4173,
     host: true
-  },
-  
-  // Configurações de base para deploy
-  base: '/'
+  }
 })
