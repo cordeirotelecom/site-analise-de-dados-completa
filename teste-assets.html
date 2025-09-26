@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Teste - DataScience Pro Assets</title>
+    <style>
+        body { font-family: Arial; padding: 20px; background: #f0f0f0; }
+        .test { margin: 10px 0; padding: 10px; background: white; border-radius: 5px; }
+        .success { background: #d4edda; border-left: 4px solid #28a745; }
+        .error { background: #f8d7da; border-left: 4px solid #dc3545; }
+    </style>
+</head>
+<body>
+    <h1>🧪 Teste de Assets - DataScience Pro</h1>
+    
+    <div class="test" id="css-test">
+        <strong>CSS:</strong> <span id="css-status">Testando...</span>
+    </div>
+    
+    <div class="test" id="js-test">
+        <strong>JavaScript:</strong> <span id="js-status">Testando...</span>
+    </div>
+    
+    <div class="test">
+        <strong>Timestamp:</strong> 26/09/2025 - 17:15
+    </div>
+
+    <h2>🔗 Links de Teste:</h2>
+    <ul>
+        <li><a href="./assets/index-B2lD7pwa.css" target="_blank">Teste CSS</a></li>
+        <li><a href="./assets/index-D02ahbIg.js" target="_blank">Teste JS Principal</a></li>
+        <li><a href="./assets/vendor-Rfl6ViKF.js" target="_blank">Teste Vendor JS</a></li>
+        <li><a href="./_redirects" target="_blank">Teste _redirects</a></li>
+    </ul>
+
+    <script>
+        // Testar se CSS carrega
+        var link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.href = './assets/index-B2lD7pwa.css';
+        link.onload = function() {
+            document.getElementById('css-status').innerHTML = '✅ CSS carregado com sucesso';
+            document.getElementById('css-test').className = 'test success';
+        };
+        link.onerror = function() {
+            document.getElementById('css-status').innerHTML = '❌ Erro ao carregar CSS';
+            document.getElementById('css-test').className = 'test error';
+        };
+        document.head.appendChild(link);
+
+        // Testar se JS carrega
+        var script = document.createElement('script');
+        script.src = './assets/vendor-Rfl6ViKF.js';
+        script.onload = function() {
+            document.getElementById('js-status').innerHTML = '✅ JavaScript carregado com sucesso';
+            document.getElementById('js-test').className = 'test success';
+        };
+        script.onerror = function() {
+            document.getElementById('js-status').innerHTML = '❌ Erro ao carregar JavaScript';
+            document.getElementById('js-test').className = 'test error';
+        };
+        document.head.appendChild(script);
+    </script>
+</body>
+</html>
